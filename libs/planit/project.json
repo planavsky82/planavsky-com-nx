@@ -1,0 +1,105 @@
+{
+  "name": "planit",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/planit/src",
+  "projectType": "library",
+  "generators": {
+    "@nxext/stencil:component": {
+      "style": "css"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nxext/stencil:test",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "library",
+        "tsConfig": "libs/planit/tsconfig.lib.json",
+        "configPath": "libs/planit/stencil.config.ts",
+        "outputPath": "dist/libs/planit"
+      }
+    },
+    "build": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "library",
+        "tsConfig": "libs/planit/tsconfig.lib.json",
+        "configPath": "libs/planit/stencil.config.ts",
+        "outputPath": "dist/libs/planit"
+      },
+      "configurations": {
+        "production": {
+          "dev": false,
+          "prod": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nxext/stencil:serve",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "library",
+        "tsConfig": "libs/planit/tsconfig.lib.json",
+        "configPath": "libs/planit/stencil.config.ts",
+        "outputPath": "dist/libs/planit"
+      }
+    },
+    "e2e": {
+      "executor": "@nxext/stencil:e2e",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "library",
+        "tsConfig": "libs/planit/tsconfig.lib.json",
+        "configPath": "libs/planit/stencil.config.ts",
+        "outputPath": "dist/libs/planit"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": "libs/planit/**/*.{ts,tsx}"
+      }
+    },
+    "storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx run planit:serve", "nx run planit:serve-storybook"],
+        "parallel": true
+      }
+    },
+    "serve-storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/html-webpack5",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/planit/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/html-webpack5",
+        "outputPath": "dist/storybook/planit",
+        "config": {
+          "configFolder": "libs/planit/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  }
+}

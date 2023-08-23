@@ -1,0 +1,67 @@
+{
+  "name": "planit-docs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/planit-docs/src",
+  "projectType": "application",
+  "generators": {
+    "@nxext/stencil:component": {
+      "style": "css"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/planit-docs/tsconfig.app.json",
+        "configPath": "apps/planit-docs/stencil.config.ts",
+        "outputPath": "dist/apps/planit-docs"
+      },
+      "configurations": {
+        "production": {
+          "dev": false,
+          "prod": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nxext/stencil:serve",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/planit-docs/tsconfig.app.json",
+        "configPath": "apps/planit-docs/stencil.config.ts",
+        "outputPath": "dist/apps/planit-docs"
+      }
+    },
+    "test": {
+      "executor": "@nxext/stencil:test",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/planit-docs/tsconfig.app.json",
+        "configPath": "apps/planit-docs/stencil.config.ts",
+        "outputPath": "dist/apps/planit-docs"
+      }
+    },
+    "e2e": {
+      "executor": "@nxext/stencil:e2e",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/planit-docs/tsconfig.app.json",
+        "configPath": "apps/planit-docs/stencil.config.ts",
+        "outputPath": "dist/apps/planit-docs"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/planit-docs/**/*.{ts,tsx}"]
+      }
+    }
+  }
+}
