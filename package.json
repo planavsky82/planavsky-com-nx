@@ -9,7 +9,7 @@
     "base-app": "npx nx serve base-app",
     "data-platform": "nx serve data-platform",
     "build:planit": "nx build planit",
-    "storybook:planit": "echo 'serve not yet working ...' && nx storybook planit",
+    "storybook:planit": "nx storybook planit",
     "gen:planit:component": "nx g @nxext/stencil:component $COMPONENT"
   },
   "private": true,
