@@ -6,5 +6,8 @@
     "**/*.stories.ts",
     "**/*.stories.jsx",
     "**/*.stories.tsx"
-  ]
+  ],
+  "compilerOptions": {
+    "composite": true
+  }
 }
