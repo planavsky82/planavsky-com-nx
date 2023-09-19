@@ -12,3 +12,7 @@
 - [nxext](https://nxext.dev/docs/stencil/overview.html)
 - [nxext npm](https://www.npmjs.com/package/@nxext/stencil)
 - [@nx/express](https://nx.dev/packages/express)
+
+## Planit
+
+- Serve planit components at dist/libs/planit/dist/planit, entry point file is `planit.esm.js`
