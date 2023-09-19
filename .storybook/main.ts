@@ -63,3 +63,7 @@ export const config: StorybookConfig = {
     return config;
   },
 };
+
+export const docs = {
+  autodocs: true
+};

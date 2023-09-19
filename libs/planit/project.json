@@ -64,17 +64,23 @@
       }
     },
     "storybook": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/storybook:storybook",
       "options": {
-        "commands": ["nx run planit:serve", "nx run planit:serve-storybook"],
-        "parallel": true
+        "port": 4400,
+        "configDir": "libs/planit/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
       }
     },
     "serve-storybook": {
       "executor": "@nx/storybook:storybook",
       "options": {
-        "uiFramework": "@storybook/html-webpack5",
+        "uiFramework": "@storybook/web-components",
         "port": 4400,
+        "configDir": "libs/planit/.storybook",
         "config": {
           "configFolder": "libs/planit/.storybook"
         }
@@ -87,18 +93,21 @@
     },
     "build-storybook": {
       "executor": "@nx/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputDir}"],
       "options": {
-        "uiFramework": "@storybook/html-webpack5",
-        "outputPath": "dist/storybook/planit",
-        "config": {
-          "configFolder": "libs/planit/.storybook"
-        }
+        "outputDir": "dist/storybook/planit",
+        "configDir": "libs/planit/.storybook"
       },
       "configurations": {
         "ci": {
           "quiet": true
         }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/planit/.storybook --url=http://localhost:4400"
       }
     }
   }

@@ -1,0 +1,30 @@
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: @nxext/stencil@16.3.0
+npm ERR! Found: @nx/angular@16.7.2
+npm ERR! node_modules/@nx/angular
+npm ERR!   @nx/angular@"16.7.2" from @nrwl/angular@16.7.2
+npm ERR!   node_modules/@nrwl/angular
+npm ERR!     @nrwl/angular@"16.7.2" from @nx/angular@16.7.2
+npm ERR!   @nx/angular@"16.7.2" from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peerOptional @nx/angular@"16.3.0" from @nxext/stencil@16.3.0
+npm ERR! node_modules/@nxext/stencil
+npm ERR!   @nxext/stencil@"^16.3.0" from the root project
+npm ERR! 
+npm ERR! Conflicting peer dependency: @nx/angular@16.3.0
+npm ERR! node_modules/@nx/angular
+npm ERR!   peerOptional @nx/angular@"16.3.0" from @nxext/stencil@16.3.0
+npm ERR!   node_modules/@nxext/stencil
+npm ERR!     @nxext/stencil@"^16.3.0" from the root project
+npm ERR! 
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR! See /Users/anthonyplanavsky/.npm/eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/anthonyplanavsky/.npm/_logs/2023-09-19T04_14_59_995Z-debug-0.log

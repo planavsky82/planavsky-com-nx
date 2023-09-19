@@ -24,7 +24,7 @@ export default {
     },
   },
 
-  framework: '@storybook/web-components',
+  framework: '@storybook/web-components-webpack5',
 
   logLevel: 'warn',
   features: {
