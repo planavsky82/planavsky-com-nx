@@ -69,6 +69,7 @@
     "@storybook/builder-webpack5": "^7.2.1",
     "@storybook/core-server": "7.3.2",
     "@storybook/html-webpack5": "7.3.2",
+    "@storybook/manager-webpack5": "^7.2.1",
     "@storybook/web-components": "^7.2.1",
     "@testing-library/react": "14.0.0",
     "@types/express": "4.17.13",
