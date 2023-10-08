@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [];
 
@@ -14,6 +15,10 @@ export const config: Config = {
   taskQueue: 'async',
   sourceMap: true,
 
+  plugins: [
+    tailwind(),
+    tailwindHMR(),
+  ],
   extras: {
     experimentalImportInjection: true,
   },
