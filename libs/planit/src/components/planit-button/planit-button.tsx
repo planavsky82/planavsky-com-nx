@@ -30,6 +30,6 @@ export class PlanitButton {
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div>Hello, World! I'm {this.getText()}!!</div>;
   }
 }
