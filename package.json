@@ -9,6 +9,7 @@
     "base-app": "npx nx serve base-app",
     "data-platform": "nx serve data-platform",
     "build:planit": "nx build planit",
+    "build:planit:prod": "nx run planit:build:production",
     "watch:planit": "nx watch --all -- nx build planit",
     "storybook:planit": "nx storybook planit",
     "run:planit": "run-p storybook:planit watch:planit",

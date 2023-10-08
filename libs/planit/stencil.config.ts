@@ -43,17 +43,17 @@ export const config: Config = {
     },
 
     angularOutputTarget({
-      componentCorePackage: '@undefined/planit',
+      componentCorePackage: '@planit/angular-wrappers',
       directivesProxyFile:
-        '../../../libs/planit-angular/src/generated/directives/proxies.ts',
+        '../../../dist/libs/planit-angular/src/generated/directives/proxies.ts',
       directivesArrayFile:
-        '../../../libs/planit-angular/src/generated/directives/index.ts',
+        '../../../dist/libs/planit-angular/src/generated/directives/index.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
     }),
 
     reactOutputTarget({
-      componentCorePackage: '@undefined/planit',
-      proxiesFile: '../../../libs/planit-react/src/generated/components.ts',
+      componentCorePackage: '@planit/react-wrappers',
+      proxiesFile: '../../../dist/libs/planit-react/src/generated/components.ts',
       includeDefineCustomElements: true,
     }),
   ],
