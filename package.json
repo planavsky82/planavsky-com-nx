@@ -73,6 +73,7 @@
     "@stencil/sass": "3.0.0",
     "@storybook/addon-essentials": "7.4.2",
     "@storybook/addon-interactions": "^7.2.1",
+    "@storybook/addon-knobs": "^7.0.2",
     "@storybook/core-server": "7.4.2",
     "@storybook/html-webpack5": "7.4.2",
     "@storybook/jest": "~0.1.0",
