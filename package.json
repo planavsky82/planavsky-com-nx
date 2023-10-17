@@ -3,17 +3,22 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "graph": "nx graph",
     "angular-app": "npx nx serve angular-app",
-    "planit-docs": "npx nx serve planit-docs",
     "base-app": "npx nx serve base-app",
-    "data-platform": "nx serve data-platform",
     "build:planit": "nx build planit",
     "build:planit:prod": "nx run planit:build:production",
-    "watch:planit": "nx watch --all -- nx build planit",
-    "storybook:planit": "nx storybook planit",
+    "data-platform": "nx serve data-platform",
+    "firebase:login": "firebase login",
+    "firebase:login:reauth": "firebase login --reauth",
+    "firebase:setup": "npm i -g firebase-tools && firebase init",
+    "firebase:deploy": "./scripts/deploy.sh",
+    "gen:planit:component": "nx g @nxext/stencil:component $COMPONENT",
+    "graph": "nx graph",
+    "planit-docs": "npx nx serve planit-docs",
     "run:planit": "run-p storybook:planit watch:planit",
-    "gen:planit:component": "nx g @nxext/stencil:component $COMPONENT"
+    "storybook:planit": "nx storybook planit",
+    "viz": "npx nx dep-graph",
+    "watch:planit": "nx watch --all -- nx build planit"
   },
   "private": true,
   "dependencies": {
