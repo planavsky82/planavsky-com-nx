@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 nx build angular-app
+firebase deploy
 
 # cd angular
 # npm run e2e:mffr:clean
