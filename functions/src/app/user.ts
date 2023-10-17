@@ -1,6 +1,6 @@
 import * as cors from 'cors';
 import * as _ from 'lodash';
-// import { test } from 'owasp-password-strength-test';
+import { test } from 'owasp-password-strength-test';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import * as EmailValidator from 'email-validator';
@@ -60,10 +60,8 @@ export class User {
                     if (user.pwd !== req.param('pwd2')) {
                       res.json({ success: false, message: 'The password fields do not match.' });
                     } else {
-                      // TODO: turn back on:
-                      // const passwordResult = test(user.pwd);
-                      // if (passwordResult.errors.length === 0) {
-                      if (0 === 0) {
+                      const passwordResult = test(user.pwd);
+                      if (passwordResult.errors.length === 0) {
                         const db = this.db;
                         // encrypt password
                         bcrypt.hash(user.pwd, saltRounds).then((hash) => {

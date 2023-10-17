@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
+cd functions && npm ci && cd ..
 nx build angular-app
 firebase deploy
+
 
 # cd angular
 # npm run e2e:mffr:clean
