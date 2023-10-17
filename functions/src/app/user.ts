@@ -100,7 +100,7 @@ export class User {
     });
   }
 
-  userEmailExists(email: string) {
+  userEmailExists(email: string | null = null) {
     const ref = this.db.ref('/users').orderByChild('email').equalTo(email);
     return ref.once('value').then(function (snapshot: any) {
       return snapshot.exists();

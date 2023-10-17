@@ -70,6 +70,13 @@ app.put('/rankings', (req, res) => {
   console.log('process');
 });
 
+app.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is live!',
+  });
+});
+
 exports.app = functions.https.onRequest(app);
 
 // https://stackoverflow.com/questions/42755131/enabling-cors-in-cloud-functions-for-firebase
