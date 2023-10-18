@@ -2,6 +2,7 @@
 
 cd functions && npm ci && cd ..
 nx build angular-app
+npm run custom:build:blog
 firebase deploy
 
 
