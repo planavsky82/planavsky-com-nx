@@ -1,0 +1,62 @@
+:host {
+  width: 100%;
+  border-bottom: 1px solid var(--grey-2);
+  display: flex;
+  position: relative;
+  left: 0;
+  top: 0;
+  background: var(--grey-1);
+  justify-content: center;
+}
+
+ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+ul:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  display: block;
+  color: var(--white);
+  text-decoration: none;
+  padding: var(--spacing-lg) var(--spacing-xxl);
+  font-size: var(--font-size-lg);
+  font-weight: var(--weight-thin);
+  cursor: pointer;
+}
+
+a:hover, a.selected {
+  background: var(--selected);
+  color: var(--selected-inverse);
+  font-weight: var(--weight-base);
+}
+
+/* need to get breakpoints from bootstrap or a custom, shared definition */
+@media only screen and (max-width: 600px) {
+  :host {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: auto;
+    border-top: 1px solid var(--grey-2);
+  }
+
+  a {
+    padding: var(--spacing-lg) var(--spacing-lg);
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  ul:focus {
+    box-shadow: none;
+  }
+}

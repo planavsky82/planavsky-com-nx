@@ -1,0 +1,21 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: var(--spacing-lg);
+}
+
+label {
+  text-align: left;
+}
+
+input {
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+planit-button {
+  margin: var(--spacing-lg) 0;
+}

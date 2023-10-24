@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+:host > div {
+  overflow: hidden;
+}
+
+.open {
+  display: block
+}
+
+.closed {
+  display: none;
+}
+
+a.action {
+ font-size: var(--font-size-md);
+ color: var(--primary-light);
+ cursor: pointer;
+}

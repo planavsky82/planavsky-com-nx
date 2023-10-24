@@ -1,0 +1,14 @@
+:host {
+  display: inline-block;
+}
+
+button {
+  background: var(--primary-darker);
+  border-radius: var(--radius);
+  border: 1px solid var(--primary-light);
+  color: var(--white);
+  font-weight: var(--weight-bold);
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-md) var(--spacing-xxxl);
+  cursor: pointer;
+}

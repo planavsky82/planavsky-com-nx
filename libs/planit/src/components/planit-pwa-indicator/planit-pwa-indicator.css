@@ -1,0 +1,75 @@
+:host(.display) {
+  display: flex;
+  text-align: center;
+  position: fixed;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: var(--spacing-xxl);
+
+  animation-duration: 0.75s;
+  animation-iteration-count: 4;
+  transform-origin: bottom;
+  animation-name: bounce-1;
+  animation-timing-function: linear;
+}
+
+:host(.ipad) {
+  bottom: auto;
+  top: 0;
+}
+
+div.container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  border: 1px solid var(--black);
+  width: 90%;
+  background: var(--white);
+  color: var(--black);
+  border-radius: var(--radius);
+  padding: var(--spacing-xl) 0;
+  background-image: linear-gradient(var(--primary), var(--white) 90%);
+  font-size: var(--font-size-lg);
+}
+
+div.message {
+  width: 70%;
+}
+
+.action-icon {
+  margin: 0 var(--spacing-md) calc(var(--spacing-base) * -1);
+  display: inline-block;
+  height: var(--font-size-xxl);
+}
+
+div.pointer.iphone {
+  display: flex;
+  position: fixed;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  border-left: var(--spacing-lg) solid transparent;
+  border-right: var(--spacing-lg) solid transparent;
+  border-top: calc(var(--spacing-lg) * 2) solid var(--white);
+}
+
+div.close {
+  position: absolute;
+  color: var(--black);
+  top: var(--spacing-base);
+  right: var(--spacing-md);
+  font-size: calc(var(--font-size-xxl) * 2);
+  line-height: var(--font-size-xxl);
+}
+
+:host(:not(.display)) {
+  display: none;
+}
+
+@keyframes bounce-1 {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
