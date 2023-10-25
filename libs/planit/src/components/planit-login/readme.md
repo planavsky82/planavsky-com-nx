@@ -25,13 +25,13 @@
 ### Depends on
 
 - [planit-error](../planit-error)
-- [planit-button](../planit-button)
+- [planit-button-legacy](../planit-button-legacy)
 
 ### Graph
 ```mermaid
 graph TD;
   planit-login --> planit-error
-  planit-login --> planit-button
+  planit-login --> planit-button-legacy
   style planit-login fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

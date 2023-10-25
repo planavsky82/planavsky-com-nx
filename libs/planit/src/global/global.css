@@ -1,0 +1,59 @@
+:root {
+  --primary: rgb(0, 153, 255);
+  --primary-light: #42C0FB;
+  --primary-dark: #006fa3;
+  --primary-darker: #3453b7;
+  --black: #000;
+  --white: #fff;
+  --error: var(--white);
+  --error-border: 2px solid #d30101;
+  --error-border-inline: 3px solid #f56f6f;
+
+  --focus: var(--primary);
+  --focus-shadow: 0 0 0 0 var(--focus), 0px 0px 3px 3px var(--focus);
+
+  --modal-shadow: 0 0 0 0 var(--grey-5), 0px 0px 250px 0px var(--grey-5);
+
+  --grey-base: #222;
+  --grey-1: #111;
+  --grey-2: #333;
+  --grey-3: #777;
+  --grey-4: #999;
+  --grey-5: #aaa;
+
+  --selected: #eee;
+  --selected-inverse: var(--grey-1);
+
+  --spacing-base: 5px;
+  --spacing-md: calc(var(--spacing-base) * 2);
+  --spacing-lg: calc(var(--spacing-base) * 3);
+  --spacing-xl: calc(var(--spacing-base) * 4);
+  --spacing-xxl: calc(var(--spacing-base) * 5);
+  --spacing-xxxl: calc(var(--spacing-base) * 6);
+
+  --radius: 5px;
+  --radius-md: calc(var(--radius) * 2);
+
+  --low-opacity: 0.85;
+  --medium-opacity: 0.75;
+  --overlay-background-opacity: var(--medium-opacity);
+
+  --weight-thin: 200;
+  --weight-base: 300;
+  --weight-semibold: 500;
+  --weight-bold: 700;
+
+  --font-size-base: 14px;
+  --font-size-md: calc(var(--font-size-base) * 1.25);
+  --font-size-lg: calc(var(--font-size-base) * 1.40);
+  --font-size-xl: calc(var(--font-size-base) * 1.50);
+  --font-size-xxl: calc(var(--font-size-base) * 1.75);
+  --font-size-xxxl: calc(var(--font-size-base) * 2);
+
+  --breakpoint-sm: 550px;
+
+  /* not yet supported */
+  --mixin-rounded: {
+    border-radius: var(--radius);
+  }
+}

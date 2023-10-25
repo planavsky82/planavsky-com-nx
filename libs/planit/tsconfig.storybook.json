@@ -7,7 +7,8 @@
     "**/*.stories.jsx",
     "**/*.stories.tsx",
     "**/*.tsx",
-    "**/validator.ts"
+    "**/validator.ts",
+    "**/models/**.ts"
   ],
   "compilerOptions": {
     "composite": true

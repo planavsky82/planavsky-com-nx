@@ -5,6 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { LoginEvent } from "./components/planit-login/planit-login";
+import { Navigation, NavigationItem } from "./models/navigation";
+import { SignUpEvent } from "./components/planit-signup/planit-signup";
+export { LoginEvent } from "./components/planit-login/planit-login";
+export { Navigation, NavigationItem } from "./models/navigation";
+export { SignUpEvent } from "./components/planit-signup/planit-signup";
 export namespace Components {
     interface MyComponent {
         /**
@@ -34,6 +40,9 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface PlanitButtonLegacy {
+        "type": 'button' | 'submit' | 'reset';
+    }
     interface PlanitCollection {
         /**
           * The first name
@@ -62,6 +71,47 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface PlanitError {
+        "inline": boolean;
+    }
+    interface PlanitLogin {
+        "labelEmailAddress": string;
+        "labelPassword": string;
+    }
+    interface PlanitModal {
+        "opened": boolean;
+    }
+    interface PlanitNav {
+        "data": Navigation;
+        "route": string;
+    }
+    interface PlanitPwaIndicator {
+        "display": boolean;
+        "image": string;
+    }
+    interface PlanitReadMore {
+    }
+    interface PlanitSignup {
+        "labelEmailAddress": string;
+        "labelPassword1": string;
+        "labelPassword2": string;
+    }
+}
+export interface PlanitLoginCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPlanitLoginElement;
+}
+export interface PlanitModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPlanitModalElement;
+}
+export interface PlanitNavCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPlanitNavElement;
+}
+export interface PlanitSignupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPlanitSignupElement;
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -76,6 +126,12 @@ declare global {
         prototype: HTMLPlanitButtonElement;
         new (): HTMLPlanitButtonElement;
     };
+    interface HTMLPlanitButtonLegacyElement extends Components.PlanitButtonLegacy, HTMLStencilElement {
+    }
+    var HTMLPlanitButtonLegacyElement: {
+        prototype: HTMLPlanitButtonLegacyElement;
+        new (): HTMLPlanitButtonLegacyElement;
+    };
     interface HTMLPlanitCollectionElement extends Components.PlanitCollection, HTMLStencilElement {
     }
     var HTMLPlanitCollectionElement: {
@@ -88,11 +144,61 @@ declare global {
         prototype: HTMLPlanitContainerElement;
         new (): HTMLPlanitContainerElement;
     };
+    interface HTMLPlanitErrorElement extends Components.PlanitError, HTMLStencilElement {
+    }
+    var HTMLPlanitErrorElement: {
+        prototype: HTMLPlanitErrorElement;
+        new (): HTMLPlanitErrorElement;
+    };
+    interface HTMLPlanitLoginElement extends Components.PlanitLogin, HTMLStencilElement {
+    }
+    var HTMLPlanitLoginElement: {
+        prototype: HTMLPlanitLoginElement;
+        new (): HTMLPlanitLoginElement;
+    };
+    interface HTMLPlanitModalElement extends Components.PlanitModal, HTMLStencilElement {
+    }
+    var HTMLPlanitModalElement: {
+        prototype: HTMLPlanitModalElement;
+        new (): HTMLPlanitModalElement;
+    };
+    interface HTMLPlanitNavElement extends Components.PlanitNav, HTMLStencilElement {
+    }
+    var HTMLPlanitNavElement: {
+        prototype: HTMLPlanitNavElement;
+        new (): HTMLPlanitNavElement;
+    };
+    interface HTMLPlanitPwaIndicatorElement extends Components.PlanitPwaIndicator, HTMLStencilElement {
+    }
+    var HTMLPlanitPwaIndicatorElement: {
+        prototype: HTMLPlanitPwaIndicatorElement;
+        new (): HTMLPlanitPwaIndicatorElement;
+    };
+    interface HTMLPlanitReadMoreElement extends Components.PlanitReadMore, HTMLStencilElement {
+    }
+    var HTMLPlanitReadMoreElement: {
+        prototype: HTMLPlanitReadMoreElement;
+        new (): HTMLPlanitReadMoreElement;
+    };
+    interface HTMLPlanitSignupElement extends Components.PlanitSignup, HTMLStencilElement {
+    }
+    var HTMLPlanitSignupElement: {
+        prototype: HTMLPlanitSignupElement;
+        new (): HTMLPlanitSignupElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
         "planit-button": HTMLPlanitButtonElement;
+        "planit-button-legacy": HTMLPlanitButtonLegacyElement;
         "planit-collection": HTMLPlanitCollectionElement;
         "planit-container": HTMLPlanitContainerElement;
+        "planit-error": HTMLPlanitErrorElement;
+        "planit-login": HTMLPlanitLoginElement;
+        "planit-modal": HTMLPlanitModalElement;
+        "planit-nav": HTMLPlanitNavElement;
+        "planit-pwa-indicator": HTMLPlanitPwaIndicatorElement;
+        "planit-read-more": HTMLPlanitReadMoreElement;
+        "planit-signup": HTMLPlanitSignupElement;
     }
 }
 declare namespace LocalJSX {
@@ -124,6 +230,9 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface PlanitButtonLegacy {
+        "type"?: 'button' | 'submit' | 'reset';
+    }
     interface PlanitCollection {
         /**
           * The first name
@@ -152,11 +261,48 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface PlanitError {
+        "inline"?: boolean;
+    }
+    interface PlanitLogin {
+        "labelEmailAddress"?: string;
+        "labelPassword"?: string;
+        "onSubmitLogin"?: (event: PlanitLoginCustomEvent<LoginEvent>) => void;
+    }
+    interface PlanitModal {
+        "onClosed"?: (event: PlanitModalCustomEvent<boolean>) => void;
+        "opened"?: boolean;
+    }
+    interface PlanitNav {
+        "data"?: Navigation;
+        "onSelectItem"?: (event: PlanitNavCustomEvent<NavigationItem>) => void;
+        "route"?: string;
+    }
+    interface PlanitPwaIndicator {
+        "display"?: boolean;
+        "image"?: string;
+    }
+    interface PlanitReadMore {
+    }
+    interface PlanitSignup {
+        "labelEmailAddress"?: string;
+        "labelPassword1"?: string;
+        "labelPassword2"?: string;
+        "onSubmitSignup"?: (event: PlanitSignupCustomEvent<SignUpEvent>) => void;
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
         "planit-button": PlanitButton;
+        "planit-button-legacy": PlanitButtonLegacy;
         "planit-collection": PlanitCollection;
         "planit-container": PlanitContainer;
+        "planit-error": PlanitError;
+        "planit-login": PlanitLogin;
+        "planit-modal": PlanitModal;
+        "planit-nav": PlanitNav;
+        "planit-pwa-indicator": PlanitPwaIndicator;
+        "planit-read-more": PlanitReadMore;
+        "planit-signup": PlanitSignup;
     }
 }
 export { LocalJSX as JSX };
@@ -165,8 +311,16 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "planit-button": LocalJSX.PlanitButton & JSXBase.HTMLAttributes<HTMLPlanitButtonElement>;
+            "planit-button-legacy": LocalJSX.PlanitButtonLegacy & JSXBase.HTMLAttributes<HTMLPlanitButtonLegacyElement>;
             "planit-collection": LocalJSX.PlanitCollection & JSXBase.HTMLAttributes<HTMLPlanitCollectionElement>;
             "planit-container": LocalJSX.PlanitContainer & JSXBase.HTMLAttributes<HTMLPlanitContainerElement>;
+            "planit-error": LocalJSX.PlanitError & JSXBase.HTMLAttributes<HTMLPlanitErrorElement>;
+            "planit-login": LocalJSX.PlanitLogin & JSXBase.HTMLAttributes<HTMLPlanitLoginElement>;
+            "planit-modal": LocalJSX.PlanitModal & JSXBase.HTMLAttributes<HTMLPlanitModalElement>;
+            "planit-nav": LocalJSX.PlanitNav & JSXBase.HTMLAttributes<HTMLPlanitNavElement>;
+            "planit-pwa-indicator": LocalJSX.PlanitPwaIndicator & JSXBase.HTMLAttributes<HTMLPlanitPwaIndicatorElement>;
+            "planit-read-more": LocalJSX.PlanitReadMore & JSXBase.HTMLAttributes<HTMLPlanitReadMoreElement>;
+            "planit-signup": LocalJSX.PlanitSignup & JSXBase.HTMLAttributes<HTMLPlanitSignupElement>;
         }
     }
 }

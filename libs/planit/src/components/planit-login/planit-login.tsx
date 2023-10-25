@@ -83,7 +83,7 @@ export class PlanitLogin implements ComponentInterface {
           }}>{this.pwdErrorMessage}</planit-error>
         </form>
 
-        <planit-button type="submit" onClick={(event: Event) => this.handleSubmit(event)}>Login</planit-button>
+        <planit-button-legacy type="submit" onClick={(event: Event) => this.handleSubmit(event)}>Login</planit-button-legacy>
         <div class="signup">
           <slot name="signup"></slot>
         </div>

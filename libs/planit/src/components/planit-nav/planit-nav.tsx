@@ -1,5 +1,5 @@
 import { Component, ComponentInterface, Prop, Host, h, EventEmitter, Event, State, Listen, Watch } from '@stencil/core';
-import { Navigation, NavigationItem } from '@models/navigation';
+import { Navigation, NavigationItem } from '../../models/navigation';
 
 @Component({
   tag: 'planit-nav',

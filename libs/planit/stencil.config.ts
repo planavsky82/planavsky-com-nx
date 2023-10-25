@@ -13,6 +13,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 export const config: Config = {
   namespace: 'planit',
   taskQueue: 'async',
+  globalStyle: 'src/global/global.css',
   sourceMap: true,
 
   plugins: [

@@ -22,9 +22,9 @@
 ### Graph
 ```mermaid
 graph TD;
-  planit-login --> planit-button
-  planit-signup --> planit-button
-  style planit-button fill:#f9f,stroke:#333,stroke-width:4px
+  planit-login --> planit-button-legacy
+  planit-signup --> planit-button-legacy
+  style planit-button-legacy fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

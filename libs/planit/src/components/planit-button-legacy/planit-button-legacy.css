@@ -2,6 +2,14 @@
   display: inline-block;
 }
 
+:host {
+  --color-primary: blue;
+}
+
+button {
+  color: var(--color-primary);
+}
+
 button {
   background: var(--primary-darker);
   border-radius: var(--radius);

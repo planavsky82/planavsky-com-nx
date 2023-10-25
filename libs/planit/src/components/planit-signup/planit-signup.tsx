@@ -142,7 +142,7 @@ export class PlanitSignup implements ComponentInterface {
           </planit-error>
         </form>
 
-        <planit-button type="submit" onClick={(event: Event) => this.handleSubmit(event)}>Sign Up</planit-button>
+        <planit-button-legacy type="submit" onClick={(event: Event) => this.handleSubmit(event)}>Sign Up</planit-button-legacy>
         <slot name="footer"></slot>
       </Host>
     );
