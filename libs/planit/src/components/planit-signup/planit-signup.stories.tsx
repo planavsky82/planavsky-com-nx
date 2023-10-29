@@ -6,4 +6,13 @@ export default {
   component: 'planit-signup', // Replace with your web component's tag name
 };
 
-export const Default = () => html`<planit-button-legacy>Test</planit-button-legacy>`;
+export const Default = () => html`
+<planit-signup>
+  <span slot="error">
+    <planit-error>Error</planit-error>
+  </span>
+  <div slot="footer">
+    Already have an account?
+  </div>
+</planit-signup>
+`;
