@@ -6,4 +6,9 @@ export default {
   component: 'planit-button', // Replace with your web component's tag name
 };
 
-export const Default = () => html`<planit-button first="1"></planit-button>`;
+export const Default = () => html`
+<main>
+  <h1>Button</h1>
+  <planit-button first="1"></planit-button>
+</main>
+`;
