@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, Host, h, Prop, Watch, State, Event, EventEmitter } from '@stencil/core';
+import { Component, ComponentInterface, Host, h, Prop, Watch, State, Event, EventEmitter, Method } from '@stencil/core';
 
 @Component({
   tag: 'planit-modal',
@@ -14,6 +14,11 @@ export class PlanitModal implements ComponentInterface {
   @Watch('opened')
   open(display: boolean) {
     this.display = display;
+  }
+
+  @Method()
+  async launch() {
+    this.display = true;
   }
 
   close() {

@@ -6,4 +6,4 @@ export default {
   component: 'planit-container', // Replace with your web component's tag name
 };
 
-export const Default = () => html`<planit-button-legacy>Test</planit-button-legacy>`;
+export const Default = () => html`<planit-container></planit-container>`;

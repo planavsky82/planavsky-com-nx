@@ -79,6 +79,7 @@ export namespace Components {
         "labelPassword": string;
     }
     interface PlanitModal {
+        "launch": () => Promise<void>;
         "opened": boolean;
     }
     interface PlanitNav {
