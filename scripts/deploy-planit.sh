@@ -3,9 +3,9 @@
 # run e2e and a11y tests
 npx playwright install
 npm run test:e2e
-npm run test:planit
 
 # run unit tests
+npm run test:planit
 
 # deploy docs site
 
