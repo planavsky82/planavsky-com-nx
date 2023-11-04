@@ -46,6 +46,7 @@ git commit -m 'chore(release): create temporary package.json'
 echo 'Deployment Started ...'
 npm version $1
 cp package.json ../../../libs/planit/
+cp ../../../libs/planit/README.md README.md
 
 echo 'Publishing NPM Package ...'
 npm publish --access=public
