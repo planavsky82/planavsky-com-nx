@@ -31,8 +31,32 @@ npm run build:planit-storybook
 firebase deploy --only hosting:planit-web-components
 
 # copy react and angular wrappers to planit dist
+mv ./dist/libs/planit-react ./dist/libs/planit
+mv ./dist/libs/planit-angular ./dist/libs/planit
 
 # deploy npm version of library
+cd dist/libs/planit
+cp package.json package-tmp.json
+
+node ./scripts/edit-package-json.js
+
+git add -A
+git commit -m 'chore(release): create temporary package.json'
+
+echo 'Deployment Started ...'
+npm version $1
+
+echo 'Publishing NPM Package ...'
+npm publish
+
+echo 'Adding GIT Commit ...'
+rm -rf package-tmp.json
+git add -A
+git commit -m "chore(release): $1"
+git push
+cd ../../../
+
+echo 'Deployment Complete.'
 
 # deploy server hosted planit library
 firebase deploy --only hosting:planit-lib
