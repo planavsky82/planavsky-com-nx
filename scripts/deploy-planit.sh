@@ -38,7 +38,7 @@ mv ./dist/libs/planit-angular ./dist/libs/planit
 cd dist/libs/planit
 cp package.json package-tmp.json
 
-node ./scripts/edit-package-json.js
+node ../../../scripts/edit-package-json.js
 
 git add -A
 git commit -m 'chore(release): create temporary package.json'
