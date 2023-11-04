@@ -29,7 +29,6 @@
     "viz": "npx nx dep-graph",
     "watch:planit": "nx watch --all -- nx build planit"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~16.2.0",
     "@angular/common": "~16.2.0",
