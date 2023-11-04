@@ -1,4 +1,4 @@
-# PlanavskyComNx
+# PlanavskyCom Monorepo
 
 - [https://myfantasyfootballrankings.web.app/](https://myfantasyfootballrankings.web.app/)
 - [https://blog-planavsky-com.web.app/](https://blog-planavsky-com.web.app/)
