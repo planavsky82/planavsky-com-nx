@@ -3,8 +3,8 @@
 cd functions && npm ci && cd ..
 nx build angular-app
 npm run custom:build:blog
-firebase deploy
-
+firebase deploy --only functions
+firebase deploy --only hosting:blog-planavsky-com
 
 # cd angular
 # npm run e2e:mffr:clean

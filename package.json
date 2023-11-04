@@ -6,6 +6,7 @@
     "build:planit": "nx build planit",
     "build:planit:prod": "nx run planit:build:production",
     "build:planit-docs": "nx run planit-docs:build",
+    "build:planit-storybook": "nx run planit:build-storybook",
     "deploy:apps": "./scripts/deploy.sh",
     "deploy:planit": "./scripts/deploy-planit.sh",
     "firebase:login": "firebase login",

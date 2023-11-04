@@ -19,13 +19,22 @@ git add -A
 git commit -m 'update gh-pages'
 git checkout -b gh-pages
 git push --set-upstream origin gh-pages -f
+cd ../../../../
+
+# build planit lib
+npm run build:planit:prod
+
+# build planit storybook
+npm run build:planit-storybook
 
 # deploy storybook via Firebase
+firebase deploy --only hosting:planit-web-components
 
 # copy react and angular wrappers to planit dist
 
 # deploy npm version of library
 
 # deploy server hosted planit library
+firebase deploy --only hosting:planit-lib
 
 # deploy React demo
