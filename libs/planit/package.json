@@ -1,6 +1,7 @@
 {
-  "name": "@undefined/planit",
-  "version": "0.0.1",
+  "name": "@planit/web-components",
+  "version": "1.0.0",
+  "private": "false",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
   "es2015": "./dist/esm/index.mjs",
