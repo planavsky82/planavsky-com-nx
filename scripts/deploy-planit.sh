@@ -47,7 +47,7 @@ echo 'Deployment Started ...'
 npm version $1
 
 echo 'Publishing NPM Package ...'
-npm publish
+npm publish --access=public
 
 echo 'Adding GIT Commit ...'
 rm -rf package-tmp.json
