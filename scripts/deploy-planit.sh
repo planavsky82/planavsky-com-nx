@@ -64,3 +64,5 @@ echo 'Deployment Complete.'
 firebase deploy --only hosting:planit-lib
 
 # deploy React demo
+npm run build:react-sample-app
+firebase deploy --only hosting:planit-react-sample-app

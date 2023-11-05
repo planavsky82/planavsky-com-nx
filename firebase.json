@@ -69,6 +69,21 @@
           "value": "*"
         } ]
       } ]
+    },
+    {
+      "site": "planit-react-sample-app",
+      "public": "dist/apps/react-sample-app",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ],
   "emulators": {
