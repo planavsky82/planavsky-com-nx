@@ -5,6 +5,7 @@
 - [Planit Web Components Library](https://planit-lib.web.app/planit/planit.esm.js)
 - [Planit Web Components NPM docs](https://www.npmjs.com/package/@planit/web-components)
 - [Planit Web Components Storybook](https://planit-web-components.web.app)
+- [Planit React Sample App](https://planit-react-sample-app.web.app)
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 

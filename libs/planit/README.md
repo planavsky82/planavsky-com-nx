@@ -21,4 +21,4 @@ defineCustomElements();
 
 To use the web components within React Wrappers for a more efficient utilization in a React application.
 
-For an example of how to use the React Wrapper version of the web components, please review [this example](https://github.com/planavsky82/component-lib-platform/blob/main/apps/react-demo/src/App.js).
+For an example of how to use the React Wrapper version of the web components, please review [this example](https://github.com/planavsky82/planavsky-com-nx/blob/main/apps/react-sample-app/src/app/app.tsx).
