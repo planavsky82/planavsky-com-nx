@@ -11,6 +11,8 @@
   "unpkg": "./dist/planit/planit.js",
   "files": [
     "dist/",
-    "loader/"
+    "loader/",
+    "planit-react",
+    "planit-angular"
   ]
 }
