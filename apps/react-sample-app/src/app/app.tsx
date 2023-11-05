@@ -20,7 +20,7 @@ export function App() {
   return (
     <div>
       <div className="App">
-        <planit-button>123</planit-button>
+        <planit-button>1111</planit-button>
         <NxWelcome title="react-sample-app" />
       </div>
     </div>
