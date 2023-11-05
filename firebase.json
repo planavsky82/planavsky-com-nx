@@ -63,7 +63,7 @@
         }
       ],
       "headers": [ {
-        "source": "**",
+        "source": "**/*.js",
         "headers": [ {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
