@@ -7,10 +7,7 @@ export const config: Config = {
   globalStyle: 'src/global/global.css',
   sourceMap: true,
 
-  plugins: [
-    tailwind(),
-    tailwindHMR(),
-  ],
+  plugins: [tailwind(), tailwindHMR()],
   extras: {
     experimentalImportInjection: true,
   },
@@ -37,6 +34,6 @@ export const config: Config = {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'auto-define-custom-elements',
       includeGlobalScripts: false,
-    }
+    },
   ],
 };
