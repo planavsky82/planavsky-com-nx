@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@planavsky-com-nx/planit-react": ["libs/planit-react/src/index.ts"],
       "@undefined/planit": ["dist/libs/planit"],
       "@undefined/planit/*": ["dist/libs/planit/dist/components/*"],
       "@undefined/planit/loader": ["dist/libs/planit/loader"]
