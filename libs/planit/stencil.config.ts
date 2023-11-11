@@ -1,15 +1,6 @@
 import { Config } from '@stencil/core';
 import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
-const angularValueAccessorBindings: ValueAccessorConfig[] = [];
-
-import {
-  angularOutputTarget,
-  ValueAccessorConfig,
-} from '@stencil/angular-output-target';
-
-import { reactOutputTarget } from '@stencil/react-output-target';
-
 export const config: Config = {
   namespace: 'planit',
   taskQueue: 'async',
@@ -46,21 +37,6 @@ export const config: Config = {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'auto-define-custom-elements',
       includeGlobalScripts: false,
-    },
-
-    angularOutputTarget({
-      componentCorePackage: '@planit/angular-wrappers',
-      directivesProxyFile:
-        '../../../dist/libs/planit-angular/src/generated/directives/proxies.ts',
-      directivesArrayFile:
-        '../../../dist/libs/planit-angular/src/generated/directives/index.ts',
-      valueAccessorConfigs: angularValueAccessorBindings,
-    }),
-
-    reactOutputTarget({
-      componentCorePackage: '@planit/react-wrappers',
-      proxiesFile: '../../../dist/libs/planit-react/src/generated/components.ts',
-      includeDefineCustomElements: true,
-    }),
+    }
   ],
 };

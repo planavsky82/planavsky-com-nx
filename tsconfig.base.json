@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@planavsky-com-nx/planit-angular": ["libs/planit-angular/src/index.ts"],
-      "@planavsky-com-nx/planit-react": ["libs/planit-react/src/index.ts"],
+      "@planavsky-com-nx/planit-react": ["dist/libs/planit-react/src/index.ts"],
+      "@planavsky-com-nx/planit-react-lib": [
+        "libs/planit-react-lib/src/index.ts"
+      ],
       "@undefined/planit": ["dist/libs/planit"],
       "@undefined/planit/*": ["dist/libs/planit/dist/components/*"],
       "@undefined/planit/loader": ["dist/libs/planit/loader"]

@@ -30,10 +30,6 @@ npm run build:planit-storybook
 # deploy storybook via Firebase
 firebase deploy --only hosting:planit-web-components
 
-# copy react and angular wrappers to planit dist
-mv ./dist/libs/planit-react ./dist/libs/planit
-mv ./dist/libs/planit-angular ./dist/libs/planit
-
 # deploy npm version of library
 cd dist/libs/planit
 cp package.json package-tmp.json
