@@ -31,17 +31,16 @@
 # firebase deploy --only hosting:planit-web-components
 
 # deploy npm version of library
-cd dist/libs/planit
+cd libs/planit
 cp package.json package-tmp.json
 
-node ../../../scripts/edit-package-json.js
+node ../../scripts/edit-package-json.js
 
 git add -A
 git commit -m 'chore(release): create temporary package.json'
 
-ls
-# echo 'Deployment Started ...'
-# npm version $1
+echo 'Deployment Started ...'
+npm version $1
 # cp package.json ../../../libs/planit/
 # cp ../../../libs/planit/README.md README.md
 
