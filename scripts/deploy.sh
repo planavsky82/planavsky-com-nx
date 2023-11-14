@@ -6,6 +6,8 @@ npm run custom:build:blog
 firebase deploy --only functions
 firebase deploy --only hosting:blog-planavsky-com
 
+echo 'THE config.js FILE MUST EXIST IN THE FUNCTIONS FOLDER!!!!'
+
 # cd angular
 # npm run e2e:mffr:clean
 # npm run build:mffr

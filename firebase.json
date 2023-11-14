@@ -20,7 +20,7 @@
   "hosting": [
     {
       "site": "blog-planavsky-com",
-      "public": "dist/apps/blog/public",
+      "public": "dist/apps/blog",
       "ignore": [
         "firebase.json",
         "**/.*",

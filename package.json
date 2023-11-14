@@ -23,7 +23,7 @@
     "custom:serve:blog": "cd ./apps/blog && npm ci && npm run server",
     "custom:build:blog": "cd ./apps/blog && npm ci && npm run build && cp -r public ../../dist/apps/blog",
     "serve:data-platform": "nx serve data-platform",
-    "serve:planit": "run-p storybook:planit watch:planit custom:serve:planit:dist",
+    "serve:planit": "npm run build:planit && run-p storybook:planit watch:planit custom:serve:planit:dist",
     "serve:planit-docs": "npx nx serve planit-docs",
     "storybook:planit": "nx storybook planit",
     "test:e2e": "npx playwright test",
