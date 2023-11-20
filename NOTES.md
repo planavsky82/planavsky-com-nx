@@ -12,6 +12,7 @@
 - [nxext](https://nxext.dev/docs/stencil/overview.html)
 - [nxext npm](https://www.npmjs.com/package/@nxext/stencil)
 - [@nx/express](https://nx.dev/packages/express)
+- [Stencil Service Worker](https://stenciljs.com/docs/service-workers)
 
 ## Planit
 
