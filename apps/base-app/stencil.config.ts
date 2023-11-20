@@ -15,7 +15,8 @@ export const config: Config = {
       serviceWorker: {
         globPatterns: [
           '**/*.{js,css,json,html,ico,png}'
-        ]
+        ],
+        swDest: '../../../dist/apps/base-app/www/service-worker.js'
       }
     },
   ],
