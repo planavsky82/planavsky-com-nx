@@ -3,8 +3,10 @@
 cd functions && npm ci && cd ..
 nx build angular-app
 npm run custom:build:blog
+npm run build:base-app
 firebase deploy --only functions
 firebase deploy --only hosting:blog-planavsky-com
+firebase deploy --only hosting:myfantasyfootballrankings
 
 echo 'THE config.js FILE MUST EXIST IN THE FUNCTIONS FOLDER!!!!'
 

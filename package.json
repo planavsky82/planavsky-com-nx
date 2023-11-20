@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build:base-app": "nx build base-app",
     "build:planit": "nx build planit",
     "build:planit:prod": "nx run planit:build:production",
     "build:planit-docs": "nx run planit-docs:build",
