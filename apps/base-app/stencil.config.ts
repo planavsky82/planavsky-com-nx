@@ -12,7 +12,11 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'www',
-      serviceWorker: null,
+      serviceWorker: {
+        globPatterns: [
+          '**/*.{js,css,json,html,ico,png}'
+        ]
+      }
     },
   ],
   extras: {
