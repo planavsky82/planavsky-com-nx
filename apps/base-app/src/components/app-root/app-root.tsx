@@ -82,7 +82,7 @@ export class AppRoot {
     };
 
     // Initialize Firebase
-    initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
 
     const messaging = getMessaging();
     // Add the public key generated from the console here.
