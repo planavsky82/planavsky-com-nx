@@ -8,9 +8,9 @@ self.addEventListener("message", ({ data }) => {
   }
 });
 
-console.log('Hello, I\'m a service worker.......');
+console.log('Hello, I\'m a service worker...');
 
-self.registration.showNotification('Hakuna matata......................');
+self.registration.showNotification('New Version Available!');
 
 self.addEventListener('push', event => {
   console.log(`Push received with data "${event.data.text()}"`);

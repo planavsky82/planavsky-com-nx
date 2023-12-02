@@ -1,0 +1,135 @@
+@import "../../styles";
+
+:host {
+	a.highlight {
+		color: $gold-1;
+		cursor: pointer;
+		font-size: $font-size-h2;
+		font-weight: 100;
+		text-decoration: underline;
+	}
+
+	.intro {
+		padding: 40px;
+    background: $transparent-color;
+		font-size: $font-size-h2;
+		font-weight: 200;
+		margin: 0 0 20px;
+    text-align: center;
+    color: $black;
+
+    @media only screen and (min-width: $screen-md) {
+      span.main {
+        a {
+          color: $blue-1;
+          font-weight: $font-weight-normal;
+        }
+
+        a:hover {
+          color: $blue-1;
+        }
+      }
+    }
+
+		span:not(.main) {
+      display: block;
+      margin-top: 30px;
+			font-size: $font-size-h4;
+      font-weight: 200;
+      line-height: 26px;
+		}
+  }
+
+  .leaders {
+    margin-top: 15px;
+    text-align: left;
+    height: 300px;
+    border-bottom: 1px solid $white;
+
+    background: $black url("../../images/player.jpeg") no-repeat top left;
+    background-size: contain;
+
+    > div:first-of-type {
+      text-align: right;
+      font-size: $font-size-h1 * 2;
+      font-weight: 300;
+      padding: 20px 100px 0 0;
+    }
+
+    > div:nth-child(2) {
+      font-size: $font-size-h2;
+      text-align: right;
+      padding: 40px 215px 0 0;
+      font-weight: 200;
+
+      span {
+        color: $green-1;
+        font-weight: 300;
+      }
+    }
+  }
+
+  @media only screen and (max-width: $screen-md) {
+    .leaders {
+      > div:first-of-type {
+        font-size: $font-size-h1 * 1.5;
+        padding: 20px 50px 0 0;
+      }
+
+      > div:nth-child(2) {
+        font-size: $font-size-h2;
+        padding: 40px 50px 0 150px;
+      }
+    }
+  }
+
+	@media only screen and (max-width: $screen-sm) {
+		a.highlight {
+			font-size: $font-size-h3;
+			font-weight: 200;
+		}
+
+		.intro {
+      padding: 30px;
+			font-size: $font-size-h4;
+      font-weight: 200;
+      opacity: 1;
+
+
+			span {
+        font-size: $font-size-h4;
+        font-weight: 200;
+			}
+    }
+
+    .intro {
+      box-shadow: 0 0 0 0 $gray-1, 0px 0px 5px 1px $gray-1;
+      background: $transparent-color-light;
+      color: $white;
+    }
+
+    .leaders {
+      background-size: auto 100%;
+      display: flex;
+      justify-content: right;
+      flex-direction: column-reverse;
+
+      > div:first-of-type {
+        font-size: $font-size-h2;
+        padding: 0;
+        font-weight: 200;
+        align-self: flex-end;
+        text-align: left;
+        width: 100%;
+        background: $transparent-color-darker;
+      }
+
+      > div:nth-child(2) {
+        background: $transparent-color-dark;
+        padding: 40px 20px;
+        font-size: $font-size-base * 1.25;
+        margin-top: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div class="intro" *ngIf="!user">
+  <span class="main">
+    Want to Manage Your Own Fantasy Football Rankings?
+    <a href="javascript:void(0)" (click)="openSignup()">Find Out How!</a>
+  </span>
+  <power-modal [opened]="openModal" (closed)="closeSignup()">
+    <a href="javascript:void(0)" class="neon blue-highlight highlight" (click)="navigate('signup')">Sign Up</a> and Manage Your Own Rankings
+
+    <span>
+      If you are a Fantasy Football enthusiast, you probably have ranking resources around the web that you utilize
+      to help make lineup and draft day decisions.
+    </span>
+
+    <span>
+      What if you were able to manage your own rankings to make your own lineup and draft day decisions,
+      help others determine their lineups by sharing your rankings,
+      and see how accurate you are compared to the rest of the MyFantasyFootballRankings.com community in a little friendly competition?
+    </span>
+
+    <span>
+      If that seems fun, <a href="javascript:void(0)" (click)="navigate('signup')">sign up and give it try</a>. Maybe you can become the next fantasy football expert!
+    </span>
+  </power-modal>
+</div>
+
+<div class="leaders">
+  <div>Rankings Leader Board</div>
+  <div>
+    The <strong>TOP 3</strong> most accurate members of My<span>FantasyFootball</span>Rankings.com ...
+  </div>
+</div>

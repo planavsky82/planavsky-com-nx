@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
 import { sass } from '@stencil/sass';
 // https://stenciljs.com/docs/config
@@ -24,5 +25,5 @@ export const config: Config = {
   extras: {
     experimentalImportInjection: true,
   },
-  plugins: [sass()],
+  plugins: [sass(), tailwind(), tailwindHMR()],
 };

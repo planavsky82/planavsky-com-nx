@@ -1,0 +1,13 @@
+<div>
+  <power-login (submitLogin)="login($event)">
+    <span slot="error">
+      <power-error *ngIf="errorMessage">{{errorMessage}}</power-error>
+    </span>
+    <span slot="signup">
+      Not registered yet?
+      <br />
+      <a routerLink="/signup">Sign up here ...</a>
+    </span>
+  </power-login>
+  <planit-loading-indicator [display]="loading"></planit-loading-indicator>
+</div>

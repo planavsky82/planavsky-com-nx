@@ -1,0 +1,13 @@
+<div class="background-image"></div>
+<div class="background-gradient"></div>
+<div class="main-content">
+  <div class="header"></div>
+	<div class="header-text"><i class="fa fa-list-ol"></i> My<span class="fantasy-football">FantasyFootball</span>Rankings.com</div>
+  <power-nav [data]="navigation" [route]="route" (selectItem)="navigate($event)"></power-nav>
+  <div class="login-strip" *ngIf="user?.email">Welcome {{ user?.email }}! &nbsp;|&nbsp; <a href="javascript:void(0)" (click)="logout()">Logout</a></div>
+
+	<div class="content-container">
+    <power-pwa-indicator></power-pwa-indicator>
+    <router-outlet></router-outlet>
+	</div>
+</div>

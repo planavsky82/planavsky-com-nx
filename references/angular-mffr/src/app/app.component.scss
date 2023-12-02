@@ -1,0 +1,148 @@
+@import "../styles";
+
+:host {
+	.background-image {
+		background: $black url("../images/background.jpg") no-repeat top center;
+    background-size: contain;
+    height: 400px;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+	}
+
+	.background-gradient {
+		background: linear-gradient(to bottom, transparent 9%, black 91%);
+  		position: absolute;
+  		top: 0px;
+  		left: 0px;
+  		height: 400px;
+  		width: 100%;
+  		z-index: 2;
+	}
+
+	.main-content {
+  		position: absolute;
+  		top: 0px;
+  		left: 0px;
+  		height: auto;
+  		width: 100%;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.75);
+
+  		.header {
+  			background: $black;
+  			width: 100%;
+  			opacity: 0.5;
+  			height: 120px;
+  			border-bottom: 1px solid $gray-1;
+  		}
+
+  		.header-text {
+  			text-align: center;
+  			font-size: 4em;
+  			font-weight: 100;
+  			position: absolute;
+  			top: 0px;
+  			width: 100%;
+        line-height: 120px;
+        color: $white;
+
+  			i {
+  				color: $white;
+          background: $brown-1;
+          padding: 5px;
+          border: 1px solid $white;
+  			}
+
+  			span {
+          color: $green-1;
+          font-weight: 700;
+          background: -webkit-linear-gradient($green-1, $gray-2);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          -webkit-text-stroke: 1px $green-1;
+  			}
+  		}
+
+      .login-strip {
+        background: darken( $gray-alt-2, 10% );
+        text-align: center;
+        padding: 5px;
+      }
+
+  		.content-container {
+  			min-height: 400px;
+  			max-width: 1100px;
+  			margin: 20px auto;
+  			text-align: center;
+  			padding: 0 15px;
+  		}
+	}
+
+	@media only screen and (min-width: $screen-lg) {
+		.background-image {
+			background-size: cover;
+			height: 600px;
+		}
+		.background-gradient {
+			height: 600px;
+		}
+	}
+
+	@media only screen and (max-width: $screen-md) {
+		.background-gradient {
+			height: 320px;
+		}
+
+  		.main-content {
+	  		.header-text {
+	  			font-size: 3em;
+	  		}
+
+	  		.content-container {
+	  			border-left: 0px;
+	  			border-right: 0px;
+	  		}
+  		}
+	}
+
+	@media only screen and (max-width: $screen-sm) {
+		.background-gradient {
+			height: 240px;
+		}
+
+		.main-content {
+			.header {
+  				opacity: 0.7;
+  			}
+
+			.header-text {
+	  			font-size: 2em;
+          font-weight: 200;
+	  		}
+  		}
+	}
+
+	@media only screen and (max-width: $screen-xs) {
+		.background-gradient {
+			height: 150px;
+		}
+
+		.main-content {
+			.header {
+  				height: 90px;
+  				opacity: 0.7;
+  		}
+
+			.header-text {
+				  line-height: 90px;
+  				font-size: 1.5em;
+
+          span {
+            animation: none;
+          }
+  		}
+  	}
+	}
+
+}
