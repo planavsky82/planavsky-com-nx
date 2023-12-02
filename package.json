@@ -97,6 +97,7 @@
     "@stencil/react-output-target": "^0.4.0",
     "@stencil/router": "^1.0.1",
     "@stencil/sass": "3.0.0",
+    "@stencil/store": "^2.0.11",
     "@storybook/addon-essentials": "7.4.2",
     "@storybook/addon-interactions": "^7.2.1",
     "@storybook/addon-knobs": "^7.0.2",

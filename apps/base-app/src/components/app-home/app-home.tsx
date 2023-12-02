@@ -1,4 +1,5 @@
 import { Component, h } from '@stencil/core';
+import state from '../../global/store';
 
 @Component({
   tag: 'app-home',
@@ -10,6 +11,8 @@ export class AppHome {
     let response = await fetch('https://us-central1-planavsky-com.cloudfunctions.net/app/test');
     let json = await response.json();
     console.log(json);
+
+    setInterval(() => state.seconds++, 1000);
   }
 
   render() {
@@ -35,7 +38,22 @@ export class AppHome {
 
         <div class="bg-black p-6 rounded-md flex justify-center text-white">Hello, World!</div>
         <planit-button first="ABCD"></planit-button>
+
+        <MyGlobalCounter />
+        <p>
+          Seconds: {state.seconds}
+          <br />
+          Squared Clicks: {state.squaredClicks}
+        </p>
       </ion-content>,
     ];
   }
 }
+
+const MyGlobalCounter = () => {
+  return (
+    <button onClick={() => state.clicks++}>
+      {state.clicks}
+    </button>
+  );
+};
