@@ -1,4 +1,6 @@
 import { Component, h } from '@stencil/core';
+
+// https://stenciljs.com/docs/stencil-store
 import state from '../../global/store';
 
 @Component({
