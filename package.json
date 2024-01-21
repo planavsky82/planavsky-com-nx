@@ -20,6 +20,7 @@
     "serve:react-sample-app": "nx run react-sample-app:serve",
     "serve:base-app": "npx nx serve base-app",
     "serve:blog": "npx nx serve blog",
+    "serve:products": "cd apps/products && http-server",
     "custom:serve:planit:dist": "cd dist/libs/planit/dist/planit && http-server",
     "custom:serve:blog": "cd ./apps/blog && npm ci && npm run server",
     "custom:build:blog": "cd ./apps/blog && npm ci && npm run build && cp -r public ../../dist/apps/blog",
