@@ -28,8 +28,10 @@ class CollectionComponent extends HTMLElement {
 
     let template = document.getElementById("collection-component-items");
     console.log(template);
-    let templateContent = template.content;
-    div.appendChild(templateContent.cloneNode(true));
+    if (template) {
+      let templateContent = template.content;
+      div.appendChild(templateContent.cloneNode(true));
+    }
   }
 
   connectedCallback() {
@@ -61,3 +63,7 @@ class CollectionComponent extends HTMLElement {
 }
 
 customElements.define("collection-component", CollectionComponent);
+
+export function sum(a, b) {
+  return a + b;
+}
