@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script src="collection/js/collection.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Products</h1>
+      <h2>Collection Display</h2>
+      <section>
+        <template id="collection-component-items">
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+        </template>
+        <collection-component display="cards"></collection-component>
+      </section>
+    </main>
+  </body>
+  <script>
+    let collection = document.getElementsByTagName('collection-component')[0];
+    collection.items = [
+      { id: 0 },
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+      { id: 4 }
+    ];
+    collection.items = [
+      { id: 0 },
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+      { id: 4 },
+      { id: 5 }
+    ];
+    console.log(collection.items);
+    collection.setAttribute('display', 'list');
+  </script>
+</html>
