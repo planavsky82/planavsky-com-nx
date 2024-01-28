@@ -63,7 +63,3 @@ class CollectionComponent extends HTMLElement {
 }
 
 customElements.define("collection-component", CollectionComponent);
-
-export function sum(a, b) {
-  return a + b;
-}
