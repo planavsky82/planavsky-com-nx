@@ -1,51 +1,53 @@
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ["color", "size", "display"];
+  static observedAttributes = ['color', 'size', 'display', 'template'];
 
   constructor() {
     // Always call super first in constructor
     super();
 
-    const shadow = this.attachShadow({ mode: "open" });
-    const style = document.createElement("style");
+    const shadow = this.attachShadow({ mode: 'open' });
+    const style = document.createElement('style');
     shadow.appendChild(style);
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-      div {
+      div.wrapper {
         border: 1px solid red;
-        height: 400px;
+        height: auto;
       }`
     );
 
-    const div = document.createElement("div");
-    shadow.appendChild(div);
+    this._div = document.createElement('div');
+    this._div.className = 'wrapper';
+    shadow.appendChild(this._div);
 
     // Adopt the sheet into the shadow DOM
     shadow.adoptedStyleSheets = [sheet];
 
     this._items = [];
-
-    let template = document.getElementById("collection-component-items");
-    console.log(template);
-    if (template) {
-      let templateContent = template.content;
-      div.appendChild(templateContent.cloneNode(true));
-    }
   }
 
   connectedCallback() {
-    console.log("Custom element added to page.");
-    console.log(this.getAttribute("display"));
-    console.log(this.items);
+    console.log('Custom element added to page.');
+    console.log(this.getAttribute('display'));
+    console.log('items', this.items);
+
+    if (this.getAttribute('template')) {
+      let template = document.getElementById(this.getAttribute('template'));
+      if (template) {
+        let templateContent = template.content;
+        this._div.appendChild(templateContent.cloneNode(true));
+      }
+    }
   }
 
   disconnectedCallback() {
-    console.log("Custom element removed from page.");
+    console.log('Custom element removed from page.');
   }
 
   adoptedCallback() {
-    console.log("Custom element moved to new page.");
+    console.log('Custom element moved to new page.');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -55,6 +57,12 @@ class CollectionComponent extends HTMLElement {
   set items(value) {
     this._items = value;
     console.log('data', this._items);
+
+    this._items.forEach((item) => {
+      let div = document.createElement('div');
+      div.innerHTML = item.name;
+      this._div.appendChild(div);
+    });
   }
 
   get items() {
@@ -62,4 +70,4 @@ class CollectionComponent extends HTMLElement {
   }
 }
 
-customElements.define("collection-component", CollectionComponent);
+customElements.define('collection-component', CollectionComponent);

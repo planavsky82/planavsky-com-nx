@@ -9,6 +9,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <script src="collection/js/collection.js"></script>
+    <script src="collection/demo-data/cities.js"></script>
   </head>
   <body>
     <main>
@@ -20,66 +21,29 @@
         <style>
 
         </style>
+        <!-- collection #1 -->
         <template id="collection-component-items">
-          <item>
-            <div class="city-img new york"></div>
+          <item class="city-new-york">
+            New York
           </item>
-          <item>
-            <div class="destination-img pittsburgh"></div>
+          <item class="city-pittsburgh">
+            Pittsburgh
           </item>
-          <item>
-            <div class="destination-img buffalo"></div>
-          </item>
-          <item>
-            <div class="destination-img cleveland"></div>
-          </item>
-          <item>
-            <div class="destination-img baltimore"></div>
-          </item>
-          <item>
-            <div class="destination-img ocean city"></div>
-          </item>
-          <item>
-            <div class="destination-img newark"></div>
-          </item>
-          <item>
-            <div class="destination-img boston"></div>
-          </item>
-          <item>
-            <div class="destination-img atlantic city"></div>
-          </item>
-          <item>
-            <div class="destination-img chicago"></div>
-          </item>
-          <item>
-            <div class="destination-img charlotte"></div>
-          </item>
-          <item>
-            <div class="destination-img myrtle beach"></div>
+          <item class="city-buffalo">
+            Buffalo
           </item>
         </template>
+        <collection-component display="cards" template="collection-component-items"></collection-component>
+
+        <!-- collection #2 -->
         <collection-component display="cards"></collection-component>
       </section>
 
     </main>
   </body>
   <script>
-    let collection = document.getElementsByTagName('collection-component')[0];
-    collection.items = [
-      { id: 0 },
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 }
-    ];
-    collection.items = [
-      { id: 0 },
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 }
-    ];
+    let collection = document.getElementsByTagName('collection-component')[1];
+    collection.items = cities;
     console.log(collection.items);
     collection.setAttribute('display', 'list');
   </script>
