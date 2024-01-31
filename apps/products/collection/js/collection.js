@@ -15,7 +15,12 @@ class CollectionComponent extends HTMLElement {
       div.wrapper {
         border: 1px solid red;
         height: auto;
-      }`
+      }
+
+      item {
+        display: block;
+      }
+      `
     );
 
     this._div = document.createElement('div');
