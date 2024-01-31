@@ -64,9 +64,9 @@ class CollectionComponent extends HTMLElement {
     console.log('data', this._items);
 
     this._items.forEach((item) => {
-      let div = document.createElement('div');
-      div.innerHTML = item.name;
-      this._div.appendChild(div);
+      let itemElement = document.createElement('item');
+      itemElement.innerHTML = item.name;
+      this._div.appendChild(itemElement);
     });
   }
 
