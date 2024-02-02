@@ -126,5 +126,13 @@ let cities = [
   {
     "name": "Dallas",
     "state": "TX"
+  },
+  {
+    "name": "Philadelphia",
+    "state": "PA"
+  },
+  {
+    "name": "State College",
+    "state": "PA"
   }
 ];

@@ -10,6 +10,12 @@
 
     <script src="collection/js/collection.js"></script>
     <script src="collection/demo-data/cities.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
   </head>
   <body>
     <main>
@@ -18,10 +24,12 @@
       <!-- Collection Component -->
       <h2>Collection</h2>
       <section>
+
+        <!-- collection #1 -->
+        <h3>List</h3>
         <style>
 
         </style>
-        <!-- collection #1 -->
         <template id="collection-component-items">
           <item class="city-new-york">
             New York
@@ -33,9 +41,10 @@
             Buffalo
           </item>
         </template>
-        <collection-component display="cards" template="collection-component-items"></collection-component>
+        <collection-component display="list" template="collection-component-items"></collection-component>
 
         <!-- collection #2 -->
+        <h3>Cards</h3>
         <collection-component display="cards"></collection-component>
       </section>
 

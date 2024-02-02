@@ -1,6 +1,6 @@
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['color', 'size', 'display', 'template'];
+  static observedAttributes = ['display', 'template', "columns"];
 
   constructor() {
     // Always call super first in constructor
@@ -13,12 +13,29 @@ class CollectionComponent extends HTMLElement {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
       div.wrapper {
-        border: 1px solid red;
         height: auto;
       }
 
       item {
         display: block;
+      }
+
+      div.wrapper.cards {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      div.wrapper.cards item {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        min-height: 100px;
+        box-shadow: 5px 5px 5px #bbb;
+        margin: 8px;
+        flex: 1 0 20%;
+      }
+
+      @media (max-width: 400px) {
+        flex: 1 0 100%;
       }
       `
     );
@@ -37,6 +54,7 @@ class CollectionComponent extends HTMLElement {
     console.log('Custom element added to page.');
     console.log(this.getAttribute('display'));
     console.log('items', this.items);
+    this._div.classList.add(this.getAttribute('display'));
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
