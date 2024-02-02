@@ -34,8 +34,16 @@ class CollectionComponent extends HTMLElement {
         flex: 1 0 20%;
       }
 
-      @media (max-width: 400px) {
-        flex: 1 0 100%;
+      @media (max-width: 900px) {
+        div.wrapper.cards item {
+          flex: 1 0 45%;
+        }
+      }
+
+      @media (max-width: 700px) {
+        div.wrapper.cards item {
+          flex: 1 0 90%;
+        }
       }
       `
     );
