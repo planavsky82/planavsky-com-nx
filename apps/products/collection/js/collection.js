@@ -26,12 +26,12 @@ class CollectionComponent extends HTMLElement {
       }
 
       div.wrapper.cards item {
-        border: 1px solid #ccc;
+        border: 1px solid #ddd;
         border-radius: 5px;
         min-height: 100px;
         box-shadow: 5px 5px 5px #bbb;
         margin: 8px;
-        flex: 1 0 20%;
+        flex: 1 0;
       }
 
       @media (max-width: 900px) {
@@ -63,6 +63,7 @@ class CollectionComponent extends HTMLElement {
     console.log(this.getAttribute('display'));
     console.log('items', this.items);
     this._div.classList.add(this.getAttribute('display'));
+    window.addEventListener('resize', this.checkViewportState);
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
@@ -74,7 +75,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
-    console.log('Custom element removed from page.');
+    window.removeEventListener('resize', this.checkViewportState);
   }
 
   adoptedCallback() {
@@ -83,6 +84,10 @@ class CollectionComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
+
+    if (name === 'columns') {
+      console.log('columns!!!!!!!!!!!');
+    }
   }
 
   set items(value) {
@@ -91,6 +96,7 @@ class CollectionComponent extends HTMLElement {
 
     this._items.forEach((item) => {
       let itemElement = document.createElement('item');
+      itemElement.style.flexBasis = '21%';
       itemElement.innerHTML = item.name;
       this._div.appendChild(itemElement);
     });
@@ -98,6 +104,17 @@ class CollectionComponent extends HTMLElement {
 
   get items() {
     return this._items;
+  }
+
+  getBrowserInfo() {
+    return {
+      vw: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
+      vh: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+    }
+  }
+
+  checkViewportState() {
+    console.log(this.getBrowserInfo());
   }
 }
 
