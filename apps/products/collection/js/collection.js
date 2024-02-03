@@ -8,6 +8,12 @@ class CollectionComponent extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
+    const cssVars = {
+      breakpoints: {
+        sm: '700',
+        md: '900'
+      }
+    }
     shadow.appendChild(style);
 
     const sheet = new CSSStyleSheet();
@@ -34,13 +40,13 @@ class CollectionComponent extends HTMLElement {
         flex: 1 0;
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: ${cssVars.breakpoints.md}px) {
         div.wrapper.cards item {
           flex: 1 0 45%;
         }
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: ${cssVars.breakpoints.sm}px) {
         div.wrapper.cards item {
           flex: 1 0 90%;
         }
@@ -106,15 +112,12 @@ class CollectionComponent extends HTMLElement {
     return this._items;
   }
 
-  getBrowserInfo() {
-    return {
+  checkViewportState() {
+    let browserInfo = {
       vw: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
       vh: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-    }
-  }
-
-  checkViewportState() {
-    console.log(this.getBrowserInfo());
+    };
+    console.log(browserInfo);
   }
 }
 
