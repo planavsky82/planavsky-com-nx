@@ -62,6 +62,7 @@ class CollectionComponent extends HTMLElement {
     shadow.adoptedStyleSheets = [sheet];
 
     this._items = [];
+    this._componentWidth = '';
   }
 
   connectedCallback() {
@@ -69,7 +70,11 @@ class CollectionComponent extends HTMLElement {
     console.log(this.getAttribute('display'));
     console.log('items', this.items);
     this._div.classList.add(this.getAttribute('display'));
-    window.addEventListener('resize', this.checkViewportState);
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      this.componentWidth = entries[0].contentRect.width;
+    });
+    resizeObserver.observe(this._div);
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
@@ -81,7 +86,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
-    window.removeEventListener('resize', this.checkViewportState);
+    resizeObserver.disconnect();
   }
 
   adoptedCallback() {
@@ -110,14 +115,6 @@ class CollectionComponent extends HTMLElement {
 
   get items() {
     return this._items;
-  }
-
-  checkViewportState() {
-    let browserInfo = {
-      vw: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-      vh: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-    };
-    console.log(browserInfo);
   }
 }
 
