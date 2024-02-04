@@ -8,7 +8,7 @@ class CollectionComponent extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
-    const cssVars = {
+    this._cssVars = {
       breakpoints: {
         sm: '700',
         md: '900'
@@ -16,53 +16,23 @@ class CollectionComponent extends HTMLElement {
     }
     shadow.appendChild(style);
 
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`
-      div.wrapper {
-        height: auto;
-      }
-
-      item {
-        display: block;
-      }
-
-      div.wrapper.cards {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      div.wrapper.cards item {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        min-height: 100px;
-        box-shadow: 5px 5px 5px #bbb;
-        margin: 8px;
-        flex: 1 0;
-      }
-
-      @media (max-width: ${cssVars.breakpoints.md}px) {
-        div.wrapper.cards item {
-          flex: 1 0 45%;
-        }
-      }
-
-      @media (max-width: ${cssVars.breakpoints.sm}px) {
-        div.wrapper.cards item {
-          flex: 1 0 90%;
-        }
-      }
-      `
-    );
-
     this._div = document.createElement('div');
     this._div.className = 'wrapper';
     shadow.appendChild(this._div);
 
+    this._items = [];
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(this.loadStyles());
+
     // Adopt the sheet into the shadow DOM
     shadow.adoptedStyleSheets = [sheet];
 
-    this._items = [];
-    this._componentWidth = '';
+    const resizeObserver = new ResizeObserver((entries) => {
+      this._columndWidth = entries[0].contentRect.width;
+      sheet.replaceSync(this.loadStyles());
+    });
+    resizeObserver.observe(this._div);
   }
 
   connectedCallback() {
@@ -70,11 +40,6 @@ class CollectionComponent extends HTMLElement {
     console.log(this.getAttribute('display'));
     console.log('items', this.items);
     this._div.classList.add(this.getAttribute('display'));
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      this.componentWidth = entries[0].contentRect.width;
-    });
-    resizeObserver.observe(this._div);
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
@@ -107,7 +72,6 @@ class CollectionComponent extends HTMLElement {
 
     this._items.forEach((item) => {
       let itemElement = document.createElement('item');
-      itemElement.style.flexBasis = '21%';
       itemElement.innerHTML = item.name;
       this._div.appendChild(itemElement);
     });
@@ -115,6 +79,44 @@ class CollectionComponent extends HTMLElement {
 
   get items() {
     return this._items;
+  }
+
+  loadStyles() {
+    return `
+    div.wrapper {
+      height: auto;
+    }
+
+    item {
+      display: block;
+    }
+
+    div.wrapper.cards {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    div.wrapper.cards item {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      min-height: 100px;
+      box-shadow: 5px 5px 5px #bbb;
+      margin: 8px;
+      flex: 1 0 21%;
+    }
+
+    @media (max-width: ${this._cssVars.breakpoints.md}px) {
+      div.wrapper.cards item {
+        flex: 1 0 45%;
+      }
+    }
+
+    @media (max-width: ${this._cssVars.breakpoints.sm}px) {
+      div.wrapper.cards item {
+        flex: 1 0 90%;
+      }
+    }
+    `;
   }
 }
 
