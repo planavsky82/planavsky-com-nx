@@ -12,6 +12,10 @@ class CollectionComponent extends HTMLElement {
       breakpoints: {
         sm: '700',
         md: '900'
+      },
+      flexBasis: {
+        sm: '45%',
+        md: '90%'
       }
     }
     shadow.appendChild(style);
@@ -22,17 +26,26 @@ class CollectionComponent extends HTMLElement {
 
     this._items = [];
 
+    // call flexBasis function
+    this._flexBasis = '21%';
+
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(this.loadStyles());
 
     // Adopt the sheet into the shadow DOM
     shadow.adoptedStyleSheets = [sheet];
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      this._columndWidth = entries[0].contentRect.width;
+    /* const resizeObserver = new ResizeObserver((entries) => {
+      const wrapper = entries[0].contentRect;
+      if (wrapper.width <= this._cssVars.breakpoints.md) {
+        this._flexBasis = this._cssVars.flexBasis.md;
+      }
+      if (wrapper.width <= this._cssVars.breakpoints.sm) {
+        this._flexBasis = this._cssVars.flexBasis.sm;
+      }
       sheet.replaceSync(this.loadStyles());
     });
-    resizeObserver.observe(this._div);
+    resizeObserver.observe(this._div); */
   }
 
   connectedCallback() {
@@ -51,7 +64,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
-    resizeObserver.disconnect();
+    //resizeObserver.disconnect();
   }
 
   adoptedCallback() {
@@ -102,7 +115,7 @@ class CollectionComponent extends HTMLElement {
       min-height: 100px;
       box-shadow: 5px 5px 5px #bbb;
       margin: 8px;
-      flex: 1 0 21%;
+      flex: 1 0 ${this._flexBasis};
     }
 
     @media (max-width: ${this._cssVars.breakpoints.md}px) {
