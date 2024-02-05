@@ -14,8 +14,8 @@ class CollectionComponent extends HTMLElement {
         md: '900'
       },
       flexBasis: {
-        sm: '45%',
-        md: '90%'
+        sm: '90%',
+        md: '45%'
       }
     }
     shadow.appendChild(style);
@@ -35,17 +35,19 @@ class CollectionComponent extends HTMLElement {
     // Adopt the sheet into the shadow DOM
     shadow.adoptedStyleSheets = [sheet];
 
-    /* const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver((entries) => {
       const wrapper = entries[0].contentRect;
-      if (wrapper.width <= this._cssVars.breakpoints.md) {
-        this._flexBasis = this._cssVars.flexBasis.md;
-      }
       if (wrapper.width <= this._cssVars.breakpoints.sm) {
         this._flexBasis = this._cssVars.flexBasis.sm;
+      } else if (wrapper.width <= this._cssVars.breakpoints.md && wrapper.width > this._cssVars.breakpoints.sm) {
+        this._flexBasis = this._cssVars.flexBasis.md;
+      } else {
+        // call flexBasis function
+        this._flexBasis = '21%';
       }
       sheet.replaceSync(this.loadStyles());
     });
-    resizeObserver.observe(this._div); */
+    resizeObserver.observe(this._div);
   }
 
   connectedCallback() {
@@ -116,18 +118,6 @@ class CollectionComponent extends HTMLElement {
       box-shadow: 5px 5px 5px #bbb;
       margin: 8px;
       flex: 1 0 ${this._flexBasis};
-    }
-
-    @media (max-width: ${this._cssVars.breakpoints.md}px) {
-      div.wrapper.cards item {
-        flex: 1 0 45%;
-      }
-    }
-
-    @media (max-width: ${this._cssVars.breakpoints.sm}px) {
-      div.wrapper.cards item {
-        flex: 1 0 90%;
-      }
     }
     `;
   }
