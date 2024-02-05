@@ -45,6 +45,8 @@
 
         <!-- collection #2 -->
         <h3>Cards</h3>
+        <label for="numberOfCols">Number of Columns:</label>
+        <input id="numberOfCols" value="3" onkeyup="updateCols(this)" />
         <collection-component display="cards" columns="3"></collection-component>
       </section>
 
@@ -53,7 +55,9 @@
   <script>
     let collection = document.getElementsByTagName('collection-component')[1];
     collection.items = cities;
-    console.log(collection.items);
-    collection.setAttribute('display', 'list');
+
+    function updateCols(input) {
+      collection.setAttribute('columns', input.value ? input.value : 2);
+    }
   </script>
 </html>

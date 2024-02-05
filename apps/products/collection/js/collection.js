@@ -26,14 +26,13 @@ class CollectionComponent extends HTMLElement {
 
     this._items = [];
 
-    // call flexBasis function
-    this._flexBasis = '21%';
+    this._flexBasis = this.returnFlexBasis();
 
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(this.loadStyles());
+    this._sheet = new CSSStyleSheet();
+    this._sheet.replaceSync(this.loadStyles());
 
     // Adopt the sheet into the shadow DOM
-    shadow.adoptedStyleSheets = [sheet];
+    shadow.adoptedStyleSheets = [this._sheet];
 
     const resizeObserver = new ResizeObserver((entries) => {
       const wrapper = entries[0].contentRect;
@@ -42,10 +41,9 @@ class CollectionComponent extends HTMLElement {
       } else if (wrapper.width <= this._cssVars.breakpoints.md && wrapper.width > this._cssVars.breakpoints.sm) {
         this._flexBasis = this._cssVars.flexBasis.md;
       } else {
-        // call flexBasis function
-        this._flexBasis = '21%';
+        this._flexBasis = this.returnFlexBasis();
       }
-      sheet.replaceSync(this.loadStyles());
+      this._sheet.replaceSync(this.loadStyles());
     });
     resizeObserver.observe(this._div);
   }
@@ -66,7 +64,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
-    //resizeObserver.disconnect();
+    resizeObserver.disconnect();
   }
 
   adoptedCallback() {
@@ -77,8 +75,39 @@ class CollectionComponent extends HTMLElement {
     console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
 
     if (name === 'columns') {
-      console.log('columns!!!!!!!!!!!');
+      this._flexBasis = this.returnFlexBasis();
+      this._sheet.replaceSync(this.loadStyles());
     }
+  }
+
+  returnFlexBasis() {
+    const cols = parseInt(this.getAttribute('columns'));
+    let gap = 0;
+    switch(cols) {
+      case 2:
+        gap = 0.5;
+        break;
+      case 6:
+        gap = 3;
+        break;
+      case 7:
+        gap = 5;
+        break;
+      case 8:
+        gap = 6;
+        break;
+      case 9:
+        gap = 7;
+        break;
+      case 10:
+        gap = 8.5;
+        break;
+      default:
+        gap = 1;
+    }
+
+    const width = 100/this.getAttribute('columns') - (this.getAttribute('columns') - gap);
+    return width + '%';
   }
 
   set items(value) {
