@@ -1,3 +1,5 @@
+"use strict";
+
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
   static observedAttributes = ['display', 'template', "columns"];
