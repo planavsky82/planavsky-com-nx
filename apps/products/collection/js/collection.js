@@ -129,6 +129,18 @@ class CollectionComponent extends HTMLElement {
 
   loadStyles() {
     return `
+    :host {
+      --border-color: #ddd;
+      --shadow-color: #bbb;
+      --border: 1px solid var(--border-color);
+      --border-radius-base: 5px;
+      --border-radius-base: 3px;
+      --shadow-base: 5px 5px 5px var(--shadow-color);
+      --shadow-sm: 2px 2px 2px var(--shadow-color);
+      --margin-base: 4px;
+      --margin-md: calc(var(--margin-base) * 2);
+    }
+
     div.wrapper {
       height: auto;
     }
@@ -143,12 +155,19 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.cards item {
-      border: 1px solid #ddd;
-      border-radius: 5px;
+      border: var(--border);
+      border-radius: var(--border-radius-base);
       min-height: 100px;
-      box-shadow: 5px 5px 5px #bbb;
-      margin: 8px;
+      box-shadow: var(--shadow-base);
+      margin: var(--margin-md);
       flex: 1 0 ${this._flexBasis};
+    }
+
+    div.wrapper.list item {
+      border: var(--border);
+      margin-bottom: var(--margin-base);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--border-radius-base);
     }
     `;
   }

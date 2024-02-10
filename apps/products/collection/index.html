@@ -15,6 +15,10 @@
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
+
+      section#list {
+        width: 800px;
+      }
     </style>
   </head>
   <body>
@@ -23,8 +27,7 @@
 
       <!-- Collection Component -->
       <h2>Collection</h2>
-      <section>
-
+      <section id="list">
         <!-- collection #1 -->
         <h3>List</h3>
         <style>
@@ -42,7 +45,9 @@
           </item>
         </template>
         <collection-component display="list" template="collection-component-items"></collection-component>
+      </section>
 
+      <section id="collection">
         <!-- collection #2 -->
         <h3>Cards</h3>
         <label for="numberOfCols">Number of Columns:</label>
