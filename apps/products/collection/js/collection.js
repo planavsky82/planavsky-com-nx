@@ -149,9 +149,17 @@ class CollectionComponent extends HTMLElement {
       display: block;
     }
 
-    div.wrapper.cards {
+    div.wrapper.cards, div.wrapper.carousel {
       display: flex;
+    }
+
+    div.wrapper.cards {
       flex-wrap: wrap;
+    }
+
+    div.wrapper.carousel {
+      flex-direction: row;
+      overflow-x: hidden;
     }
 
     div.wrapper.cards item {
@@ -168,6 +176,13 @@ class CollectionComponent extends HTMLElement {
       margin-bottom: var(--margin-base);
       box-shadow: var(--shadow-sm);
       border-radius: var(--border-radius-base);
+    }
+
+    div.wrapper.carousel item {
+      border: var(--border);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--border-radius-base);
+      min-height: 200px;
     }
     `;
   }

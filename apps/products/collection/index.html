@@ -23,13 +23,15 @@
   </head>
   <body>
     <main>
-      <h1>Products</h1>
+      <h1>Collection Component</h1>
 
-      <!-- Collection Component -->
-      <h2>Collection</h2>
+      <section id="carousel">
+        <h2>Carousel</h2>
+        <collection-component display="carousel"></collection-component>
+      </section>
+
       <section id="list">
-        <!-- collection #1 -->
-        <h3>List</h3>
+        <h2>List</h2>
         <style>
 
         </style>
@@ -47,9 +49,8 @@
         <collection-component display="list" template="collection-component-items"></collection-component>
       </section>
 
-      <section id="collection">
-        <!-- collection #2 -->
-        <h3>Cards</h3>
+      <section id="cards">
+        <h2>Cards</h2>
         <label for="numberOfCols">Number of Columns:</label>
         <input id="numberOfCols" value="3" onkeyup="updateCols(this)" />
         <collection-component display="cards" columns="3"></collection-component>
@@ -58,8 +59,13 @@
     </main>
   </body>
   <script>
-    let collection = document.getElementsByTagName('collection-component')[1];
-    collection.items = cities;
+    // load carousel
+    let carousel = document.getElementsByTagName('collection-component')[0];
+    carousel.items = cities;
+
+    // load cards
+    let cards = document.getElementsByTagName('collection-component')[2];
+    cards.items = cities;
 
     function updateCols(input) {
       collection.setAttribute('columns', input.value ? input.value : 2);
