@@ -183,6 +183,7 @@ class CollectionComponent extends HTMLElement {
       box-shadow: var(--shadow-sm);
       border-radius: var(--border-radius-base);
       min-height: 200px;
+      flex: 1 0 ${this.getAttribute('carousel-item-width')};
     }
     `;
   }
