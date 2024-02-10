@@ -137,8 +137,8 @@ class CollectionComponent extends HTMLElement {
       --border-radius-base: 3px;
       --shadow-base: 5px 5px 5px var(--shadow-color);
       --shadow-sm: 2px 2px 2px var(--shadow-color);
-      --margin-base: 4px;
-      --margin-md: calc(var(--margin-base) * 2);
+      --space-base: 4px;
+      --space-md: calc(var(--space-base) * 2);
     }
 
     div.wrapper {
@@ -160,6 +160,7 @@ class CollectionComponent extends HTMLElement {
     div.wrapper.carousel {
       flex-direction: row;
       overflow-x: hidden;
+      padding-bottom: var(--space-base);
     }
 
     div.wrapper.cards item {
@@ -167,13 +168,13 @@ class CollectionComponent extends HTMLElement {
       border-radius: var(--border-radius-base);
       min-height: 100px;
       box-shadow: var(--shadow-base);
-      margin: var(--margin-md);
+      margin: var(--space-md);
       flex: 1 0 ${this._flexBasis};
     }
 
     div.wrapper.list item {
       border: var(--border);
-      margin-bottom: var(--margin-base);
+      margin-bottom: var(--space-base);
       box-shadow: var(--shadow-sm);
       border-radius: var(--border-radius-base);
     }
@@ -184,6 +185,7 @@ class CollectionComponent extends HTMLElement {
       border-radius: var(--border-radius-base);
       min-height: 200px;
       flex: 1 0 ${this.getAttribute('carousel-item-width')};
+      margin-right: var(--space-base);
     }
     `;
   }
