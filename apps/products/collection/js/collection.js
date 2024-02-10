@@ -2,7 +2,7 @@
 
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['display', 'template', "columns"];
+  static observedAttributes = ['display', 'template', "columns", "carousel-item-width"];
 
   constructor() {
     // Always call super first in constructor
