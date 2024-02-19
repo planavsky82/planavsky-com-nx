@@ -8,8 +8,8 @@ class CollectionComponent extends HTMLElement {
     // Always call super first in constructor
     super();
 
-    const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: 'open' });
     this._cssVars = {
       breakpoints: {
         sm: '700',
@@ -20,11 +20,11 @@ class CollectionComponent extends HTMLElement {
         md: '45%'
       }
     }
-    shadow.appendChild(style);
+    this._shadow.appendChild(style);
 
     this._div = document.createElement('div');
     this._div.className = 'wrapper';
-    shadow.appendChild(this._div);
+    this._shadow.appendChild(this._div);
 
     this._items = [];
 
@@ -34,7 +34,7 @@ class CollectionComponent extends HTMLElement {
     this._sheet.replaceSync(this.loadStyles());
 
     // Adopt the sheet into the shadow DOM
-    shadow.adoptedStyleSheets = [this._sheet];
+    this._shadow.adoptedStyleSheets = [this._sheet];
 
     const resizeObserver = new ResizeObserver((entries) => {
       const wrapper = entries[0].contentRect;
@@ -85,10 +85,15 @@ class CollectionComponent extends HTMLElement {
       this._previousButton = document.createElement('a');
       this._previousButton.className = 'previous-button';
       this._previousButton.innerHTML = '&#9664;';
-      this._div.appendChild(this._previousButton);
+      this._shadow.appendChild(this._previousButton);
+      this._nextButton = document.createElement('a');
+      this._nextButton.className = 'next-button';
+      this._nextButton.innerHTML = '&nbsp;&#9654;';
+      this._shadow.appendChild(this._nextButton);
     } else {
       if (this._previousButton) {
-        this._div.removeChild(this._previousButton);
+        this._shadow.removeChild(this._previousButton);
+        this._shadow.removeChild(this._nextButton);
       }
     }
   }
@@ -145,7 +150,8 @@ class CollectionComponent extends HTMLElement {
       --shadow-color: #bbb;
       --black: #000;
       --white: #fff;
-      --dark: #444;
+      --dark: #555;
+      --light: #ccc;
       --border: 1px solid var(--border-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
@@ -155,11 +161,15 @@ class CollectionComponent extends HTMLElement {
       --shadow-base: 5px 5px 5px var(--shadow-color);
       --shadow-sm: 2px 2px 2px var(--shadow-color);
       --space-base: 4px;
+      --space-small: 2px;
       --space-md: calc(var(--space-base) * 2);
       --font-size-base: 14px;
       --font-size-large: 18px;
+      --font-size-xlarge: 22px;
       --font-size-xxlarge: 26px;
       --font-weight-bold: bold;
+
+      position: relative;
     }
 
     div.wrapper {
@@ -213,20 +223,29 @@ class CollectionComponent extends HTMLElement {
       scroll-snap-align: start;
     }
 
-    div.wrapper.carousel .previous-button {
+    .previous-button, .next-button {
       border: var(--button-border);
       background: var(--dark);
       position: absolute;
-      left: 2px;
-      top: 50%;
+      top: 40%;
       height: 40px;
       width: 40px;
       border-radius: 40px;
       line-height: 40px;
       text-align: center;
-      font-size: var(--font-size-large);
+      font-size: var(--font-size-xlarge);
       color: var(--white);
+      -webkit-text-stroke: 2px var(--black);
+      text-stroke: 2px var(--black);
       font-weight: var(--font-weight-bold);
+    }
+
+    .previous-button {
+      left: 2px;
+    }
+
+    .next-button {
+      right: -2px;
     }
     `;
   }
