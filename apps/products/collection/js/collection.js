@@ -2,7 +2,7 @@
 
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['display', 'template', "columns", "carousel-item-width"];
+  static observedAttributes = ['display', 'template', "columns"];
 
   constructor() {
     // Always call super first in constructor
@@ -134,7 +134,9 @@ class CollectionComponent extends HTMLElement {
       --shadow-color: #bbb;
       --border: 1px solid var(--border-color);
       --border-radius-base: 5px;
-      --border-radius-base: 3px;
+      --border-radius-small: 3px;
+      --border-radius-large: 7px;
+      --border-radius-xlarge: 9px;
       --shadow-base: 5px 5px 5px var(--shadow-color);
       --shadow-sm: 2px 2px 2px var(--shadow-color);
       --space-base: 4px;
@@ -159,8 +161,11 @@ class CollectionComponent extends HTMLElement {
 
     div.wrapper.carousel {
       flex-direction: row;
-      overflow-x: hidden;
+      overflow-x: auto;
       padding-bottom: var(--space-base);
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
 
     div.wrapper.cards item {
@@ -181,11 +186,11 @@ class CollectionComponent extends HTMLElement {
 
     div.wrapper.carousel item {
       border: var(--border);
-      box-shadow: var(--shadow-sm);
-      border-radius: var(--border-radius-base);
+      border-radius: var(--border-radius-xlarge);
       min-height: 200px;
-      flex: 1 0 ${this.getAttribute('carousel-item-width')};
       margin-right: var(--space-base);
+      flex: 1 0 99.5%;
+      scroll-snap-align: start;
     }
     `;
   }
