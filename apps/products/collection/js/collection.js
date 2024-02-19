@@ -80,6 +80,17 @@ class CollectionComponent extends HTMLElement {
       this._flexBasis = this.returnFlexBasis();
       this._sheet.replaceSync(this.loadStyles());
     }
+
+    if (this.getAttribute('display') === 'carousel') {
+      this._previousButton = document.createElement('a');
+      this._previousButton.className = 'previous-button';
+      this._previousButton.innerHTML = '&#9664;';
+      this._div.appendChild(this._previousButton);
+    } else {
+      if (this._previousButton) {
+        this._div.removeChild(this._previousButton);
+      }
+    }
   }
 
   returnFlexBasis() {
@@ -132,7 +143,11 @@ class CollectionComponent extends HTMLElement {
     :host {
       --border-color: #ddd;
       --shadow-color: #bbb;
+      --black: #000;
+      --white: #fff;
+      --dark: #444;
       --border: 1px solid var(--border-color);
+      --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
       --border-radius-small: 3px;
       --border-radius-large: 7px;
@@ -141,6 +156,10 @@ class CollectionComponent extends HTMLElement {
       --shadow-sm: 2px 2px 2px var(--shadow-color);
       --space-base: 4px;
       --space-md: calc(var(--space-base) * 2);
+      --font-size-base: 14px;
+      --font-size-large: 18px;
+      --font-size-xxlarge: 26px;
+      --font-weight-bold: bold;
     }
 
     div.wrapper {
@@ -166,6 +185,7 @@ class CollectionComponent extends HTMLElement {
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+      margin: 0 var(--space-base);
     }
 
     div.wrapper.cards item {
@@ -191,6 +211,22 @@ class CollectionComponent extends HTMLElement {
       margin-right: var(--space-base);
       flex: 1 0 99.5%;
       scroll-snap-align: start;
+    }
+
+    div.wrapper.carousel .previous-button {
+      border: var(--button-border);
+      background: var(--dark);
+      position: absolute;
+      left: 2px;
+      top: 50%;
+      height: 40px;
+      width: 40px;
+      border-radius: 40px;
+      line-height: 40px;
+      text-align: center;
+      font-size: var(--font-size-large);
+      color: var(--white);
+      font-weight: var(--font-weight-bold);
     }
     `;
   }
