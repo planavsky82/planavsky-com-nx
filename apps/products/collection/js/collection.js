@@ -85,10 +85,12 @@ class CollectionComponent extends HTMLElement {
       this._previousButton = document.createElement('a');
       this._previousButton.className = 'previous-button';
       this._previousButton.innerHTML = '&#9664;';
+      this._previousButton.href = '#';
       this._shadow.appendChild(this._previousButton);
       this._nextButton = document.createElement('a');
       this._nextButton.className = 'next-button';
-      this._nextButton.innerHTML = '&nbsp;&#9654;';
+      this._nextButton.innerHTML = '&#9664;';
+      this._nextButton.href = '#';
       this._shadow.appendChild(this._nextButton);
     } else {
       if (this._previousButton) {
@@ -238,6 +240,9 @@ class CollectionComponent extends HTMLElement {
       -webkit-text-stroke: 2px var(--black);
       text-stroke: 2px var(--black);
       font-weight: var(--font-weight-bold);
+      text-decoration: none;
+      display: block;
+      padding-right: var(--space-small);
     }
 
     .previous-button {
@@ -246,6 +251,7 @@ class CollectionComponent extends HTMLElement {
 
     .next-button {
       right: -2px;
+      transform: scale(-1, 1);
     }
     `;
   }
