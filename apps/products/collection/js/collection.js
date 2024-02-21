@@ -85,12 +85,12 @@ class CollectionComponent extends HTMLElement {
       this._previousButton = document.createElement('a');
       this._previousButton.className = 'previous-button';
       this._previousButton.innerHTML = '&#9664;';
-      this._previousButton.href = '#';
+      this._previousButton.href = '#item_4';
       this._shadow.appendChild(this._previousButton);
       this._nextButton = document.createElement('a');
       this._nextButton.className = 'next-button';
       this._nextButton.innerHTML = '&#9664;';
-      this._nextButton.href = '#';
+      this._nextButton.href = '#item_4';
       this._shadow.appendChild(this._nextButton);
     } else {
       if (this._previousButton) {
@@ -134,8 +134,9 @@ class CollectionComponent extends HTMLElement {
     this._items = value;
     console.log('data', this._items);
 
-    this._items.forEach((item) => {
+    this._items.forEach((item, index) => {
       let itemElement = document.createElement('item');
+      itemElement.id = 'item_' + index;
       itemElement.innerHTML = item.name;
       this._div.appendChild(itemElement);
     });
