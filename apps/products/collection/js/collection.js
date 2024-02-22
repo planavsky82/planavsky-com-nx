@@ -110,8 +110,6 @@ class CollectionComponent extends HTMLElement {
     }
     const first = this._currentStep === 0;
     const last = (this._currentStep + 1) === this._div.children.length;
-    console.log('first', first);
-    console.log('last', last);
     if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length) {
       const middle = this._div.children[this._currentStep];
       middle.scrollIntoView(false);
