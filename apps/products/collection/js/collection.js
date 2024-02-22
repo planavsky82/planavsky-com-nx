@@ -247,7 +247,7 @@ class CollectionComponent extends HTMLElement {
 
     div.wrapper.carousel {
       flex-direction: row;
-      overflow-x: auto;
+      overflow-x: hidden;
       padding-bottom: var(--space-base);
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
