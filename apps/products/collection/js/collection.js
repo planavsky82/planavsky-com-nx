@@ -121,8 +121,12 @@ class CollectionComponent extends HTMLElement {
     this._previousButton = document.createElement('div');
     this._previousButton.className = 'previous-button';
     this._previousButton.role = 'button';
+    this._previousButton.tabIndex = '0';
     this._previousButton.innerHTML = '&#9664;';
     this._previousButton.addEventListener('click', () => {
+      this.navigate('previous');
+    });
+    this._previousButton.addEventListener('keydown', () => {
       this.navigate('previous');
     });
     this._shadow.appendChild(this._previousButton);
@@ -130,8 +134,12 @@ class CollectionComponent extends HTMLElement {
     this._nextButton = document.createElement('div');
     this._nextButton.className = 'next-button';
     this._nextButton.role = 'button';
+    this._nextButton.tabIndex = '0';
     this._nextButton.innerHTML = '&#9664;';
     this._nextButton.addEventListener('click', () => {
+      this.navigate('next');
+    });
+    this._nextButton.addEventListener('keydown', () => {
       this.navigate('next');
     });
     this._shadow.appendChild(this._nextButton);
