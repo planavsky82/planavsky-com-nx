@@ -59,13 +59,12 @@
         <input id="numberOfCols" value="3" onkeyup="updateCols(this)" />
         <collection-component display="cards" columns="3"></collection-component>
       </section>
-
     </main>
   </body>
   <script>
     // load carousel
     let carousel = document.getElementsByTagName('collection-component')[0];
-    carousel.items = cities;
+    carousel.items = cities2;
 
     // load cards
     let cards = document.getElementsByTagName('collection-component')[2];

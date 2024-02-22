@@ -51,9 +51,9 @@ class CollectionComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log('Custom element added to page.');
-    console.log(this.getAttribute('display'));
-    console.log('items', this.items);
+    //console.log('Custom element added to page.');
+    //console.log(this.getAttribute('display'));
+    //console.log('items', this.items);
     this._div.classList.add(this.getAttribute('display'));
 
     if (this.getAttribute('template')) {
@@ -70,11 +70,11 @@ class CollectionComponent extends HTMLElement {
   }
 
   adoptedCallback() {
-    console.log('Custom element moved to new page.');
+    //console.log('Custom element moved to new page.');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
+    //console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
 
     if (name === 'columns') {
       this._flexBasis = this.returnFlexBasis();
@@ -82,22 +82,59 @@ class CollectionComponent extends HTMLElement {
     }
 
     if (this.getAttribute('display') === 'carousel') {
-      this._previousButton = document.createElement('a');
-      this._previousButton.className = 'previous-button';
-      this._previousButton.innerHTML = '&#9664;';
-      this._previousButton.href = '#item_4';
-      this._shadow.appendChild(this._previousButton);
-      this._nextButton = document.createElement('a');
-      this._nextButton.className = 'next-button';
-      this._nextButton.innerHTML = '&#9664;';
-      this._nextButton.href = '#item_4';
-      this._shadow.appendChild(this._nextButton);
+      this.loadNavigation();
     } else {
       if (this._previousButton) {
         this._shadow.removeChild(this._previousButton);
         this._shadow.removeChild(this._nextButton);
       }
     }
+  }
+
+  navigate(direction) {
+    if (!this._currentStep) {
+      this._currentStep = 0;
+    }
+    if (direction === 'next') {
+      this._currentStep++;
+    }
+    if (direction === 'previous') {
+      this._currentStep--;
+    }
+    if (this._currentStep < 0) {
+      this._currentStep = 0;
+    }
+    if (this._currentStep >= this._div.children.length) {
+      this._currentStep = this._div.children.length - 1;
+    }
+    const first = this._currentStep === 0;
+    const last = (this._currentStep + 1) === this._div.children.length;
+    console.log('first', first);
+    console.log('last', last);
+    if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length) {
+      const middle = this._div.children[this._currentStep];
+      middle.scrollIntoView(false);
+    }
+  }
+
+  loadNavigation() {
+    this._previousButton = document.createElement('div');
+    this._previousButton.className = 'previous-button';
+    this._previousButton.role = 'button';
+    this._previousButton.innerHTML = '&#9664;';
+    this._previousButton.addEventListener('click', () => {
+      this.navigate('previous');
+    });
+    this._shadow.appendChild(this._previousButton);
+
+    this._nextButton = document.createElement('div');
+    this._nextButton.className = 'next-button';
+    this._nextButton.role = 'button';
+    this._nextButton.innerHTML = '&#9664;';
+    this._nextButton.addEventListener('click', () => {
+      this.navigate('next');
+    });
+    this._shadow.appendChild(this._nextButton);
   }
 
   returnFlexBasis() {
@@ -132,7 +169,7 @@ class CollectionComponent extends HTMLElement {
 
   set items(value) {
     this._items = value;
-    console.log('data', this._items);
+    //console.log('data', this._items);
 
     this._items.forEach((item, index) => {
       let itemElement = document.createElement('item');
@@ -244,6 +281,7 @@ class CollectionComponent extends HTMLElement {
       text-decoration: none;
       display: block;
       padding-right: var(--space-small);
+      cursor: pointer;
     }
 
     .previous-button {

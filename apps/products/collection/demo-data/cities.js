@@ -136,3 +136,18 @@ let cities = [
     "state": "PA"
   }
 ];
+
+let cities2 = [
+  {
+    "name": "New York City",
+    "state": "NY"
+  },
+  {
+    "name": "Pittsburgh",
+    "state": "PA"
+  },
+  {
+    "name": "Buffalo",
+    "state": "NY"
+  }
+]
