@@ -83,6 +83,7 @@ class CollectionComponent extends HTMLElement {
 
     if (this.getAttribute('display') === 'carousel') {
       this.loadNavigation();
+      this.displayNavigation(true, false);
     } else {
       if (this._previousButton) {
         this._shadow.removeChild(this._previousButton);
@@ -114,6 +115,7 @@ class CollectionComponent extends HTMLElement {
     if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length) {
       const middle = this._div.children[this._currentStep];
       middle.scrollIntoView(false);
+      this.displayNavigation(first, last);
     }
   }
 
@@ -135,6 +137,21 @@ class CollectionComponent extends HTMLElement {
       this.navigate('next');
     });
     this._shadow.appendChild(this._nextButton);
+  }
+
+  displayNavigation(first, last) {
+    this._previousButton.style.display = 'block';
+    this._nextButton.style.display = 'block';
+    this._previousButton.ariaHidden = 'false';
+    this._nextButton.ariaHidden = 'false';
+    if (first) {
+      this._previousButton.style.display = 'none';
+      this._previousButton.ariaHidden = 'true';
+    }
+    if (last) {
+      this._nextButton.style.display = 'none';
+      this._nextButton.ariaHidden = 'true';
+    }
   }
 
   returnFlexBasis() {
