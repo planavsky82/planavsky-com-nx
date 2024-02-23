@@ -67,6 +67,7 @@ class CollectionComponent extends HTMLElement {
 
   disconnectedCallback() {
     resizeObserver.disconnect();
+    this._previousButton.removeEventListener('click');
   }
 
   adoptedCallback() {
@@ -90,6 +91,10 @@ class CollectionComponent extends HTMLElement {
         this._shadow.removeChild(this._nextButton);
       }
     }
+  }
+
+  applyActiveState() {
+
   }
 
   navigate(direction) {
