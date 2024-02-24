@@ -48,6 +48,10 @@ class CollectionComponent extends HTMLElement {
       this._sheet.replaceSync(this.loadStyles());
     });
     resizeObserver.observe(this._div);
+
+    this._div.addEventListener('scroll', () => {
+      this.debounce(this.getActiveItem(), 1000);
+    });
   }
 
   connectedCallback() {
@@ -69,6 +73,7 @@ class CollectionComponent extends HTMLElement {
     resizeObserver.disconnect();
     this._previousButton.removeEventListener('click');
     this._nextButton.removeEventListener('click');
+    this._div.removeEventListener('scroll');
   }
 
   adoptedCallback() {
@@ -94,8 +99,14 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  applyActiveState() {
-
+  debounce(callback, wait) {
+    let timeoutId = null;
+    return (...args) => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        callback(...args);
+      }, wait);
+    };
   }
 
   navigate(direction) {
@@ -121,12 +132,20 @@ class CollectionComponent extends HTMLElement {
       middle.scrollIntoView(false);
       this.displayNavigation(first, last);
     }
+  }
 
-    const items = this._div.getElementsByTagName('item');
-    const arr = [].slice.call(items);
-    arr.forEach((item) => {
-      console.log(item);
-    });
+  getActiveItem() {
+    if (this._div) {
+      const items = this._div.getElementsByTagName('item');
+      const arr = [].slice.call(items);
+      const active = arr.reduce(
+        (prev, current) => {
+          return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
+        }
+      );
+      console.log(active);
+      console.log(active.getBoundingClientRect());
+    }
   }
 
   loadNavigation() {
