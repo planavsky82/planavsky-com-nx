@@ -68,6 +68,7 @@ class CollectionComponent extends HTMLElement {
   disconnectedCallback() {
     resizeObserver.disconnect();
     this._previousButton.removeEventListener('click');
+    this._nextButton.removeEventListener('click');
   }
 
   adoptedCallback() {
@@ -120,6 +121,12 @@ class CollectionComponent extends HTMLElement {
       middle.scrollIntoView(false);
       this.displayNavigation(first, last);
     }
+
+    const items = this._div.getElementsByTagName('item');
+    const arr = [].slice.call(items);
+    arr.forEach((item) => {
+      console.log(item);
+    });
   }
 
   loadNavigation() {
