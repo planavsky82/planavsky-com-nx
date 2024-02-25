@@ -27,6 +27,7 @@ class CollectionComponent extends HTMLElement {
     this._shadow.appendChild(this._div);
 
     this._items = [];
+    this._activeId = 0;
 
     this._flexBasis = this.returnFlexBasis();
 
@@ -50,7 +51,7 @@ class CollectionComponent extends HTMLElement {
     resizeObserver.observe(this._div);
 
     this._div.addEventListener('scroll', () => {
-      this.debounce(this.getActiveItem(), 1000);
+      this.debounce(this.setActiveItem(), 100);
     });
   }
 
@@ -99,20 +100,18 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  debounce(callback, wait) {
-    let timeoutId = null;
+  debounce(callback, delay) {
+    let timeout = null;
     return (...args) => {
-      window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(() => {
+      window.clearTimeout(timeout);
+      timeout = window.setTimeout(() => {
         callback(...args);
-      }, wait);
+      }, delay);
     };
   }
 
   navigate(direction) {
-    if (!this._currentStep) {
-      this._currentStep = 0;
-    }
+    this._currentStep = this._activeId;
     if (direction === 'next') {
       this._currentStep++;
     }
@@ -134,7 +133,7 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  getActiveItem() {
+  setActiveItem() {
     if (this._div) {
       const items = this._div.getElementsByTagName('item');
       const arr = [].slice.call(items);
@@ -143,8 +142,7 @@ class CollectionComponent extends HTMLElement {
           return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
         }
       );
-      console.log(active);
-      console.log(active.getBoundingClientRect());
+      this._activeId = active.id.split('_')[1];
     }
   }
 
