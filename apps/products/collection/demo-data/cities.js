@@ -64,10 +64,6 @@ let cities = [
     "state": "WV"
   },
   {
-    "name": "Pittsburgh",
-    "state": "PA"
-  },
-  {
     "name": "Louiville",
     "state": "KY"
   },

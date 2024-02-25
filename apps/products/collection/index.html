@@ -16,7 +16,7 @@
         font-family: Arial, Helvetica, sans-serif;
       }
 
-      section#carousel {
+      section#carousel, section#carousel-3d {
         width: 500px;
       }
 
@@ -32,6 +32,11 @@
       <section id="carousel">
         <h2>Carousel</h2>
         <collection-component display="carousel" carousel-item-width="25%"></collection-component>
+      </section>
+
+      <section id="carousel-3d">
+        <h2>Carousel (3D)</h2>
+        <collection-component display="carousel-3d" carousel-item-width="25%"></collection-component>
       </section>
 
       <section id="list">
@@ -66,8 +71,11 @@
     let carousel = document.getElementsByTagName('collection-component')[0];
     carousel.items = cities;
 
+    let carousel3D = document.getElementsByTagName('collection-component')[1];
+    carousel3D.items = cities;
+
     // load cards
-    let cards = document.getElementsByTagName('collection-component')[2];
+    let cards = document.getElementsByTagName('collection-component')[3];
     cards.items = cities;
 
     function updateCols(input) {

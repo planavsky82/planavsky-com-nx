@@ -89,7 +89,7 @@ class CollectionComponent extends HTMLElement {
       this._sheet.replaceSync(this.loadStyles());
     }
 
-    if (this.getAttribute('display') === 'carousel') {
+    if (this.getAttribute('display') === 'carousel' || this.getAttribute('display') === 'carousel-3d') {
       this.loadNavigation();
       this.displayNavigation(true, false);
     } else {
@@ -276,7 +276,7 @@ class CollectionComponent extends HTMLElement {
       display: block;
     }
 
-    div.wrapper.cards, div.wrapper.carousel {
+    div.wrapper.cards, div.wrapper.carousel, div.wrapper.carousel-3d {
       display: flex;
     }
 
@@ -285,6 +285,16 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.carousel {
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: var(--space-base);
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 var(--space-base);
+    }
+
+    div.wrapper.carousel-3d {
       flex-direction: row;
       overflow-x: auto;
       padding-bottom: var(--space-base);
@@ -311,6 +321,15 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.carousel item {
+      border: var(--border);
+      border-radius: var(--border-radius-xlarge);
+      min-height: 200px;
+      margin-right: var(--space-base);
+      flex: 1 0 99.5%;
+      scroll-snap-align: start;
+    }
+
+    div.wrapper.carousel-3d item {
       border: var(--border);
       border-radius: var(--border-radius-xlarge);
       min-height: 200px;
