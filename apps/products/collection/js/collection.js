@@ -126,9 +126,12 @@ class CollectionComponent extends HTMLElement {
     }
     const first = this._currentStep === 0;
     const last = (this._currentStep + 1) === this._div.children.length;
-    if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length) {
+    if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
       const middle = this._div.children[this._currentStep];
       middle.scrollIntoView(false);
+      this.displayNavigation(first, last);
+    }
+    if (!direction) {
       this.displayNavigation(first, last);
     }
   }
@@ -142,7 +145,8 @@ class CollectionComponent extends HTMLElement {
           return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
         }
       );
-      this._activeId = active.id.split('_')[1];
+      this._activeId = parseInt(active.id.split('_')[1]);
+      this.navigate();
     }
   }
 
