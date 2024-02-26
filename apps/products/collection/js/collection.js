@@ -152,7 +152,7 @@ class CollectionComponent extends HTMLElement {
 
   loadNavigation() {
     this._previousButton = document.createElement('div');
-    this._previousButton.className = 'previous-button';
+    this._previousButton.className = 'previous-button fadeOut';
     this._previousButton.role = 'button';
     this._previousButton.tabIndex = '0';
     this._previousButton.innerHTML = '&#9664;';
@@ -165,7 +165,7 @@ class CollectionComponent extends HTMLElement {
     this._shadow.appendChild(this._previousButton);
 
     this._nextButton = document.createElement('div');
-    this._nextButton.className = 'next-button';
+    this._nextButton.className = 'next-button fadeOut';
     this._nextButton.role = 'button';
     this._nextButton.tabIndex = '0';
     this._nextButton.innerHTML = '&#9664;';
@@ -179,16 +179,20 @@ class CollectionComponent extends HTMLElement {
   }
 
   displayNavigation(first, last) {
-    this._previousButton.style.display = 'block';
-    this._nextButton.style.display = 'block';
+    this._previousButton.classList.remove('fadeOut');
+    this._previousButton.classList.add('fadeIn');
+    this._nextButton.classList.remove('fadeOut');
+    this._nextButton.classList.add('fadeIn');
     this._previousButton.ariaHidden = 'false';
     this._nextButton.ariaHidden = 'false';
     if (first) {
-      this._previousButton.style.display = 'none';
+      this._previousButton.classList.remove('fadeIn');
+      this._previousButton.classList.add('fadeOut');
       this._previousButton.ariaHidden = 'true';
     }
     if (last) {
-      this._nextButton.style.display = 'none';
+      this._nextButton.classList.remove('fadeIn');
+      this._nextButton.classList.add('fadeOut');
       this._nextButton.ariaHidden = 'true';
     }
   }
@@ -266,6 +270,16 @@ class CollectionComponent extends HTMLElement {
       --font-weight-bold: bold;
 
       position: relative;
+    }
+
+    .fadeIn {
+      opacity: 100%;
+      transition: opacity 1s;
+    }
+
+    .fadeOut {
+      opacity: 0%;
+      transition: opacity 1s;
     }
 
     div.wrapper {
