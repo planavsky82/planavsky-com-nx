@@ -381,6 +381,20 @@ class CollectionComponent extends HTMLElement {
       right: -2px;
       transform: scale(-1, 1);
     }
+
+    :host([display="carousel-3d"]) .previous-button, :host([display="carousel-3d"]) .next-button {
+      top: 80%;
+    }
+
+    :host([display="carousel-3d"]) .previous-button {
+      left: 50%;
+      transform: rotate(270deg);
+    }
+
+    :host([display="carousel-3d"]) .next-button {
+      right: 50%;
+      transform: rotate(90deg);
+    }
     `;
   }
 }
