@@ -350,6 +350,7 @@ class CollectionComponent extends HTMLElement {
       margin-right: var(--space-base);
       flex: 1 0 99.5%;
       scroll-snap-align: start;
+      transform:scale(0.5);
     }
 
     .previous-button, .next-button {
