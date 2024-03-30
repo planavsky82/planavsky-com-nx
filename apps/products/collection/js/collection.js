@@ -140,11 +140,15 @@ class CollectionComponent extends HTMLElement {
     if (this._div) {
       const items = this._div.getElementsByTagName('item');
       const arr = [].slice.call(items);
+      arr.map(item => {
+        return item.classList.remove('active');
+      });
       const active = arr.reduce(
         (prev, current) => {
           return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
         }
       );
+      active.classList.add('active');
       this._activeId = parseInt(active.id.split('_')[1]);
       this.navigate();
     }
@@ -309,13 +313,7 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.carousel-3d {
-      flex-direction: row;
-      overflow-x: auto;
-      padding-bottom: var(--space-base);
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      margin: 0 var(--space-base);
+
     }
 
     div.wrapper.cards item {
@@ -347,10 +345,11 @@ class CollectionComponent extends HTMLElement {
       border: var(--border);
       border-radius: var(--border-radius-xlarge);
       min-height: 200px;
-      margin-right: var(--space-base);
-      flex: 1 0 99.5%;
-      scroll-snap-align: start;
-      transform:scale(0.5);
+    }
+
+    div.wrapper.carousel-3d item.active {
+      border: 1px solid red;
+      transition: border 3s ease;
     }
 
     .previous-button, .next-button {
