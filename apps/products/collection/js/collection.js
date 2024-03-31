@@ -68,6 +68,8 @@ class CollectionComponent extends HTMLElement {
         this._div.appendChild(templateContent.cloneNode(true));
       }
     }
+
+    this.dataLoaded();
   }
 
   disconnectedCallback() {
@@ -128,7 +130,11 @@ class CollectionComponent extends HTMLElement {
     const last = (this._currentStep + 1) === this._div.children.length;
     if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
       const middle = this._div.children[this._currentStep];
-      middle.scrollIntoView(false);
+      if (this.getAttribute('display') === 'carousel-3d') {
+        this.setActiveItem();
+      } else {
+        middle.scrollIntoView(false);
+      }
       this.displayNavigation(first, last);
     }
     if (!direction) {
@@ -231,6 +237,12 @@ class CollectionComponent extends HTMLElement {
     return width + '%';
   }
 
+  dataLoaded() {
+    if (this._div.getElementsByTagName('item')[this._activeId]) {
+      this._div.getElementsByTagName('item')[this._activeId].classList.add('active');
+    }
+  };
+
   set items(value) {
     this._items = value;
     //console.log('data', this._items);
@@ -241,6 +253,8 @@ class CollectionComponent extends HTMLElement {
       itemElement.innerHTML = item.name;
       this._div.appendChild(itemElement);
     });
+
+    this.dataLoaded();
   }
 
   get items() {
