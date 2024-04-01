@@ -128,7 +128,7 @@ class CollectionComponent extends HTMLElement {
     }
     const first = this._currentStep === 0;
     const last = (this._currentStep + 1) === this._div.children.length;
-    // TODO: clean and document this logic
+    // TODO: clean, document, and test this logic
     if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
       if (this.getAttribute('display') === 'carousel') {
         const middle = this._div.children[this._currentStep];
