@@ -51,7 +51,7 @@ class CollectionComponent extends HTMLElement {
     resizeObserver.observe(this._div);
 
     this._div.addEventListener('scroll', () => {
-      this.debounce(this.setActiveItem(), 100);
+      this.debounce(this.setActiveItemByScroll(), 100);
     });
   }
 
@@ -113,7 +113,15 @@ class CollectionComponent extends HTMLElement {
   }
 
   navigate(direction) {
+    if (this.getAttribute('display') === 'carousel-3d') {
+      if (direction === 'next') {
+        this._activeId++;
+      } else {
+        this._activeId--;
+      }
+    }
     this._currentStep = this._activeId;
+    console.log(this._currentStep);
     if (direction === 'next') {
       this._currentStep++;
     }
@@ -129,11 +137,18 @@ class CollectionComponent extends HTMLElement {
     const first = this._currentStep === 0;
     const last = (this._currentStep + 1) === this._div.children.length;
     if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
-      const middle = this._div.children[this._currentStep];
-      if (this.getAttribute('display') === 'carousel-3d') {
-        this.setActiveItem();
-      } else {
+      if (this.getAttribute('display') === 'carousel') {
+        const middle = this._div.children[this._currentStep];
         middle.scrollIntoView(false);
+      }
+      if (this.getAttribute('display') === 'carousel-3d') {
+        console.log(this._activeId);
+        const items = this._div.getElementsByTagName('item');
+        const arr = [].slice.call(items);
+        arr.map(item => {
+          return item.classList.remove('active');
+        });
+        items[this._activeId].classList.add('active');
       }
       this.displayNavigation(first, last);
     }
@@ -142,7 +157,7 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  setActiveItem() {
+  setActiveItemByScroll() {
     if (this._div) {
       const items = this._div.getElementsByTagName('item');
       const arr = [].slice.call(items);
@@ -156,7 +171,7 @@ class CollectionComponent extends HTMLElement {
       );
       active.classList.add('active');
       this._activeId = parseInt(active.id.split('_')[1]);
-      this.navigate();
+      // this.navigate(); removing - don't know why this was here
     }
   }
 
