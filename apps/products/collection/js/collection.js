@@ -113,15 +113,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   navigate(direction) {
-    if (this.getAttribute('display') === 'carousel-3d') {
-      if (direction === 'next') {
-        this._activeId++;
-      } else {
-        this._activeId--;
-      }
-    }
     this._currentStep = this._activeId;
-    console.log(this._currentStep);
     if (direction === 'next') {
       this._currentStep++;
     }
@@ -142,7 +134,15 @@ class CollectionComponent extends HTMLElement {
         middle.scrollIntoView(false);
       }
       if (this.getAttribute('display') === 'carousel-3d') {
-        console.log(this._activeId);
+        if (direction === 'next') {
+          if (this._activeId < this._div.children.length - 1) {
+            this._activeId++;
+          }
+        } else {
+          if (this._activeId > 0) {
+            this._activeId--;
+          }
+        }
         const items = this._div.getElementsByTagName('item');
         const arr = [].slice.call(items);
         arr.map(item => {
