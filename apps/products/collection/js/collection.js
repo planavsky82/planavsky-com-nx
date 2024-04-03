@@ -302,6 +302,7 @@ class CollectionComponent extends HTMLElement {
       --font-size-xlarge: 22px;
       --font-size-xxlarge: 26px;
       --font-weight-bold: bold;
+      --button-size: 40px;
 
       position: relative;
     }
@@ -324,7 +325,7 @@ class CollectionComponent extends HTMLElement {
       display: block;
     }
 
-    div.wrapper.cards, div.wrapper.carousel, div.wrapper.carousel-3d {
+    div.wrapper.cards, div.wrapper.carousel {
       display: flex;
     }
 
@@ -343,7 +344,8 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.carousel-3d {
-
+      position: relative;
+      min-height: 200px;
     }
 
     div.wrapper.cards item {
@@ -375,6 +377,8 @@ class CollectionComponent extends HTMLElement {
       border: var(--border);
       border-radius: var(--border-radius-xlarge);
       min-height: 200px;
+      position: absolute;
+      width: 100%;
     }
 
     div.wrapper.carousel-3d item.active {
@@ -387,8 +391,8 @@ class CollectionComponent extends HTMLElement {
       background: var(--dark);
       position: absolute;
       top: 40%;
-      height: 40px;
-      width: 40px;
+      height: var(--button-size);
+      width: var(--button-size);
       border-radius: 40px;
       line-height: 40px;
       text-align: center;
@@ -413,16 +417,18 @@ class CollectionComponent extends HTMLElement {
     }
 
     :host([display="carousel-3d"]) .previous-button, :host([display="carousel-3d"]) .next-button {
-      top: 80%;
+      top: 0%;
     }
 
     :host([display="carousel-3d"]) .previous-button {
-      left: 50%;
+      left: unset;
+      right: calc(calc(var(--button-size) + var(--space-base) * 3) * -1);
+      margin-top: calc(var(--button-size) + var(--space-base) * 2);
       transform: rotate(270deg);
     }
 
     :host([display="carousel-3d"]) .next-button {
-      right: 50%;
+      right: calc(calc(var(--button-size) + var(--space-base) * 3) * -1);
       transform: rotate(90deg);
     }
     `;
