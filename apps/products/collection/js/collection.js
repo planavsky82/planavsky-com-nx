@@ -150,11 +150,24 @@ class CollectionComponent extends HTMLElement {
           return item.classList.remove('active');
         });
         items[this._activeId].classList.add('active');
+        this.setChildClasses(this._activeId, items.length);
       }
       this.displayNavigation(first, last);
     }
     if (!direction) {
       this.displayNavigation(first, last);
+    }
+  }
+
+  setChildClasses(activeId, max) {
+    console.log(activeId);
+    let forward = (activeId < (max - 3)) ? activeId + 3 : max;
+    let backward = (activeId >= 3) ? activeId - 3 : 0;
+    console.log('max', max);
+    console.log('forward', forward);
+    console.log('backward', backward);
+    for (let i=0; i<5; i++) {
+
     }
   }
 
