@@ -165,7 +165,13 @@ class CollectionComponent extends HTMLElement {
     let backward = (activeId >= 3) ? activeId - 3 : 0;
     console.log('max', max);
     console.log('forward', forward);
+    console.log('activeId', activeId);
     console.log('backward', backward);
+    // forward
+    for (let i=0; i<5; i++) {
+
+    }
+    // backward
     for (let i=0; i<5; i++) {
 
     }
