@@ -150,7 +150,7 @@ class CollectionComponent extends HTMLElement {
           return item.classList.remove('active');
         });
         items[this._activeId].classList.add('active');
-        this.setChildClasses(this._activeId, items.length);
+        this.setSiblingClasses(this._activeId, items.length);
       }
       this.displayNavigation(first, last);
     }
@@ -159,7 +159,7 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  setChildClasses(activeId, max) {
+  setSiblingClasses(activeId, max) {
     console.log(activeId);
     let forward = (activeId < (max - 3)) ? activeId + 3 : max;
     let backward = (activeId >= 3) ? activeId - 3 : 0;
@@ -167,13 +167,15 @@ class CollectionComponent extends HTMLElement {
     console.log('forward', forward);
     console.log('activeId', activeId);
     console.log('backward', backward);
+    console.log('forward items:');
     // forward
-    for (let i=0; i<5; i++) {
-
+    for (let i=activeId+1; i<forward+1; i++) {
+      console.log(i);
     }
+    console.log('backward items:');
     // backward
-    for (let i=0; i<5; i++) {
-
+    for (let i=activeId-1; i>=backward; i--) {
+      console.log(i);
     }
   }
 
