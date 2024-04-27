@@ -406,11 +406,19 @@ class CollectionComponent extends HTMLElement {
       min-height: 200px;
       position: absolute;
       width: 100%;
+      opacity: 0;
     }
 
     div.wrapper.carousel-3d item.active {
-      border: 1px solid red;
-      transition: border 3s ease;
+      transition: opacity 0s;
+      opacity: 100;
+      transform: scale(1.0);
+    }
+
+    div.wrapper.carousel-3d item.previous-in-collection {
+      transition: opacity 1.5s;
+      opacity: 100;
+      transform: scale(0.3);
     }
 
     .previous-button, .next-button {
