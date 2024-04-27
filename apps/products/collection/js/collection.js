@@ -160,6 +160,10 @@ class CollectionComponent extends HTMLElement {
   }
 
   setSiblingClasses(activeId, max) {
+    this._items.forEach((item, index) => {
+      this._div.getElementsByTagName('item')[index].classList.remove('next-in-collection');
+      this._div.getElementsByTagName('item')[index].classList.remove('previous-in-collection');
+    });
     console.log(activeId);
     let forward = (activeId < (max - 3)) ? activeId + 3 : max;
     let backward = (activeId >= 3) ? activeId - 3 : 0;
@@ -171,11 +175,13 @@ class CollectionComponent extends HTMLElement {
     // forward
     for (let i=activeId+1; i<forward+1; i++) {
       console.log(i);
+      const items = this._div.getElementsByTagName('item')[i].classList.add('next-in-collection');
     }
     console.log('backward items:');
     // backward
     for (let i=activeId-1; i>=backward; i--) {
       console.log(i);
+      const items = this._div.getElementsByTagName('item')[i].classList.add('previous-in-collection');
     }
   }
 
