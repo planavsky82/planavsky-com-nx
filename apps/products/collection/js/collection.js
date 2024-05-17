@@ -419,6 +419,16 @@ class CollectionComponent extends HTMLElement {
       transition: opacity 1.5s;
       opacity: 100;
       transform: scale(0.3);
+      border: 1px solid red;
+      top: -130px;
+    }
+
+    div.wrapper.carousel-3d item.next-in-collection {
+      transition: opacity 1.5s;
+      opacity: 100;
+      transform: scale(0.3);
+      border: 1px solid blue;
+      top: 130px;
     }
 
     .previous-button, .next-button {
