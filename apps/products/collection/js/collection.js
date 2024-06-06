@@ -420,10 +420,9 @@ class CollectionComponent extends HTMLElement {
       opacity: 100;
       transform: scale(0.1);
       border: 1px solid red;
-    }
-
-    div.wrapper.carousel-3d item.previous-in-collection:nth-of-type(2) {
-      margin-right: 50px;
+      position: absolute;
+      transform-origin: top right;
+      margin-top: -3px;
     }
 
     div.wrapper.carousel-3d item.next-in-collection {
@@ -431,6 +430,8 @@ class CollectionComponent extends HTMLElement {
       opacity: 100;
       transform: scale(0.1);
       border: 1px solid blue;
+      transform-origin: bottom right;
+      margin-top: 3px;
     }
 
     .previous-button, .next-button {
