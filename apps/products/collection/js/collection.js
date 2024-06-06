@@ -418,17 +418,19 @@ class CollectionComponent extends HTMLElement {
     div.wrapper.carousel-3d item.previous-in-collection {
       transition: opacity 1.5s;
       opacity: 100;
-      transform: scale(0.3);
+      transform: scale(0.1);
       border: 1px solid red;
-      top: -130px;
+    }
+
+    div.wrapper.carousel-3d item.previous-in-collection:nth-of-type(2) {
+      margin-right: 50px;
     }
 
     div.wrapper.carousel-3d item.next-in-collection {
       transition: opacity 1.5s;
       opacity: 100;
-      transform: scale(0.3);
+      transform: scale(0.1);
       border: 1px solid blue;
-      top: 130px;
     }
 
     .previous-button, .next-button {
