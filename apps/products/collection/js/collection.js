@@ -406,20 +406,23 @@ class CollectionComponent extends HTMLElement {
       min-height: 200px;
       position: absolute;
       width: 100%;
-      opacity: 0;
     }
 
     div.wrapper.carousel-3d item.active {
+      //transform: scale(0.1);
       //transition: opacity 0s, scale 3.5s;
-      opacity: 100;
+      //opacity: 1;
       animation: activate 1.5s ease-in;
-      animation-delay: 1s;
-      //transform: scale(1.0);
+      //animation-delay: 1s;
+    }
+
+    div.wrapper.carousel-3d :not(item.active) {
+      opacity: 0;
     }
 
     div.wrapper.carousel-3d item.previous-in-collection {
       transition: opacity 1.5s;
-      opacity: 100;
+      opacity: 1;
       transform: scale(0.1);
       border: 1px solid red;
       position: absolute;
@@ -437,8 +440,8 @@ class CollectionComponent extends HTMLElement {
     }
 
     @keyframes activate {
-      0%   { transform: scale(.1); }
-      100% { transform: scale(1); transform-origin: 0 0; }
+      0%   { transform: scale(.1); opacity: 0 }
+      100% { transform: scale(1); transform-origin: 0 0; opacity: 1; }
     }
 
     .previous-button, .next-button {
