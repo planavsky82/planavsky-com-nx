@@ -440,7 +440,7 @@ class CollectionComponent extends HTMLElement {
     }
 
     @keyframes activate {
-      0%   { transform: scale(.1); opacity: 0 }
+      0%   { transform: scale(.5); opacity: 0.5 }
       100% { transform: scale(1); transform-origin: 0 0; opacity: 1; }
     }
 
