@@ -409,7 +409,7 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.carousel-3d item.active {
-      //transform: scale(0.1);
+      //transform: scale(0.5);
       //transition: opacity 0s, scale 3.5s;
       //opacity: 1;
       animation: activate 1.5s ease-in;
@@ -440,8 +440,9 @@ class CollectionComponent extends HTMLElement {
     }
 
     @keyframes activate {
-      0%   { transform: scale(.5); opacity: 0.5 }
-      100% { transform: scale(1); transform-origin: 0 0; opacity: 1; }
+      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: top left; }
+      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid blue; transform-origin: center center; }
+      100% { transform: scale(1); transform-origin: 0 0; opacity: 1; transform-origin: center center; }
     }
 
     .previous-button, .next-button {
