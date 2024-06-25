@@ -150,6 +150,13 @@ class CollectionComponent extends HTMLElement {
           return item.classList.remove('active');
         });
         items[this._activeId].classList.add('active');
+        this._div.classList.remove('active-next');
+        this._div.classList.remove('active-previous');
+        if (direction === 'next') {
+          this._div.classList.add('active-next');
+        } else {
+          this._div.classList.add('active-previous');
+        }
         this.setSiblingClasses(this._activeId, items.length);
       }
       this.displayNavigation(first, last);
@@ -408,12 +415,12 @@ class CollectionComponent extends HTMLElement {
       width: 100%;
     }
 
-    div.wrapper.carousel-3d item.active {
-      //transform: scale(0.5);
-      //transition: opacity 0s, scale 3.5s;
-      //opacity: 1;
-      animation: activate 1.5s ease-in;
-      //animation-delay: 1s;
+    div.wrapper.carousel-3d.active-next item.active {
+      animation: activate-next 1.5s ease-in;
+    }
+
+    div.wrapper.carousel-3d.active-previous item.active {
+      animation: activate-previous 1.5s ease-in;
     }
 
     div.wrapper.carousel-3d :not(item.active) {
@@ -439,8 +446,14 @@ class CollectionComponent extends HTMLElement {
       margin-top: 3px;
     }
 
-    @keyframes activate {
-      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: top left; }
+    @keyframes activate-next {
+      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: right bottom; }
+      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid blue; transform-origin: center center; }
+      100% { transform: scale(1); transform-origin: 0 0; opacity: 1; transform-origin: center center; }
+    }
+
+    @keyframes activate-previous {
+      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: right top; }
       50%  { transform: scale(.5); opacity: 0.5; border: 1px solid blue; transform-origin: center center; }
       100% { transform: scale(1); transform-origin: 0 0; opacity: 1; transform-origin: center center; }
     }
