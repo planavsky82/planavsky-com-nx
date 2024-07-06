@@ -302,6 +302,11 @@ class CollectionComponent extends HTMLElement {
       itemElement.id = 'item_' + index;
       itemElement.innerHTML = item.name;
       this._div.appendChild(itemElement);
+
+      let indexElement = document.createElement('div');
+      indexElement.classList.add('item-index');
+      indexElement.innerHTML = '3';
+      itemElement.appendChild(indexElement);
     });
 
     this.dataLoaded();
@@ -319,6 +324,7 @@ class CollectionComponent extends HTMLElement {
       --black: #000;
       --white: #fff;
       --dark: #555;
+      --darker: #333;
       --light: #ccc;
       --border: 1px solid var(--border-color);
       --button-border: 2px solid var(--black);
@@ -326,6 +332,7 @@ class CollectionComponent extends HTMLElement {
       --border-radius-small: 3px;
       --border-radius-large: 7px;
       --border-radius-xlarge: 9px;
+      --border-radius-zoom: 30px;
       --shadow-base: 5px 5px 5px var(--shadow-color);
       --shadow-sm: 2px 2px 2px var(--shadow-color);
       --space-base: 4px;
@@ -427,11 +434,30 @@ class CollectionComponent extends HTMLElement {
       opacity: 0;
     }
 
+    div.wrapper.carousel item .item-index, div.wrapper.carousel-3d .item-index, div.wrapper.cards item .item-index {
+      display: none;
+      opacity: 0;
+    }
+
+    div.wrapper.carousel-3d item.previous-in-collection, div.wrapper.carousel-3d item.next-in-collection {
+      margin-left: 3px;
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--border-radius-zoom);
+      z-index: 1;
+    }
+
+    div.wrapper.carousel-3d item.previous-in-collection .item-index, div.wrapper.carousel-3d item.next-in-collection .item-index {
+      display: block;
+      opacity: 1;
+      font-size: 8rem;
+    }
+
     div.wrapper.carousel-3d item.previous-in-collection {
       transition: opacity 1.5s;
       opacity: 1;
       transform: scale(0.1);
-      border: 1px solid red;
+      border: 2px solid var(--white);
       position: absolute;
       transform-origin: top right;
       margin-top: -3px;
@@ -439,22 +465,22 @@ class CollectionComponent extends HTMLElement {
 
     div.wrapper.carousel-3d item.next-in-collection {
       transition: opacity 1.5s;
-      opacity: 100;
+      opacity: 1;
       transform: scale(0.1);
-      border: 1px solid blue;
+      border: 2px solid var(--white);
       transform-origin: bottom right;
       margin-top: 3px;
     }
 
     @keyframes activate-next {
-      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: right bottom; }
-      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid blue; transform-origin: center center; }
+      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid var(--darker); transform-origin: right bottom; }
+      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid var(--darker); transform-origin: center center; }
       100% { transform: scale(1); transform-origin: 0 0; opacity: 1; transform-origin: center center; }
     }
 
     @keyframes activate-previous {
-      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid orange; transform-origin: right top; }
-      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid blue; transform-origin: center center; }
+      0%   { transform: scale(.3); opacity: 0.5; border: 1px solid var(--darker); transform-origin: right top; }
+      50%  { transform: scale(.5); opacity: 0.5; border: 1px solid var(--darker); transform-origin: center center; }
       100% { transform: scale(1); transform-origin: 0 0; opacity: 1; transform-origin: center center; }
     }
 
