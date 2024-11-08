@@ -2,7 +2,7 @@
 
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['display', 'template', "columns"];
+  static observedAttributes = ['display', 'template', "columns", "sectionHeader"];
 
   constructor() {
     // Always call super first in constructor
@@ -300,13 +300,55 @@ class CollectionComponent extends HTMLElement {
     this._items.forEach((item, index) => {
       let itemElement = document.createElement('item');
       itemElement.id = 'item_' + index;
-      itemElement.innerHTML = item.name;
+      itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}>${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
 
       let indexElement = document.createElement('div');
+      let summaryElement = document.createElement('div');
+      let summaryData = document.createElement('ul');
+      let picElement = document.createElement('img');
+      let descElement = document.createElement('div');
+      let canvasElement = document.createElement('canvas');
+
       indexElement.classList.add('item-index');
-      indexElement.innerHTML = '3';
+
+      summaryElement.innerHTML = item.summary;
+
+      if (item.summaryData) {
+        item.summaryData.forEach((data) => {
+          let summaryDataItem = document.createElement('li');
+          let summaryDataItemLabel = document.createElement('span');
+          let summaryDataItemValue = document.createElement('span');
+          summaryDataItemLabel.innerHTML = data.label;
+          summaryDataItem.appendChild(summaryDataItemLabel);
+          summaryDataItemValue.innerHTML = data.value;
+          summaryDataItem.appendChild(summaryDataItemValue);
+
+          summaryData.appendChild(summaryDataItem);
+        });
+      }
+
+      picElement.src = item.pic;
+      picElement.alt = 'Picture for ' + item.name;
+
+      descElement.innerHTML = item.desc;
+
+      canvasElement.width = '200';
+      canvasElement.height = '100';
+      canvasElement.ariaLabel = 'Additonal image for ' + item.name;
+      canvasElement.role = 'img';
+
+      let ctx = canvasElement.getContext('2d');
+      ctx.moveTo(0, 0);
+      ctx.lineTo(200, 100);
+      ctx.stroke();
+
       itemElement.appendChild(indexElement);
+      indexElement.appendChild(summaryElement);
+      indexElement.appendChild(summaryData);
+      indexElement.appendChild(picElement);
+      indexElement.appendChild(descElement);
+      indexElement.appendChild(canvasElement);
     });
 
     this.dataLoaded();
@@ -451,6 +493,14 @@ class CollectionComponent extends HTMLElement {
       display: block;
       opacity: 1;
       font-size: 8rem;
+    }
+
+    div.wrapper.list item {
+      padding: var(--space-md);
+
+      :is(h1, h2, h3, h4, h5, h6) {
+        margin: 0;
+      }
     }
 
     div.wrapper.carousel-3d item.previous-in-collection {

@@ -1,135 +1,120 @@
 let cities = [
   {
     "name": "New York City",
-    "pic": "demo-data/city.jpeg",
-    "state": "NY"
+    "pic": "/demo-images/city.jpeg",
+    "summary": "This is summary text.",
+    "summaryData": [
+      {
+        "label": "A",
+        "value": "B"
+      },
+      {
+        "label": "A",
+        "value": "B"
+      },
+      {
+        "label": "A",
+        "value": "B"
+      }
+    ],
+    "desc": "Description",
+    "colors": [ "#32a852", "#a83238", "#a83238" ]
   },
   {
-    "name": "Pittsburgh",
-    "state": "PA"
+    "name": "Pittsburgh"
   },
   {
     "name": "Buffalo",
-    "state": "NY"
+    "pic": "demo-data/city.jpeg"
   },
   {
-    "name": "Boston",
-    "state": "MA"
+    "name": "Boston"
   },
   {
     "name": "Newark",
-    "state": "NJ"
   },
   {
     "name": "Atlantic City",
-    "state": "NJ"
   },
   {
     "name": "Baltimore",
-    "state": "MD"
   },
   {
     "name": "Ocean City",
-    "state": "MD"
   },
   {
     "name": "Cleveland",
-    "state": "OH"
   },
   {
     "name": "Columbus",
-    "state": "OH"
   },
   {
     "name": "Toledo",
-    "state": "OH"
   },
   {
     "name": "Washington D.C.",
-    "state": ""
   },
   {
     "name": "Alexandria",
-    "state": "VA"
   },
   {
     "name": "Norfolk",
-    "state": "VA"
   },
   {
     "name": "Morgantown",
-    "state": "WV"
   },
   {
     "name": "Wheeling",
-    "state": "WV"
   },
   {
     "name": "Louiville",
-    "state": "KY"
   },
   {
     "name": "Indianapolis",
-    "state": "IN"
   },
   {
     "name": "Chicago",
-    "state": "IL"
   },
   {
     "name": "Detroit",
-    "state": "MI"
   },
   {
     "name": "St. Loiuis",
-    "state": "MO"
   },
   {
     "name": "Atlanta",
-    "state": "GA"
   },
   {
     "name": "Myrtle Beach",
-    "state": "SC"
   },
   {
     "name": "Charlotte",
-    "state": "NC"
   },
   {
     "name": "Orlando",
-    "state": "Floria"
   },
   {
     "name": "Ft. Lauderdale",
-    "state": "FL"
   },
   {
     "name": "Hollywood",
-    "state": "FL"
   },
   {
     "name": "Sarasota",
-    "state": "FL"
   },
   {
     "name": "Las Vegas",
-    "state": "NV"
   },
   {
     "name": "Salt Lake City",
-    "state": "UT"
   },
   {
     "name": "Dallas",
-    "state": "TX"
   },
   {
     "name": "Philadelphia",
-    "state": "PA"
   },
   {
     "name": "State College",
-    "state": "PA"
   }
 ];
