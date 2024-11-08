@@ -1,6 +1,7 @@
 let cities = [
   {
     "name": "New York City",
+    "pic": "demo-data/city.jpeg",
     "state": "NY"
   },
   {

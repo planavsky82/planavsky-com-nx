@@ -20,7 +20,7 @@
         width: 500px;
       }
 
-      section#list {
+      section.list {
         width: 800px;
       }
     </style>
@@ -29,18 +29,13 @@
     <main>
       <h1>Collection Component</h1>
 
-      <section id="carousel">
-        <h2>Carousel</h2>
-        <collection-component display="carousel" carousel-item-width="25%"></collection-component>
+      <section class="list">
+        <h2>List (Data-Driven)</h2>
+        <collection-component display="list"></collection-component>
       </section>
 
-      <section id="carousel-3d">
-        <h2>Carousel (3D)</h2>
-        <collection-component display="carousel-3d" carousel-item-width="25%"></collection-component>
-      </section>
-
-      <section id="list">
-        <h2>List</h2>
+      <section class="list">
+        <h2>List (Slotted)</h2>
         <style>
 
         </style>
@@ -58,6 +53,16 @@
         <collection-component display="list" template="collection-component-items"></collection-component>
       </section>
 
+      <section id="carousel">
+        <h2>Carousel</h2>
+        <collection-component display="carousel" carousel-item-width="25%"></collection-component>
+      </section>
+
+      <section id="carousel-3d">
+        <h2>Carousel (3D)</h2>
+        <collection-component display="carousel-3d" carousel-item-width="25%"></collection-component>
+      </section>
+
       <section id="cards">
         <h2>Cards</h2>
         <label for="numberOfCols">Number of Columns:</label>
@@ -67,15 +72,19 @@
     </main>
   </body>
   <script>
+    // load data-driven list
+    let list = document.getElementsByTagName('collection-component')[0];
+    list.items = cities;
+
     // load carousel
-    let carousel = document.getElementsByTagName('collection-component')[0];
+    let carousel = document.getElementsByTagName('collection-component')[2];
     carousel.items = cities;
 
-    let carousel3D = document.getElementsByTagName('collection-component')[1];
+    let carousel3D = document.getElementsByTagName('collection-component')[3];
     carousel3D.items = cities;
 
     // load cards
-    let cards = document.getElementsByTagName('collection-component')[3];
+    let cards = document.getElementsByTagName('collection-component')[4];
     cards.items = cities;
 
     function updateCols(input) {
