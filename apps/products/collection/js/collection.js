@@ -522,6 +522,11 @@ class CollectionComponent extends HTMLElement {
       margin-top: 3px;
     }
 
+    div.item-index {
+      display: grid;
+      grid-template-columns: auto auto auto;
+    }
+
     @keyframes activate-next {
       0%   { transform: scale(.3); opacity: 0.5; border: 1px solid var(--darker); transform-origin: right bottom; }
       50%  { transform: scale(.5); opacity: 0.5; border: 1px solid var(--darker); transform-origin: center center; }
