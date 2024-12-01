@@ -345,10 +345,10 @@ class CollectionComponent extends HTMLElement {
 
       itemElement.appendChild(indexElement);
       indexElement.appendChild(summaryElement);
-      indexElement.appendChild(summaryData);
       indexElement.appendChild(picElement);
-      indexElement.appendChild(descElement);
       indexElement.appendChild(canvasElement);
+      indexElement.appendChild(summaryData);
+      indexElement.appendChild(descElement);
     });
 
     this.dataLoaded();

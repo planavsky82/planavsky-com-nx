@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Collection</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script src="js/collection.js"></script>
+    <script src="demo-data/football.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      section#carousel, section#carousel-3d {
+        width: 500px;
+      }
+
+      section.list {
+        width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Fantasy Football Rankings Demo</h1>
+
+      <section class="list">
+        <collection-component display="list"></collection-component>
+      </section>
+    </main>
+  </body>
+  <script>
+    // load data-driven list
+    let list = document.getElementsByTagName('collection-component')[0];
+      list.setAttribute('sectionHeader', 3);
+      list.items = players;
+  </script>
+</html>
