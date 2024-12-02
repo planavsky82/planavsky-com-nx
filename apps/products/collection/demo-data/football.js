@@ -22,8 +22,58 @@ let players = [
   }
 ];
 
-if (localStorage.hasOwnProperty('players')) {
-  console.log('local storage set');
+if (localStorage.hasOwnProperty('mffrPlayerData')) {
+  let localPlayerData = JSON.parse(localStorage.getItem('mffrPlayerData'));
+  let localTeamData = JSON.parse(localStorage.getItem('mffrTeamData'));
+  let structuredData = [];
+  let qb = localPlayerData.filter((player) => {
+    return player.position.abbreviation === 'QB';
+  });
+  let rb = localPlayerData.filter((player) => {
+    return player.position.abbreviation === 'RB';
+  });
+  let wr = localPlayerData.filter((player) => {
+    return player.position.abbreviation === 'WR';
+  });
+  let te = localPlayerData.filter((player) => {
+    return player.position.abbreviation === 'TE';
+  });
+  let k = localPlayerData.filter((player) => {
+    return player.position.abbreviation === 'K';
+  });
+  structuredData.push({
+    position: 'QB',
+    players: qb
+  });
+  structuredData.push({
+    position: 'RB',
+    players: rb
+  });
+  structuredData.push({
+    position: 'WR',
+    players: wr
+  });
+  structuredData.push({
+    position: 'TE',
+    players: te
+  });
+  structuredData.push({
+    position: 'FLEX',
+    players: [rb,...wr,...te]
+  });
+  structuredData.push({
+    position: 'ALL',
+    players: [qb,...rb,...wr,...te]
+  });
+  structuredData.push({
+    position: 'K',
+    players: [k]
+  });
+  structuredData.push({
+    position: 'DST',
+    players: localTeamData
+  });
+  console.log(structuredData);
 } else {
   fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
     cache: 'force-cache',
@@ -44,6 +94,8 @@ if (localStorage.hasOwnProperty('players')) {
     .then(data => {
       // Process the received data
       let teams = data;
+      let playerList = [];
+      let teamList = [];
       teams.forEach((teamObj) => {
         fetch('https://nfl-api-data.p.rapidapi.com/nfl-player-listing/v1/data?id=' + teamObj.team.id, {
           cache: 'force-cache',
@@ -62,17 +114,38 @@ if (localStorage.hasOwnProperty('players')) {
             return response.json();
           })
           .then(data => {
-            console.log(teamObj.team.displayName);
+            teamList.push(teamObj.team);
             let playerData = data;
-            console.log(playerData.athletes.find((athlete) => {
+            let players = playerData.athletes.find((athlete) => {
               return athlete.position === 'offense';
-            }).items);
+            }).items;
+            players.forEach((player) => {
+              playerList.push({
+                headshot: player.headshot,
+                id: player.id,
+                uid: player.uid,
+                guid: player.guid,
+                shortName: player.shortName,
+                slug: player.slug,
+                status: player.status,
+                number: player.jersey,
+                position: player.position,
+                firstName: player.firstName,
+                lastName: player.lastName,
+                experience: player.experience,
+                college: player.college,
+                displayName: player.displayName,
+                injuries: player.injuries,
+                team: teamObj.team
+              });
+            });
+            localStorage.setItem('mffrPlayerData', JSON.stringify(playerList));
+            localStorage.setItem('mffrTeamData', JSON.stringify(teamList));
           })
           .catch(error => {
             console.error('Error fetching data:', error);
           });
       });
-      localStorage.setItem('players', {});
     })
     .catch(error => {
       // Handle errors
