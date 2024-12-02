@@ -23,8 +23,10 @@ let players = [
 ];
 
 fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
+  cache: 'force-cache',
   method: 'GET',
   headers: {
+    'Cache-Control': 'max-age=86400',
     'Content-Type': 'application/json',
     'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
     'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
@@ -39,8 +41,9 @@ fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
   .then(data => {
     // Process the received data
     let teams = data;
-    teams.forEach((team) => {
-      console.log(team);
+    console.log(teams);
+    //teams.forEach((team) => {
+    //  console.log(team);
       /* fetch('https://nfl-api-data.p.rapidapi.com/nfl-player-listing/v1/data?id=22', {
         method: 'GET',
         headers: {
@@ -64,7 +67,7 @@ fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
           // Handle errors
           console.error('Error fetching data:', error);
         }); */
-    });
+    //});
   })
   .catch(error => {
     // Handle errors
