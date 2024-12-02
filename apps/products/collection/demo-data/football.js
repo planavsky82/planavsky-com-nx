@@ -1,80 +1,4 @@
-let players = [
-  {
-    "name": "New York City",
-    "pic": "/demo-images/city.jpeg",
-    "summary": "This is summary text.",
-    "summaryData": [
-      {
-        "label": "A",
-        "value": "B"
-      },
-      {
-        "label": "A",
-        "value": "B"
-      },
-      {
-        "label": "A",
-        "value": "B"
-      }
-    ],
-    "desc": "Description",
-    "colors": [ "#32a852", "#a83238", "#a83238" ]
-  }
-];
-
-if (localStorage.hasOwnProperty('mffrPlayerData')) {
-  let localPlayerData = JSON.parse(localStorage.getItem('mffrPlayerData'));
-  let localTeamData = JSON.parse(localStorage.getItem('mffrTeamData'));
-  let structuredData = [];
-  let qb = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'QB';
-  });
-  let rb = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'RB';
-  });
-  let wr = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'WR';
-  });
-  let te = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'TE';
-  });
-  let k = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'K';
-  });
-  structuredData.push({
-    position: 'QB',
-    players: qb
-  });
-  structuredData.push({
-    position: 'RB',
-    players: rb
-  });
-  structuredData.push({
-    position: 'WR',
-    players: wr
-  });
-  structuredData.push({
-    position: 'TE',
-    players: te
-  });
-  structuredData.push({
-    position: 'FLEX',
-    players: [rb,...wr,...te]
-  });
-  structuredData.push({
-    position: 'ALL',
-    players: [qb,...rb,...wr,...te]
-  });
-  structuredData.push({
-    position: 'K',
-    players: [k]
-  });
-  structuredData.push({
-    position: 'DST',
-    players: localTeamData
-  });
-  console.log(structuredData);
-} else {
+if (!localStorage.hasOwnProperty('mffrPlayerData')) {
   fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
     cache: 'force-cache',
     method: 'GET',
@@ -152,3 +76,79 @@ if (localStorage.hasOwnProperty('mffrPlayerData')) {
       console.error('Error fetching data:', error);
     });
 }
+
+let localPlayerData = JSON.parse(localStorage.getItem('mffrPlayerData'));
+let localTeamData = JSON.parse(localStorage.getItem('mffrTeamData'));
+let structuredData = [];
+let qb = localPlayerData.filter((player) => {
+  return player.position.abbreviation === 'QB';
+});
+let rb = localPlayerData.filter((player) => {
+  return player.position.abbreviation === 'RB';
+});
+let wr = localPlayerData.filter((player) => {
+  return player.position.abbreviation === 'WR';
+});
+let te = localPlayerData.filter((player) => {
+  return player.position.abbreviation === 'TE';
+});
+let k = localPlayerData.filter((player) => {
+  return player.position.abbreviation === 'K';
+});
+structuredData.push({
+  position: 'QB',
+  players: qb
+});
+structuredData.push({
+  position: 'RB',
+  players: rb
+});
+structuredData.push({
+  position: 'WR',
+  players: wr
+});
+structuredData.push({
+  position: 'TE',
+  players: te
+});
+structuredData.push({
+  position: 'FLEX',
+  players: [rb,...wr,...te]
+});
+structuredData.push({
+  position: 'ALL',
+  players: [qb,...rb,...wr,...te]
+});
+structuredData.push({
+  position: 'K',
+  players: [k]
+});
+structuredData.push({
+  position: 'DST',
+  players: localTeamData
+});
+console.log(structuredData);
+
+let players = [
+  {
+    "name": "New York City",
+    "pic": "/demo-images/city.jpeg",
+    "summary": "This is summary text.",
+    "summaryData": [
+      {
+        "label": "A",
+        "value": "B"
+      },
+      {
+        "label": "A",
+        "value": "B"
+      },
+      {
+        "label": "A",
+        "value": "B"
+      }
+    ],
+    "desc": "Description",
+    "colors": [ "#32a852", "#a83238", "#a83238" ]
+  }
+];
