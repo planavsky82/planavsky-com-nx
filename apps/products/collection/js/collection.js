@@ -525,6 +525,10 @@ class CollectionComponent extends HTMLElement {
     div.item-index {
       display: grid;
       grid-template-columns: auto auto auto;
+
+      img {
+        height: 100px;
+      }
     }
 
     @keyframes activate-next {
