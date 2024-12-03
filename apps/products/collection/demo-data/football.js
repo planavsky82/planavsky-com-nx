@@ -129,26 +129,34 @@ structuredData.push({
 });
 console.log(structuredData);
 
-let players = [
-  {
-    "name": "New York City",
-    "pic": "/demo-images/city.jpeg",
-    "summary": "This is summary text.",
-    "summaryData": [
+let players = [];
+
+let getGroup = (position) => {
+  return structuredData.find((group) => {
+    return group.position === position;
+  });
+};
+
+getGroup('RB').players.forEach((player) => {
+  players.push({
+    name: player.displayName,
+    pic: player.headshot.href,
+    summary: player.team.displayName,
+    summaryData: [
       {
-        "label": "A",
-        "value": "B"
+        label: 'A',
+        value: 'B'
       },
       {
-        "label": "A",
-        "value": "B"
+        label: 'A',
+        value: 'B'
       },
       {
-        "label": "A",
-        "value": "B"
+        label: 'A',
+        value: 'B'
       }
     ],
-    "desc": "Description",
-    "colors": [ "#32a852", "#a83238", "#a83238" ]
-  }
-];
+    desc: "Description",
+    colors: [ player.team.color, player.team.alternateColor, '#000' ]
+  })
+});
