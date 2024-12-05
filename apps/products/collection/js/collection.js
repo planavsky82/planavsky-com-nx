@@ -299,6 +299,11 @@ class CollectionComponent extends HTMLElement {
 
     this._items.forEach((item, index) => {
       let itemElement = document.createElement('item');
+
+      // style
+      itemElement.style.backgroundColor = item.colors[0];
+      itemElement.style.color = item.colors[1];
+
       itemElement.id = 'item_' + index;
       itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}>${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
