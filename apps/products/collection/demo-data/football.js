@@ -141,6 +141,9 @@ getGroup('RB').players.forEach((player) => {
   players.push({
     name: player.displayName,
     pic: player.headshot.href,
+    picAlt: '',
+    pic2: player.team.logos[0].href,
+    picAlt2: player.team.displayName,
     summary: player.team.displayName,
     summaryData: [
       {

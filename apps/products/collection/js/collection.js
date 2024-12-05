@@ -307,6 +307,7 @@ class CollectionComponent extends HTMLElement {
       let summaryElement = document.createElement('div');
       let summaryData = document.createElement('ul');
       let picElement = document.createElement('img');
+      let picElement2 = document.createElement('img');
       let descElement = document.createElement('div');
       let canvasElement = document.createElement('canvas');
 
@@ -328,8 +329,13 @@ class CollectionComponent extends HTMLElement {
         });
       }
 
+      let alt = item.alt ? item.alt : item.name;
       picElement.src = item.pic;
-      picElement.alt = 'Picture for ' + item.name;
+      picElement.alt = 'Picture for ' + alt;
+
+      let alt2 = item.alt2 ? item.alt2 : item.name;
+      picElement2.src = item.pic2;
+      picElement2.alt = 'Picture for ' + alt2;
 
       descElement.innerHTML = item.desc;
 
@@ -346,7 +352,10 @@ class CollectionComponent extends HTMLElement {
       itemElement.appendChild(indexElement);
       indexElement.appendChild(summaryElement);
       indexElement.appendChild(picElement);
-      indexElement.appendChild(canvasElement);
+      indexElement.appendChild(picElement2);
+      if (item.canvas) {
+        indexElement.appendChild(canvasElement);
+      }
       indexElement.appendChild(summaryData);
       indexElement.appendChild(descElement);
     });
@@ -526,8 +535,12 @@ class CollectionComponent extends HTMLElement {
       display: grid;
       grid-template-columns: auto auto auto;
 
-      img {
+      img:first-of-type {
         height: 100px;
+      }
+
+      img:nth-of-type(2) {
+        height: 50px;
       }
     }
 
