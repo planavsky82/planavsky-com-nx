@@ -311,10 +311,12 @@ class CollectionComponent extends HTMLElement {
       let indexElement = document.createElement('div');
       let summaryElement = document.createElement('div');
       let summaryData = document.createElement('ul');
+      let picWrapper = document.createElement('div');
       let picElement = document.createElement('img');
       let picElement2 = document.createElement('img');
       let descElement = document.createElement('div');
       let canvasElement = document.createElement('canvas');
+      let rankingElement = document.createElement('div');
 
       indexElement.classList.add('item-index');
 
@@ -333,6 +335,8 @@ class CollectionComponent extends HTMLElement {
           summaryData.appendChild(summaryDataItem);
         });
       }
+
+      picWrapper.classList.add('pic-wrapper');
 
       let alt = item.alt ? item.alt : item.name;
       picElement.src = item.pic;
@@ -354,12 +358,16 @@ class CollectionComponent extends HTMLElement {
       ctx.lineTo(200, 100);
       ctx.stroke();
 
+      rankingElement.innerHTML = '1';
+
       itemElement.appendChild(indexElement);
+      itemElement.appendChild(rankingElement);
       indexElement.appendChild(summaryElement);
-      indexElement.appendChild(picElement);
-      indexElement.appendChild(picElement2);
+      indexElement.appendChild(picWrapper);
+      picWrapper.appendChild(picElement);
+      picWrapper.appendChild(picElement2);
       if (item.canvas) {
-        indexElement.appendChild(canvasElement);
+        picWrapper.appendChild(canvasElement);
       }
       indexElement.appendChild(summaryData);
       indexElement.appendChild(descElement);
@@ -540,12 +548,17 @@ class CollectionComponent extends HTMLElement {
       display: grid;
       grid-template-columns: auto auto auto;
 
-      img:first-of-type {
-        height: 100px;
-      }
+      div.pic-wrapper {
+        img:first-of-type {
+          height: 100px;
+        }
 
-      img:nth-of-type(2) {
-        height: 50px;
+        img:nth-of-type(2) {
+          height: 50px;
+          position: relative;
+          bottom: -10px;
+          left: -40px;
+        }
       }
     }
 
