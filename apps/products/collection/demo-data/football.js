@@ -159,7 +159,7 @@ getGroup('RB').players.forEach((player) => {
         value: 'B'
       }
     ],
-    desc: player.position.displayName,
+    desc: '<div>' + player.position.displayName + '</div><div>#' + player.number + '</div>',
     colors: [ '#000', '#fff', player.team.color, player.team.alternateColor ]
   })
 });

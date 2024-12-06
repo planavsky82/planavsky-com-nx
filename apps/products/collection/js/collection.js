@@ -397,6 +397,7 @@ class CollectionComponent extends HTMLElement {
       --dark: #555;
       --darker: #333;
       --light: #ccc;
+      --highlight: #4169e1;
       --border: 1px solid var(--border-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
@@ -409,6 +410,8 @@ class CollectionComponent extends HTMLElement {
       --space-base: 4px;
       --space-small: 2px;
       --space-md: calc(var(--space-base) * 2);
+      --space-lg: calc(var(--space-base) * 4);
+      --space-xl: calc(var(--space-base) * 6);
       --font-size-base: 14px;
       --font-size-large: 18px;
       --font-size-xlarge: 22px;
@@ -554,7 +557,7 @@ class CollectionComponent extends HTMLElement {
 
     div.item-index {
       display: grid;
-      grid-template-columns: 80px auto auto auto;
+      grid-template-columns: 90px auto auto auto;
 
       div.ranking {
         padding: var(--space-md);
@@ -576,7 +579,26 @@ class CollectionComponent extends HTMLElement {
       }
 
       div.summary-wrapper {
-        padding-top: var(--space-md);
+        padding-top: var(--space-lg);
+
+        div:first-of-type {
+          font-style: italic;
+        }
+
+        div:nth-of-type(2) {
+          div:first-of-type {
+            font-style: normal;
+            font-weight: var(--font-weight-bold);
+          }
+
+          div:nth-of-type(2) {
+            background: var(--highlight);
+            width: 40px;
+            text-align: center;
+            border-radius: var(--border-radius-base);
+            margin-top: var(--space-md);
+          }
+        }
       }
     }
 
