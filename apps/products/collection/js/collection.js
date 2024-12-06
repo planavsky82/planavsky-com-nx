@@ -310,6 +310,7 @@ class CollectionComponent extends HTMLElement {
       this._div.appendChild(itemElement);
 
       let indexElement = document.createElement('div');
+      let summaryWrapper = document.createElement('div');
       let summaryElement = document.createElement('div');
       let summaryData = document.createElement('ul');
       let picWrapper = document.createElement('div');
@@ -338,6 +339,7 @@ class CollectionComponent extends HTMLElement {
       }
 
       picWrapper.classList.add('pic-wrapper');
+      summaryWrapper.classList.add('summary-wrapper');
 
       let alt = item.alt ? item.alt : item.name;
       picElement.src = item.pic;
@@ -361,20 +363,21 @@ class CollectionComponent extends HTMLElement {
 
       indexElement.style.borderTop = '2px solid #' + item.colors[3];
 
-      rankingElement.innerHTML = '1';
+      rankingElement.innerHTML = index + 1;
       rankingElement.classList.add('ranking');
 
       itemElement.appendChild(indexElement);
       indexElement.appendChild(rankingElement);
-      indexElement.appendChild(summaryElement);
       indexElement.appendChild(picWrapper);
+      indexElement.appendChild(summaryWrapper);
+      summaryWrapper.appendChild(summaryElement);
+      summaryWrapper.appendChild(descElement);
       picWrapper.appendChild(picElement);
       picWrapper.appendChild(picElement2);
       if (item.canvas) {
         picWrapper.appendChild(canvasElement);
       }
       indexElement.appendChild(summaryData);
-      indexElement.appendChild(descElement);
     });
 
     this.dataLoaded();
@@ -528,10 +531,6 @@ class CollectionComponent extends HTMLElement {
       :is(h1, h2, h3, h4, h5, h6) {
         margin: 0;
       }
-
-      h3 {
-        padding-bottom: var(--space-small);
-      }
     }
 
     div.wrapper.carousel-3d item.previous-in-collection {
@@ -555,7 +554,7 @@ class CollectionComponent extends HTMLElement {
 
     div.item-index {
       display: grid;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: 80px auto auto auto;
 
       div.ranking {
         padding: var(--space-md);
@@ -565,15 +564,19 @@ class CollectionComponent extends HTMLElement {
 
       div.pic-wrapper {
         img:first-of-type {
-          height: 100px;
+          height: 80px;
         }
 
         img:nth-of-type(2) {
-          height: 50px;
+          height: 40px;
           position: relative;
           bottom: -10px;
           left: -40px;
         }
+      }
+
+      div.summary-wrapper {
+        padding-top: var(--space-md);
       }
     }
 
