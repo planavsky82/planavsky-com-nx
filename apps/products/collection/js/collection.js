@@ -305,7 +305,8 @@ class CollectionComponent extends HTMLElement {
       itemElement.style.color = item.colors[1];
 
       itemElement.id = 'item_' + index;
-      itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}>${item.name}</h${this.getAttribute('sectionHeader')}>`;
+      itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}
+        style="border-bottom: 2px solid #${item.colors[2]}">${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
 
       let indexElement = document.createElement('div');
@@ -359,9 +360,10 @@ class CollectionComponent extends HTMLElement {
       ctx.stroke();
 
       rankingElement.innerHTML = '1';
+      rankingElement.classList.add('ranking');
 
       itemElement.appendChild(indexElement);
-      itemElement.appendChild(rankingElement);
+      indexElement.appendChild(rankingElement);
       indexElement.appendChild(summaryElement);
       indexElement.appendChild(picWrapper);
       picWrapper.appendChild(picElement);
@@ -406,6 +408,7 @@ class CollectionComponent extends HTMLElement {
       --font-size-large: 18px;
       --font-size-xlarge: 22px;
       --font-size-xxlarge: 26px;
+      --font-size-super: 64px;
       --font-weight-bold: bold;
       --button-size: 40px;
 
@@ -523,6 +526,10 @@ class CollectionComponent extends HTMLElement {
       :is(h1, h2, h3, h4, h5, h6) {
         margin: 0;
       }
+
+      h3 {
+        padding-bottom: var(--space-small);
+      }
     }
 
     div.wrapper.carousel-3d item.previous-in-collection {
@@ -547,6 +554,12 @@ class CollectionComponent extends HTMLElement {
     div.item-index {
       display: grid;
       grid-template-columns: auto auto auto;
+
+      div.ranking {
+        padding: var(--space-md);
+        font-size: var(--font-size-super);
+        font-weight: var(--font-weight-bold);
+      }
 
       div.pic-wrapper {
         img:first-of-type {
