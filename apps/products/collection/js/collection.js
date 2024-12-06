@@ -306,7 +306,7 @@ class CollectionComponent extends HTMLElement {
 
       itemElement.id = 'item_' + index;
       itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}
-        style="border-bottom: 2px solid #${item.colors[2]}">${item.name}</h${this.getAttribute('sectionHeader')}>`;
+        style="border-bottom: 6px solid #${item.colors[2]}">${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
 
       let indexElement = document.createElement('div');
@@ -358,6 +358,8 @@ class CollectionComponent extends HTMLElement {
       ctx.moveTo(0, 0);
       ctx.lineTo(200, 100);
       ctx.stroke();
+
+      indexElement.style.borderTop = '2px solid #' + item.colors[3];
 
       rankingElement.innerHTML = '1';
       rankingElement.classList.add('ranking');
