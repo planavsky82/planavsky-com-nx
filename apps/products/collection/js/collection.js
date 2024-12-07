@@ -312,7 +312,7 @@ class CollectionComponent extends HTMLElement {
       let indexElement = document.createElement('div');
       let summaryWrapper = document.createElement('div');
       let summaryElement = document.createElement('div');
-      let summaryData = document.createElement('ul');
+      let actions = document.createElement('ul');
       let picWrapper = document.createElement('div');
       let picElement = document.createElement('img');
       let picElement2 = document.createElement('img');
@@ -324,17 +324,17 @@ class CollectionComponent extends HTMLElement {
 
       summaryElement.innerHTML = item.summary;
 
-      if (item.summaryData) {
-        item.summaryData.forEach((data) => {
-          let summaryDataItem = document.createElement('li');
-          let summaryDataItemLabel = document.createElement('span');
-          let summaryDataItemValue = document.createElement('span');
-          summaryDataItemLabel.innerHTML = data.label;
-          summaryDataItem.appendChild(summaryDataItemLabel);
-          summaryDataItemValue.innerHTML = data.value;
-          summaryDataItem.appendChild(summaryDataItemValue);
+      if (item.actions) {
+        item.actions.forEach((data) => {
+          let actionItem = document.createElement('li');
+          let actionItemLabel = document.createElement('span');
+          let actionItemValue = document.createElement('span');
+          actionItemLabel.innerHTML = data.label;
+          actionItem.appendChild(actionItemLabel);
+          actionItemValue.innerHTML = data.value;
+          actionItem.appendChild(actionItemValue);
 
-          summaryData.appendChild(summaryDataItem);
+          actions.appendChild(actionItem);
         });
       }
 
@@ -377,7 +377,7 @@ class CollectionComponent extends HTMLElement {
       if (item.canvas) {
         picWrapper.appendChild(canvasElement);
       }
-      indexElement.appendChild(summaryData);
+      indexElement.appendChild(actions);
     });
 
     this.dataLoaded();

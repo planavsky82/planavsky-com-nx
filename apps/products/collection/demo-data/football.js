@@ -145,17 +145,13 @@ getGroup('RB').players.forEach((player) => {
     pic2: player.team.logos[0].href,
     picAlt2: player.team.displayName,
     summary: player.team.displayName,
-    summaryData: [
+    actions: [
       {
-        label: 'A',
+        label: 'View Player Details',
         value: 'B'
       },
       {
-        label: 'A',
-        value: 'B'
-      },
-      {
-        label: 'A',
+        label: 'Sample Action',
         value: 'B'
       }
     ],
