@@ -396,7 +396,9 @@ class CollectionComponent extends HTMLElement {
       --dark: #555;
       --darker: #333;
       --light: #ccc;
-      --highlight: #4169e1;
+      --highlight: #1434a4;
+      --link-hover: #4169e1;
+      --link: #87CEEB;
       --border: 1px solid var(--border-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
@@ -407,7 +409,7 @@ class CollectionComponent extends HTMLElement {
       --shadow-base: 5px 5px 5px var(--shadow-color);
       --shadow-sm: 2px 2px 2px var(--shadow-color);
       --space-base: 4px;
-      --space-small: 2px;
+      --space-sm: 2px;
       --space-md: calc(var(--space-base) * 2);
       --space-lg: calc(var(--space-base) * 4);
       --space-xl: calc(var(--space-base) * 6);
@@ -420,6 +422,15 @@ class CollectionComponent extends HTMLElement {
       --button-size: 40px;
 
       position: relative;
+    }
+
+    a {
+      color: var(--link);
+      line-height: 24px;
+
+      &:hover {
+        color: var(--link-hover);
+      }
     }
 
     .fadeIn {
@@ -595,7 +606,8 @@ class CollectionComponent extends HTMLElement {
             width: 40px;
             text-align: center;
             border-radius: var(--border-radius-base);
-            margin-top: var(--space-md);
+            margin-top: var(--space-sm);
+            padding: var(--space-sm);
           }
         }
       }
@@ -630,7 +642,7 @@ class CollectionComponent extends HTMLElement {
       font-weight: var(--font-weight-bold);
       text-decoration: none;
       display: block;
-      padding-right: var(--space-small);
+      padding-right: var(--space-sm);
       cursor: pointer;
     }
 
