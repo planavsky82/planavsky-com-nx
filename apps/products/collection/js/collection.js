@@ -305,10 +305,10 @@ class CollectionComponent extends HTMLElement {
       itemElement.style.color = item.colors[1];
 
       itemElement.id = 'item_' + index;
-      itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}
-        style="border-bottom: 6px solid #${item.colors[2]}">
-          <span class="ranking-header">${index + 1}</span>
-          ${item.name}</h${this.getAttribute('sectionHeader')}>`;
+      itemElement.innerHTML = `<div id="headerSection" style="border-bottom: 6px solid #${item.colors[2]}">
+        <h${this.getAttribute('sectionHeader')} id="section-header">
+        <span class="ranking-header">${index + 1}</span>
+        ${item.name}</h${this.getAttribute('sectionHeader')}></div>`;
       this._div.appendChild(itemElement);
 
       // item
@@ -360,6 +360,11 @@ class CollectionComponent extends HTMLElement {
           actions.appendChild(actionItem);
         });
       }
+      let topAction = document.createElement('a');
+      itemElement.querySelector('#headerSection').appendChild(topAction);
+      topAction.href = 'javascript:';
+      topAction.onclick = item.actions[0].event;
+      topAction.innerHTML = item.actions[0].label;
 
       // canvas area
       let canvasElement = document.createElement('canvas');
@@ -600,6 +605,15 @@ class CollectionComponent extends HTMLElement {
       display: none;
     }
 
+    #headerSection {
+      display: flex;
+      justify-content: space-between;
+
+      a {
+        display: none;
+      }
+    }
+
     div.item-index {
       display: flex;
 
@@ -698,6 +712,12 @@ class CollectionComponent extends HTMLElement {
     @media screen and (max-width: 800px) {
       span.ranking-header {
         display: inline-block;
+      }
+
+      #headerSection {
+        a {
+          display: inline-block;
+        }
       }
 
       div.item-index {
