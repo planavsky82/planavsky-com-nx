@@ -306,13 +306,20 @@ class CollectionComponent extends HTMLElement {
 
       itemElement.id = 'item_' + index;
       itemElement.innerHTML = `<h${this.getAttribute('sectionHeader')}
-        style="border-bottom: 6px solid #${item.colors[2]}">${item.name}</h${this.getAttribute('sectionHeader')}>`;
+        style="border-bottom: 6px solid #${item.colors[2]}">
+          <span class="ranking-header">${index + 1}</span>
+          ${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
 
       // item
       let indexElement = document.createElement('div');
       indexElement.classList.add('item-index');
       indexElement.style.borderTop = '2px solid #' + item.colors[3];
+
+      // ranking number area
+      let rankingElement = document.createElement('div');
+      rankingElement.innerHTML = index + 1;
+      rankingElement.classList.add('ranking');
 
       // summary detail section
       let summaryWrapper = document.createElement('div');
@@ -366,18 +373,17 @@ class CollectionComponent extends HTMLElement {
       ctx.lineTo(200, 100);
       ctx.stroke();
 
-      // ranking number area
-      let rankingElement = document.createElement('div');
-      rankingElement.innerHTML = index + 1;
-      rankingElement.classList.add('ranking');
-
       // control area
       let controlElement = document.createElement('div');
       let rankUpElement = document.createElement('button');
       let rankDownElement = document.createElement('button');
+      let upArrow = document.createElement('div');
+      let downArrow = document.createElement('div');
+      upArrow.classList.add('arrow');
+      downArrow.classList.add('arrow');
       controlElement.classList.add('control-area');
-      rankUpElement.innerHTML = 'Move Up';
-      rankDownElement.innerHTML = 'Mode Down';
+      rankUpElement.ariaLabel = 'Move Up';
+      rankDownElement.ariaLabel = 'Mode Down';
 
       // attach elements
       itemElement.appendChild(indexElement);
@@ -395,6 +401,8 @@ class CollectionComponent extends HTMLElement {
       indexElement.appendChild(controlElement);
       controlElement.appendChild(rankUpElement);
       controlElement.appendChild(rankDownElement);
+      rankUpElement.appendChild(upArrow);
+      rankDownElement.appendChild(downArrow);
     });
 
     this.dataLoaded();
@@ -453,6 +461,7 @@ class CollectionComponent extends HTMLElement {
 
     ul {
       list-style-type: square;
+      padding-left: var(--space-xl);
     }
 
     .fadeIn {
@@ -587,9 +596,16 @@ class CollectionComponent extends HTMLElement {
       margin-top: 3px;
     }
 
+    span.ranking-header {
+      display: none;
+    }
+
     div.item-index {
-      display: grid;
-      grid-template-columns: 90px auto auto auto auto;
+      display: flex;
+
+      > div, ul {
+        flex-grow: 1;
+      }
 
       div.ranking {
         padding: var(--space-md);
@@ -608,6 +624,11 @@ class CollectionComponent extends HTMLElement {
           bottom: -10px;
           left: -40px;
         }
+      }
+
+      ul {
+        display: flex;
+        align-items: center;
       }
 
       div.summary-wrapper {
@@ -633,11 +654,65 @@ class CollectionComponent extends HTMLElement {
           }
         }
       }
+
+      div.control-area {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+
+        .arrow {
+          border: solid var(--black);
+          border-width: 0 3px 3px 0;
+          display: inline-block;
+          padding: 3px;
+        }
+
+        button {
+          border-radius: var(--border-radius-xlarge);
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+          border: 2px solid var(--dark);
+          background: var(--white);
+        }
+
+        button:nth-of-type(1) {
+          margin-bottom: var(--space-sm);
+
+          .arrow {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+          }
+        }
+
+        button:nth-of-type(2) {
+          .arrow {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+          }
+        }
+      }
     }
 
-    div.control-area {
-      display: flex;
-      flex-direction: column;
+    @media screen and (max-width: 800px) {
+      span.ranking-header {
+        display: inline-block;
+      }
+
+      div.item-index {
+        div.ranking {
+          display: none;
+        }
+
+        div.pic-wrapper {
+          flex-grow: 0;
+        }
+
+        > ul {
+          display: none;
+        }
+      }
     }
 
     @keyframes activate-next {
