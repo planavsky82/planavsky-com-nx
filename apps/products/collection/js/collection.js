@@ -328,7 +328,7 @@ class CollectionComponent extends HTMLElement {
         item.actions.forEach((action) => {
           let actionItem = document.createElement('li');
           let actionItemAnchor = document.createElement('a');
-          actionItemAnchor.innerHTML = action.label;
+          actionItemAnchor.innerHTML = action.label + ' >>';
           actionItemAnchor.href = 'javascript:'
           actionItemAnchor.onclick = action.event;
           actionItem.appendChild(actionItemAnchor);
@@ -398,7 +398,7 @@ class CollectionComponent extends HTMLElement {
       --light: #ccc;
       --highlight: #1434a4;
       --link-hover: #4169e1;
-      --link: #87CEEB;
+      --link: #7DF9FF;
       --border: 1px solid var(--border-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
@@ -431,6 +431,10 @@ class CollectionComponent extends HTMLElement {
       &:hover {
         color: var(--link-hover);
       }
+    }
+
+    ul {
+      list-style-type: square;
     }
 
     .fadeIn {
