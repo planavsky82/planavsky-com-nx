@@ -309,21 +309,38 @@ class CollectionComponent extends HTMLElement {
         style="border-bottom: 6px solid #${item.colors[2]}">${item.name}</h${this.getAttribute('sectionHeader')}>`;
       this._div.appendChild(itemElement);
 
+      // item
       let indexElement = document.createElement('div');
+      indexElement.classList.add('item-index');
+      indexElement.style.borderTop = '2px solid #' + item.colors[3];
+
+      // summary detail section
       let summaryWrapper = document.createElement('div');
       let summaryElement = document.createElement('div');
+      summaryElement.innerHTML = item.summary;
+
+      // imagery area
       let picWrapper = document.createElement('div');
       let picElement = document.createElement('img');
       let picElement2 = document.createElement('img');
+
+      picWrapper.classList.add('pic-wrapper');
+      summaryWrapper.classList.add('summary-wrapper');
+
+      let alt = item.alt ? item.alt : item.name;
+      picElement.src = item.pic;
+      picElement.alt = 'Picture for ' + alt;
+
+      let alt2 = item.alt2 ? item.alt2 : item.name;
+      picElement2.src = item.pic2;
+      picElement2.alt = 'Picture for ' + alt2;
+
+      // description / additional detail area
       let descElement = document.createElement('div');
+      descElement.innerHTML = item.desc;
+
+      // actions area
       let actions = document.createElement('ul');
-      let canvasElement = document.createElement('canvas');
-      let rankingElement = document.createElement('div');
-
-      indexElement.classList.add('item-index');
-
-      summaryElement.innerHTML = item.summary;
-
       if (item.actions) {
         item.actions.forEach((action) => {
           let actionItem = document.createElement('li');
@@ -337,19 +354,8 @@ class CollectionComponent extends HTMLElement {
         });
       }
 
-      picWrapper.classList.add('pic-wrapper');
-      summaryWrapper.classList.add('summary-wrapper');
-
-      let alt = item.alt ? item.alt : item.name;
-      picElement.src = item.pic;
-      picElement.alt = 'Picture for ' + alt;
-
-      let alt2 = item.alt2 ? item.alt2 : item.name;
-      picElement2.src = item.pic2;
-      picElement2.alt = 'Picture for ' + alt2;
-
-      descElement.innerHTML = item.desc;
-
+      // canvas area
+      let canvasElement = document.createElement('canvas');
       canvasElement.width = '200';
       canvasElement.height = '100';
       canvasElement.ariaLabel = 'Additonal image for ' + item.name;
@@ -360,11 +366,20 @@ class CollectionComponent extends HTMLElement {
       ctx.lineTo(200, 100);
       ctx.stroke();
 
-      indexElement.style.borderTop = '2px solid #' + item.colors[3];
-
+      // ranking number area
+      let rankingElement = document.createElement('div');
       rankingElement.innerHTML = index + 1;
       rankingElement.classList.add('ranking');
 
+      // control area
+      let controlElement = document.createElement('div');
+      let rankUpElement = document.createElement('button');
+      let rankDownElement = document.createElement('button');
+      controlElement.classList.add('control-area');
+      rankUpElement.innerHTML = 'Move Up';
+      rankDownElement.innerHTML = 'Mode Down';
+
+      // attach elements
       itemElement.appendChild(indexElement);
       indexElement.appendChild(rankingElement);
       indexElement.appendChild(picWrapper);
@@ -377,6 +392,9 @@ class CollectionComponent extends HTMLElement {
         picWrapper.appendChild(canvasElement);
       }
       indexElement.appendChild(actions);
+      indexElement.appendChild(controlElement);
+      controlElement.appendChild(rankUpElement);
+      controlElement.appendChild(rankDownElement);
     });
 
     this.dataLoaded();
@@ -571,7 +589,7 @@ class CollectionComponent extends HTMLElement {
 
     div.item-index {
       display: grid;
-      grid-template-columns: 90px auto auto auto;
+      grid-template-columns: 90px auto auto auto auto;
 
       div.ranking {
         padding: var(--space-md);
@@ -615,6 +633,11 @@ class CollectionComponent extends HTMLElement {
           }
         }
       }
+    }
+
+    div.control-area {
+      display: flex;
+      flex-direction: column;
     }
 
     @keyframes activate-next {

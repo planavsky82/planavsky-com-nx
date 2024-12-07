@@ -151,12 +151,6 @@ getGroup('RB').players.forEach((player) => {
         event: () => {
           alert('A');
         }
-      },
-      {
-        label: 'Sample Action',
-        event: () => {
-          alert('A');
-        }
       }
     ],
     desc: '<div>' + player.position.displayName + '</div><div>#' + player.number + '</div>',
