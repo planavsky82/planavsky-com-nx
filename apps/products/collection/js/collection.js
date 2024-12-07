@@ -312,11 +312,11 @@ class CollectionComponent extends HTMLElement {
       let indexElement = document.createElement('div');
       let summaryWrapper = document.createElement('div');
       let summaryElement = document.createElement('div');
-      let actions = document.createElement('ul');
       let picWrapper = document.createElement('div');
       let picElement = document.createElement('img');
       let picElement2 = document.createElement('img');
       let descElement = document.createElement('div');
+      let actions = document.createElement('ul');
       let canvasElement = document.createElement('canvas');
       let rankingElement = document.createElement('div');
 
@@ -325,14 +325,13 @@ class CollectionComponent extends HTMLElement {
       summaryElement.innerHTML = item.summary;
 
       if (item.actions) {
-        item.actions.forEach((data) => {
+        item.actions.forEach((action) => {
           let actionItem = document.createElement('li');
-          let actionItemLabel = document.createElement('span');
-          let actionItemValue = document.createElement('span');
-          actionItemLabel.innerHTML = data.label;
-          actionItem.appendChild(actionItemLabel);
-          actionItemValue.innerHTML = data.value;
-          actionItem.appendChild(actionItemValue);
+          let actionItemAnchor = document.createElement('a');
+          actionItemAnchor.innerHTML = action.label;
+          actionItemAnchor.href = 'javascript:'
+          actionItemAnchor.onclick = action.event;
+          actionItem.appendChild(actionItemAnchor);
 
           actions.appendChild(actionItem);
         });
