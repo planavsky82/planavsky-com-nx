@@ -732,6 +732,10 @@ class CollectionComponent extends HTMLElement {
         > ul {
           display: none;
         }
+
+        div.control-area {
+          margin-top: var(--space-base);
+        }
       }
     }
 
