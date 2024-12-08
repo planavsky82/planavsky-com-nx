@@ -389,6 +389,12 @@ class CollectionComponent extends HTMLElement {
       controlElement.classList.add('control-area');
       rankUpElement.ariaLabel = 'Move Up';
       rankDownElement.ariaLabel = 'Mode Down';
+      rankUpElement.addEventListener('click', () => {
+        this.move('up', index);
+      });
+      rankDownElement.addEventListener('click', () => {
+        this.move('down', index);
+      });
 
       // attach elements
       itemElement.appendChild(indexElement);
@@ -415,6 +421,10 @@ class CollectionComponent extends HTMLElement {
 
   get items() {
     return this._items;
+  }
+
+  move(direction, index) {
+    console.log(direction, index);
   }
 
   loadStyles() {
