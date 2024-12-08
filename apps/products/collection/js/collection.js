@@ -390,10 +390,10 @@ class CollectionComponent extends HTMLElement {
       rankUpElement.ariaLabel = 'Move Up';
       rankDownElement.ariaLabel = 'Mode Down';
       rankUpElement.addEventListener('click', () => {
-        this.move('up', index);
+        this.move('up', index, item.id);
       });
       rankDownElement.addEventListener('click', () => {
-        this.move('down', index);
+        this.move('down', index, item.id);
       });
 
       // attach elements
@@ -423,8 +423,8 @@ class CollectionComponent extends HTMLElement {
     return this._items;
   }
 
-  move(direction, index) {
-    console.log(direction, index);
+  move(direction, index, playerId) {
+    console.log(direction, index, playerId);
   }
 
   loadStyles() {

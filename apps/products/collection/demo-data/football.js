@@ -139,6 +139,7 @@ let getGroup = (position) => {
 
 getGroup('RB').players.forEach((player) => {
   players.push({
+    id: player.id,
     name: player.displayName,
     pic: player.headshot.href,
     picAlt: '',
