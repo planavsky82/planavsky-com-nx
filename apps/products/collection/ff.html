@@ -34,9 +34,12 @@
     </main>
   </body>
   <script>
+    setUserRankings();
+    loadAPIlData().then((players) => {
     // load data-driven list
     let list = document.getElementsByTagName('collection-component')[0];
       list.setAttribute('sectionHeader', 2);
       list.items = players;
+    });
   </script>
 </html>
