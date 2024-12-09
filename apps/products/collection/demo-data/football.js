@@ -95,7 +95,93 @@ let loadLocalData = () => {
 }
 
 // load player data
-async function  loadAPIlData() {
+async function loadAPIlData() {
+  if (!localStorage.hasOwnProperty('mffrPlayerData')) {
+    return fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
+      cache: 'force-cache',
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'max-age=86400',
+        'Content-Type': 'application/json',
+        'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
+        'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Assuming the API returns JSON data
+      })
+      .then(data => {
+        // Process the received data
+        let teams = data;
+        let playerList = [];
+        let teamList = [];
+
+        //teams.forEach((teamObj) => {
+        let teamObj = teams[0];
+        return fetch('https://nfl-api-data.p.rapidapi.com/nfl-player-listing/v1/data?id=1', {
+            cache: 'force-cache',
+            method: 'GET',
+            headers: {
+              'Cache-Control': 'max-age=86400',
+              'Content-Type': 'application/json',
+              'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
+              'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            teamList.push(teamObj.team);
+            let playerData = data;
+            let players = playerData.athletes.find((athlete) => {
+              return athlete.position === 'offense';
+            }).items;
+            players.forEach((player) => {
+              playerList.push({
+                headshot: player.headshot,
+                id: player.id,
+                uid: player.uid,
+                guid: player.guid,
+                shortName: player.shortName,
+                slug: player.slug,
+                status: player.status,
+                number: player.jersey,
+                position: player.position,
+                firstName: player.firstName,
+                lastName: player.lastName,
+                experience: player.experience,
+                college: player.college,
+                displayName: player.displayName,
+                injuries: player.injuries,
+                team: teamObj.team
+              });
+            });
+            localStorage.setItem('mffrPlayerData', JSON.stringify(playerList));
+            localStorage.setItem('mffrTeamData', JSON.stringify(teamList));
+            return loadLocalData();
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+        //});
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+  } else {
+    return loadLocalData();
+  }
+}
+
+async function loadAPIlData2() {
   if (!localStorage.hasOwnProperty('mffrPlayerData')) {
     fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
       cache: 'force-cache',
@@ -166,12 +252,12 @@ async function  loadAPIlData() {
               /* if (localStorage.getItem('mffrUserRankings') === undefined) {
                 console.log('undefined');
               } */
+              return loadLocalData();
             })
             .catch(error => {
               console.error('Error fetching data:', error);
             });
         });
-        return loadLocalData();
       })
       .catch(error => {
         // Handle errors
