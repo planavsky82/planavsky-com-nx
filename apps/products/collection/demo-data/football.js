@@ -61,8 +61,6 @@ let loadLocalData = () => {
     players: localTeamData
   });
 
-  console.log(structuredData);
-
   let players = [];
 
   let getGroup = (position) => {
