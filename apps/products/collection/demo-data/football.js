@@ -69,7 +69,7 @@ let loadLocalData = () => {
     });
   };
 
-  getGroup('K').players.forEach((player) => {
+  getGroup('RB').players.forEach((player) => {
     let positionDisplayName = 'Defense/Special Teams';
     if (player.position) {
       if (player.position.displayName) {
