@@ -338,9 +338,11 @@ class CollectionComponent extends HTMLElement {
       picElement.src = item.pic;
       picElement.alt = 'Picture for ' + alt;
 
-      let alt2 = item.alt2 ? item.alt2 : item.name;
-      picElement2.src = item.pic2;
-      picElement2.alt = 'Picture for ' + alt2;
+      if (item.pic2) {
+        let alt2 = item.alt2 ? item.alt2 : item.name;
+        picElement2.src = item.pic2;
+        picElement2.alt = 'Picture for ' + alt2;
+      }
 
       // description / additional detail area
       let descElement = document.createElement('div');
@@ -404,7 +406,9 @@ class CollectionComponent extends HTMLElement {
       summaryWrapper.appendChild(summaryElement);
       summaryWrapper.appendChild(descElement);
       picWrapper.appendChild(picElement);
-      picWrapper.appendChild(picElement2);
+      if (item.pic2) {
+        picWrapper.appendChild(picElement2);
+      }
       if (item.canvas) {
         picWrapper.appendChild(canvasElement);
       }
@@ -586,6 +590,7 @@ class CollectionComponent extends HTMLElement {
 
     div.wrapper.list item {
       padding: var(--space-md);
+      padding-bottom: 0;
 
       :is(h1, h2, h3, h4, h5, h6) {
         margin: 0;
@@ -632,14 +637,19 @@ class CollectionComponent extends HTMLElement {
       }
 
       div.ranking {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding: var(--space-md);
         font-size: var(--font-size-super);
         font-weight: var(--font-weight-bold);
+        width: 3rem;
       }
 
       div.pic-wrapper {
         img:first-of-type {
           height: 80px;
+          margin-top: var(--space-sm);
         }
 
         img:nth-of-type(2) {
@@ -656,7 +666,10 @@ class CollectionComponent extends HTMLElement {
       }
 
       div.summary-wrapper {
-        padding-top: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: var(--space-lg);
 
         div:first-of-type {
           font-style: italic;
@@ -731,6 +744,8 @@ class CollectionComponent extends HTMLElement {
       }
 
       div.item-index {
+        padding-bottom: var(--space-base);
+
         div.ranking {
           display: none;
         }

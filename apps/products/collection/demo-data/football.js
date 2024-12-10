@@ -26,7 +26,7 @@ let loadLocalData = () => {
     return player.position.abbreviation === 'TE';
   });
   let k = localPlayerData.filter((player) => {
-    return player.position.abbreviation === 'K';
+    return player.position.abbreviation === 'PK';
   });
   structuredData.push({
     position: 'QB',
@@ -46,20 +46,22 @@ let loadLocalData = () => {
   });
   structuredData.push({
     position: 'FLEX',
-    players: [rb,...wr,...te]
+    players: [...rb, ...wr, ...te]
   });
   structuredData.push({
     position: 'ALL',
-    players: [qb,...rb,...wr,...te]
+    players: [...qb, ...rb, ...wr, ...te]
   });
   structuredData.push({
     position: 'K',
-    players: [k]
+    players: k
   });
   structuredData.push({
     position: 'DST',
     players: localTeamData
   });
+
+  console.log(structuredData);
 
   let players = [];
 
@@ -69,15 +71,31 @@ let loadLocalData = () => {
     });
   };
 
-  getGroup('RB').players.forEach((player) => {
+  getGroup('K').players.forEach((player) => {
+    let positionDisplayName = 'Defense/Special Teams';
+    if (player.position) {
+      if (player.position.displayName) {
+        positionDisplayName = player.position.displayName;
+      }
+    }
+    let desc = '<div>' + positionDisplayName + '</div>';
+    if (player.team) {
+      desc = desc + '<div>#' + player.number + '</div>';
+    }
+    let headshot = undefined;
+    if (player.headshot) {
+      headshot = player.headshot.href;
+    } else if (player.logos) {
+      headshot = player.logos[0].href;
+    }
     players.push({
       id: player.id,
-      name: player.displayName,
-      pic: player.headshot.href,
+      name: player.team ? player.displayName : player.name + ' D/ST',
+      pic: headshot,
       picAlt: '',
-      pic2: player.team.logos[0].href,
-      picAlt2: player.team.displayName,
-      summary: player.team.displayName,
+      pic2: player.team ? player.team.logos[0].href : undefined,
+      picAlt2: player.team ? player.team.displayName : player.displayName,
+      summary: player.team ? player.team.displayName : player.displayName,
       actions: [
         {
           label: 'View Player Details',
@@ -86,8 +104,8 @@ let loadLocalData = () => {
           }
         }
       ],
-      desc: '<div>' + player.position.displayName + '</div><div>#' + player.number + '</div>',
-      colors: [ '#000', '#fff', player.team.color, player.team.alternateColor ]
+      desc: desc,
+      colors: [ '#000', '#fff', player.team ? player.team.color : player.color, player.team ? player.team.alternateColor : player.alternateColor ]
     })
   });
 
@@ -140,9 +158,13 @@ async function loadAPIlData() {
             .then(data => {
               let teamObj = teams[index];
               let playerData = data;
-              let players = playerData.athletes.find((athlete) => {
+              let oPlayers = playerData.athletes.find((athlete) => {
                 return athlete.position === 'offense';
               }).items;
+              let kPlayers = playerData.athletes.find((athlete) => {
+                return athlete.position === 'specialTeam';
+              }).items
+              let players = [...oPlayers, ...kPlayers];
               players.forEach((player) => {
                 playerList.push({
                   headshot: player.headshot,
