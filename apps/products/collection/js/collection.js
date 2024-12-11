@@ -294,6 +294,11 @@ class CollectionComponent extends HTMLElement {
   };
 
   set items(value) {
+    // clear
+    this._items.forEach((item, index) => {
+      this._div.removeChild(this._div.querySelector('#item_' + index));
+    });
+
     this._items = value;
     //console.log('data', this._items);
 

@@ -33,11 +33,12 @@
       <h1>Fantasy Football Rankings Demo</h1>
 
       <section class="list">
-        <select id="position">
+        <select id="position" onchange="loadPlayers(this)">
           <option value="QB">Quarterback</option>
           <option value="RB">Running Back</option>
           <option value="WR">Wide Reciever</option>
           <option value="TE">Tight End</option>
+          <option value="FLEX">Flex</option>
           <option value="K">Kicker</option>
           <option value="DST">Defense/Special Teams</option>
         </select>
@@ -46,11 +47,14 @@
     </main>
   </body>
   <script>
-    loadAPIlData().then((players) => {
-      // load data-driven list
-      let list = document.getElementsByTagName('collection-component')[0];
-        list.setAttribute('sectionHeader', 2);
-        list.items = players;
-    });
+    let loadPlayers = (select) => {
+      loadAPIlData(select.value).then((players) => {
+        // load data-driven list
+        const list = document.getElementsByTagName('collection-component')[0];
+          list.setAttribute('sectionHeader', 2);
+          list.items = players;
+      });
+    };
+    loadPlayers(document.querySelector('select#position'));
   </script>
 </html>

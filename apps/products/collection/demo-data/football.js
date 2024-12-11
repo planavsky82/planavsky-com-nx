@@ -1,12 +1,5 @@
 // set user rankings local storage from API call or from the "move" function callback in the collection component
-let setUserRankings = (defaultPos, rankings) => {
-  // get position select and add change listener
-  let select = document.querySelector('select#position');
-  select.addEventListener('change', (event) => {
-    console.log('change!');
-  });
-  select.value = defaultPos;
-
+let setUserRankings = (rankings) => {
   if (rankings) {
 
   }
@@ -16,7 +9,7 @@ let setUserRankings = (defaultPos, rankings) => {
   localStorage.setItem('mffrUserRankings', JSON.stringify());
 }
 
-let loadLocalData = () => {
+let loadLocalData = (newPosition) => {
   let localPlayerData = JSON.parse(localStorage.getItem('mffrPlayerData'));
   let localTeamData = JSON.parse(localStorage.getItem('mffrTeamData'));
   let structuredData = [];
@@ -68,8 +61,6 @@ let loadLocalData = () => {
     players: localTeamData
   });
 
-  setUserRankings('RB');
-
   let players = [];
 
   let getGroup = (position) => {
@@ -78,7 +69,9 @@ let loadLocalData = () => {
     });
   };
 
-  getGroup('RB').players.forEach((player) => {
+  setUserRankings();
+
+  getGroup(newPosition).players.forEach((player) => {
     let positionDisplayName = 'Defense/Special Teams';
     if (player.position) {
       if (player.position.displayName) {
@@ -120,7 +113,7 @@ let loadLocalData = () => {
 }
 
 // load player data
-async function loadAPIlData() {
+async function loadAPIlData(newPosition) {
   if (!localStorage.hasOwnProperty('mffrPlayerData')) {
     return fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
       cache: 'force-cache',
@@ -214,7 +207,7 @@ async function loadAPIlData() {
           .then(data => {
             localStorage.setItem('mffrPlayerData', JSON.stringify(data[0]));
             localStorage.setItem('mffrTeamData', JSON.stringify(teamList));
-            return loadLocalData();
+            return loadLocalData(newPosition);
           })
           .catch((error) => {
             return error;
@@ -225,6 +218,6 @@ async function loadAPIlData() {
         console.error('Error fetching data:', error);
       });
   } else {
-    return loadLocalData();
+    return loadLocalData(newPosition);
   }
 }
