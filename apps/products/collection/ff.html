@@ -21,6 +21,10 @@
         @media screen and (max-width: 800px) {
           width: 100%;
         }
+
+        select {
+          margin-bottom: 4px;
+        }
       }
     </style>
   </head>
@@ -29,12 +33,19 @@
       <h1>Fantasy Football Rankings Demo</h1>
 
       <section class="list">
+        <select id="position">
+          <option value="QB">Quarterback</option>
+          <option value="RB">Running Back</option>
+          <option value="WR">Wide Reciever</option>
+          <option value="TE">Tight End</option>
+          <option value="K">Kicker</option>
+          <option value="DST">Defense/Special Teams</option>
+        </select>
         <collection-component display="list"></collection-component>
       </section>
     </main>
   </body>
   <script>
-    setUserRankings();
     loadAPIlData().then((players) => {
       // load data-driven list
       let list = document.getElementsByTagName('collection-component')[0];

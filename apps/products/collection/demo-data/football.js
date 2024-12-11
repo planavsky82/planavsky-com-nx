@@ -1,5 +1,12 @@
 // set user rankings local storage from API call or from the "move" function callback in the collection component
-let setUserRankings = (rankings) => {
+let setUserRankings = (defaultPos, rankings) => {
+  // get position select and add change listener
+  let select = document.querySelector('select#position');
+  select.addEventListener('change', (event) => {
+    console.log('change!');
+  });
+  select.value = defaultPos;
+
   if (rankings) {
 
   }
@@ -60,6 +67,8 @@ let loadLocalData = () => {
     position: 'DST',
     players: localTeamData
   });
+
+  setUserRankings('RB');
 
   let players = [];
 
