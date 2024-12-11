@@ -4,6 +4,9 @@
 class CollectionComponent extends HTMLElement {
   static observedAttributes = ['display', 'template', "columns", "sectionHeader"];
 
+  //events
+  // 1) order-adjusted - returns updated list of items
+
   constructor() {
     // Always call super first in constructor
     super();
@@ -434,6 +437,13 @@ class CollectionComponent extends HTMLElement {
 
   move(direction, index, playerId) {
     console.log(direction, index, playerId);
+    let eventOrderAdjusted = new CustomEvent('order-adjusted', {
+      detail: {
+        message: 'Order has been adjusted.',
+        order: this._items
+      }
+    });
+    this.dispatchEvent(eventOrderAdjusted);
   }
 
   loadStyles() {

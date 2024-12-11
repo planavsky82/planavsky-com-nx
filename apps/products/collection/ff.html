@@ -53,6 +53,10 @@
         const list = document.getElementsByTagName('collection-component')[0];
           list.setAttribute('sectionHeader', 2);
           list.items = players;
+
+          list.addEventListener('order-adjusted', (event) => {
+            console.log(event);
+          });
       });
     };
     document.querySelector('select#position').value = 'RB';
