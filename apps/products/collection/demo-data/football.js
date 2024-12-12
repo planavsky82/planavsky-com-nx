@@ -1,9 +1,30 @@
 // set user rankings local storage from API call or from the "move" function callback in the collection component
-let setUserRankings = (rankings) => {
+let setUserRankings = (position, rankings, direction, id) => {
+  let userRankings;
   if (rankings) {
+    userRankings = rankings.map((ranking) => {
+      return ranking.id;
+    });
+    console.log(userRankings);
+    let index = userRankings.findIndex((playerId) => {
+      return playerId === id;
+    });
+    console.log(id);
+    userRankings = userRankings.filter((playerId) => {
+      return playerId !== id;
+    });
+    let newIndex = index;
+    if (direction === 'down') {
+      newIndex++;
+    } else {
+      newIndex--;
+    }
+    userRankings.splice(newIndex, 0, id);
+    console.log(userRankings);
+  } else {
+    // get API call
 
   }
-  // get API call
 
   // set local storage var
   localStorage.setItem('mffrUserRankings', JSON.stringify());
@@ -68,8 +89,6 @@ let loadLocalData = (newPosition) => {
       return group.position === position;
     });
   };
-
-  setUserRankings();
 
   getGroup(newPosition).players.forEach((player) => {
     let positionDisplayName = 'Defense/Special Teams';

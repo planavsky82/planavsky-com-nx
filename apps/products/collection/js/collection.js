@@ -435,12 +435,14 @@ class CollectionComponent extends HTMLElement {
     return this._items;
   }
 
-  move(direction, index, playerId) {
-    console.log(direction, index, playerId);
+  move(direction, index, id) {
     let eventOrderAdjusted = new CustomEvent('order-adjusted', {
       detail: {
         message: 'Order has been adjusted.',
-        order: this._items
+        order: this._items,
+        direction,
+        index,
+        id
       }
     });
     this.dispatchEvent(eventOrderAdjusted);

@@ -47,6 +47,7 @@
     </main>
   </body>
   <script>
+    let select = document.querySelector('select#position');
     let loadPlayers = (select) => {
       loadAPIlData(select.value).then((players) => {
         // load data-driven list
@@ -55,11 +56,11 @@
           list.items = players;
 
           list.addEventListener('order-adjusted', (event) => {
-            console.log(event);
+            setUserRankings(select.value, event.detail.order, event.detail.direction, event.detail.id);
           });
       });
     };
-    document.querySelector('select#position').value = 'RB';
+    select.value = 'RB';
     loadPlayers(document.querySelector('select#position'));
   </script>
 </html>
