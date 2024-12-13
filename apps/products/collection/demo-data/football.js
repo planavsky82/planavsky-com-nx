@@ -2,7 +2,7 @@
 let setUserRankings = (position, rankings, direction, id) => {
   let userRankings;
   if (rankings) {
-    userRankings = rankings.map((ranking) => {
+    /*userRankings = rankings.map((ranking) => {
       return ranking.id;
     });
     console.log(userRankings);
@@ -20,7 +20,7 @@ let setUserRankings = (position, rankings, direction, id) => {
       newIndex--;
     }
     userRankings.splice(newIndex, 0, id);
-    console.log(userRankings);
+    console.log(userRankings);*/
   } else {
     // get API call
 

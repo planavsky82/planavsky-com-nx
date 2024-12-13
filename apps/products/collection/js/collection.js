@@ -174,23 +174,23 @@ class CollectionComponent extends HTMLElement {
       this._div.getElementsByTagName('item')[index].classList.remove('next-in-collection');
       this._div.getElementsByTagName('item')[index].classList.remove('previous-in-collection');
     });
-    console.log(activeId);
+    //console.log(activeId);
     let forward = (activeId < (max - 3)) ? activeId + 3 : max;
     let backward = (activeId >= 3) ? activeId - 3 : 0;
-    console.log('max', max);
-    console.log('forward', forward);
-    console.log('activeId', activeId);
-    console.log('backward', backward);
-    console.log('forward items:');
+    //console.log('max', max);
+    //console.log('forward', forward);
+    //console.log('activeId', activeId);
+    //console.log('backward', backward);
+    //console.log('forward items:');
     // forward
     for (let i=activeId+1; i<forward+1; i++) {
-      console.log(i);
+      //console.log(i);
       const items = this._div.getElementsByTagName('item')[i].classList.add('next-in-collection');
     }
-    console.log('backward items:');
+    //console.log('backward items:');
     // backward
     for (let i=activeId-1; i>=backward; i--) {
-      console.log(i);
+      //console.log(i);
       const items = this._div.getElementsByTagName('item')[i].classList.add('previous-in-collection');
     }
   }
@@ -435,14 +435,31 @@ class CollectionComponent extends HTMLElement {
     return this._items;
   }
 
-  move(direction, index, id) {
+  move(direction, activeIndex, activeId) {
+    let order = this._items.filter((item) => {
+      return item.id !== activeId;
+    });
+    let newIndex = activeIndex;
+    let activeObj = this._items.find((item) => {
+      return item.id === activeId;
+    });
+    if (direction === 'down') {
+      newIndex++;
+    } else {
+      newIndex--;
+    }
+    order.splice(newIndex, 0, activeObj);
+    this.items = order;
+    console.log(this._items);
+    // refresh???????????????????
     let eventOrderAdjusted = new CustomEvent('order-adjusted', {
       detail: {
         message: 'Order has been adjusted.',
-        order: this._items,
-        direction,
-        index,
-        id
+        order: order,
+        itemIds: order.map((item) => {
+          return item.id;
+        }),
+        direction
       }
     });
     this.dispatchEvent(eventOrderAdjusted);
