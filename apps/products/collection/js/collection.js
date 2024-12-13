@@ -405,6 +405,12 @@ class CollectionComponent extends HTMLElement {
       rankDownElement.addEventListener('click', () => {
         this.move('down', index, item.id);
       });
+      if (index === 0) {
+        rankUpElement.style.visibility = 'hidden';
+      }
+      if (index === (this._items.length - 1)) {
+        rankDownElement.style.visibility = 'hidden';
+      }
 
       // attach elements
       itemElement.appendChild(indexElement);
