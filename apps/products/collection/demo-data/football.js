@@ -1,13 +1,14 @@
 // set user rankings local storage from API call or from the "move" function event in the collection component
 let setUserRankings = (position, rankings) => {
+  let userRankings;
   if (rankings) {
-
+    userRankings = rankings;
   } else {
     // get API call
 
   }
   // set local storage var
-  localStorage.setItem('mffrUserRankings', JSON.stringify());
+  localStorage.setItem('mffrUserRankings', JSON.stringify(userRankings));
 }
 
 let loadLocalData = (newPosition) => {
