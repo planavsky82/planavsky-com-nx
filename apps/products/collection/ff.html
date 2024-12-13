@@ -56,7 +56,8 @@
           list.items = players;
 
           list.addEventListener('order-adjusted', (event) => {
-            setUserRankings(select.value, event.detail.order, event.detail.direction, event.detail.id);
+            console.log(event);
+            setUserRankings(select.value, event.detail.itemIds);
           });
       });
     };

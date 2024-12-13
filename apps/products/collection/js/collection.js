@@ -450,8 +450,6 @@ class CollectionComponent extends HTMLElement {
     }
     order.splice(newIndex, 0, activeObj);
     this.items = order;
-    console.log(this._items);
-    // refresh???????????????????
     let eventOrderAdjusted = new CustomEvent('order-adjusted', {
       detail: {
         message: 'Order has been adjusted.',
