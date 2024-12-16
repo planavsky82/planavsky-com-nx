@@ -313,10 +313,11 @@ class CollectionComponent extends HTMLElement {
       itemElement.style.color = item.colors[1];
 
       itemElement.id = 'item_' + index;
-      itemElement.innerHTML = `<div id="headerSection" style="border-bottom: 6px solid #${item.colors[2]}">
-        <h${this.getAttribute('sectionHeader')} id="section-header">
+      itemElement.innerHTML = `<div class="header-section" style="border-bottom: 6px solid #${item.colors[2]}">
+        <h${this.getAttribute('sectionHeader')}>
         <span class="ranking-header">${index + 1}</span>
-        ${item.name}</h${this.getAttribute('sectionHeader')}></div>`;
+        ${item.name}</h${this.getAttribute('sectionHeader')}>
+        <div class="header-actions"></div></div>`;
       this._div.appendChild(itemElement);
 
       // item
@@ -359,7 +360,7 @@ class CollectionComponent extends HTMLElement {
       // actions area
       let actions = document.createElement('ul');
       if (item.actions) {
-        item.actions.forEach((action) => {
+        item.actions.forEach((action, index) => {
           let actionItem = document.createElement('li');
           let actionItemAnchor = document.createElement('a');
           actionItemAnchor.innerHTML = action.label + ' >>';
@@ -368,13 +369,20 @@ class CollectionComponent extends HTMLElement {
           actionItem.appendChild(actionItemAnchor);
 
           actions.appendChild(actionItem);
+
+          let topAction = document.createElement('a');
+          itemElement.querySelector('.header-section .header-actions').appendChild(topAction);
+          topAction.href = 'javascript:';
+          topAction.onclick = action.event;
+          topAction.innerHTML = action.shortLabel;
+          if ((item.actions.length - 1) !== index) {
+            let separator = document.createElement('span');
+            separator.innerHTML = ' | ';
+            separator.classList.add('separator');
+            itemElement.querySelector('.header-section .header-actions').appendChild(separator);
+          }
         });
       }
-      let topAction = document.createElement('a');
-      itemElement.querySelector('#headerSection').appendChild(topAction);
-      topAction.href = 'javascript:';
-      topAction.onclick = item.actions[0].event;
-      topAction.innerHTML = item.actions[0].label;
 
       // canvas area
       let canvasElement = document.createElement('canvas');
@@ -658,11 +666,11 @@ class CollectionComponent extends HTMLElement {
       display: none;
     }
 
-    #headerSection {
+    .header-section {
       display: flex;
       justify-content: space-between;
 
-      a {
+      a, span.separator {
         display: none;
       }
     }
@@ -700,7 +708,8 @@ class CollectionComponent extends HTMLElement {
 
       ul {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        justify-content: center;
       }
 
       div.summary-wrapper {
@@ -775,9 +784,19 @@ class CollectionComponent extends HTMLElement {
         display: inline-block;
       }
 
-      #headerSection {
+      .header-section {
+        font-size: var(--font-size-base);
+
+        h* {
+          font-size: 5px;
+        }
+
         a {
           display: inline-block;
+        }
+
+        span.separator {
+          display: inline;
         }
       }
 
@@ -796,8 +815,23 @@ class CollectionComponent extends HTMLElement {
           display: none;
         }
 
+        div.summary-wrapper {
+          font-size: var(--font-size-base);
+          padding-left: 0;
+        }
+
         div.control-area {
           margin-top: var(--space-base);
+        }
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      div.item-index {
+        div.pic-wrapper {
+          img:nth-of-type(2) {
+            margin-right: -30px;
+          }
         }
       }
     }

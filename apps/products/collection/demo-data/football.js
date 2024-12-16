@@ -98,7 +98,15 @@ let loadLocalData = (newPosition) => {
       summary: player.team ? player.team.displayName : player.displayName,
       actions: [
         {
+          label: 'Change Ranking',
+          shortLabel: 'Rank',
+          event: () => {
+            alert('A');
+          }
+        },
+        {
           label: 'View Player Details',
+          shortLabel: 'Details',
           event: () => {
             alert('A');
           }
