@@ -716,6 +716,7 @@ class CollectionComponent extends HTMLElement {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: left;
         padding-left: var(--space-lg);
 
         div:first-of-type {
@@ -815,11 +816,6 @@ class CollectionComponent extends HTMLElement {
           display: none;
         }
 
-        div.summary-wrapper {
-          font-size: var(--font-size-base);
-          padding-left: 0;
-        }
-
         div.control-area {
           margin-top: var(--space-base);
         }
@@ -832,6 +828,11 @@ class CollectionComponent extends HTMLElement {
           img:nth-of-type(2) {
             margin-right: -30px;
           }
+        }
+
+        div.summary-wrapper {
+          font-size: var(--font-size-base);
+          padding-left: 0;
         }
       }
     }
