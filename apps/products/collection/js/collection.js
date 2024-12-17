@@ -40,6 +40,18 @@ class CollectionComponent extends HTMLElement {
     // Adopt the sheet into the shadow DOM
     this._shadow.adoptedStyleSheets = [this._sheet];
 
+    // detailModal for the collection
+    let detailModal = document.createElement('dialog');
+    let detailModalBg = document.createElement('div');
+    let detailModalHeader = document.createElement('div');
+    detailModal.classList.add('detail-modal');
+    detailModal.open = true;
+    detailModalHeader.classList.add('detail-modal-header');
+    detailModalBg.classList.add('detail-modal-bg');
+    this._shadow.appendChild(detailModalBg);
+    this._shadow.appendChild(detailModal);
+    detailModal.appendChild(detailModalHeader);
+
     const resizeObserver = new ResizeObserver((entries) => {
       const wrapper = entries[0].contentRect;
       if (wrapper.width <= this._cssVars.breakpoints.sm) {
@@ -484,6 +496,7 @@ class CollectionComponent extends HTMLElement {
       --shadow-color: #bbb;
       --black: #000;
       --white: #fff;
+      --grey: #bbb;
       --dark: #555;
       --darker: #333;
       --light: #ccc;
@@ -511,6 +524,8 @@ class CollectionComponent extends HTMLElement {
       --font-size-super: 64px;
       --font-weight-bold: bold;
       --button-size: 40px;
+      --opacity-less: 0.75;
+      --opacity-base: 0.5;
 
       position: relative;
     }
@@ -780,6 +795,35 @@ class CollectionComponent extends HTMLElement {
       }
     }
 
+    .detail-modal {
+      top: 0;
+      left: 0;
+      position: fixed;
+      width: 90%;
+      max-width: 900px;
+      height: 93vh;
+      margin: 0 auto 3vh;
+      padding: 0;
+      background: var(--grey);
+
+      .detail-modal-header {
+        border-bottom: 3px solid var(--dark);
+        position: top;
+        height: 3rem;
+        background: var(--black);
+      }
+    }
+
+    .detail-modal-bg {
+      top: 0;
+      left: 0;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--black);
+      opacity: var(--opacity-less);
+    }
+
     @media screen and (max-width: 800px) {
       span.ranking-header {
         display: inline-block;
@@ -820,6 +864,10 @@ class CollectionComponent extends HTMLElement {
           margin-top: var(--space-base);
         }
       }
+
+      .detail-modal {
+        width: 100%;
+        max-width: 100%;
     }
 
     @media screen and (max-width: 400px) {
