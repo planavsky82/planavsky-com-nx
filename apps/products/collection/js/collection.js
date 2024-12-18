@@ -65,7 +65,6 @@ class CollectionComponent extends HTMLElement {
     this._div.classList.add(this.getAttribute('display'));
 
     this.loadModal();
-    this.toggleModal(true);
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
