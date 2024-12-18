@@ -40,18 +40,6 @@ class CollectionComponent extends HTMLElement {
     // Adopt the sheet into the shadow DOM
     this._shadow.adoptedStyleSheets = [this._sheet];
 
-    // detailModal for the collection
-    let detailModal = document.createElement('dialog');
-    let detailModalBg = document.createElement('div');
-    let detailModalHeader = document.createElement('div');
-    detailModal.classList.add('detail-modal');
-    detailModal.open = true;
-    detailModalHeader.classList.add('detail-modal-header');
-    detailModalBg.classList.add('detail-modal-bg');
-    this._shadow.appendChild(detailModalBg);
-    this._shadow.appendChild(detailModal);
-    detailModal.appendChild(detailModalHeader);
-
     const resizeObserver = new ResizeObserver((entries) => {
       const wrapper = entries[0].contentRect;
       if (wrapper.width <= this._cssVars.breakpoints.sm) {
@@ -75,6 +63,9 @@ class CollectionComponent extends HTMLElement {
     //console.log(this.getAttribute('display'));
     //console.log('items', this.items);
     this._div.classList.add(this.getAttribute('display'));
+
+    this.loadModal();
+    this.toggleModal(true);
 
     if (this.getAttribute('template')) {
       let template = document.getElementById(this.getAttribute('template'));
@@ -178,6 +169,41 @@ class CollectionComponent extends HTMLElement {
     }
     if (!direction) {
       this.displayNavigation(first, last);
+    }
+  }
+
+  loadModal() {
+    // detailModal for the collection
+    let detailModal = document.createElement('dialog');
+    let detailModalBg = document.createElement('div');
+    let detailModalHeader = document.createElement('div');
+    let detailModalTitle = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 1}`);
+    let detailModalClose = document.createElement('button');
+    detailModal.classList.add('detail-modal');
+    //detailModal.classList.add('sm');
+    detailModal.open = false;
+    detailModalHeader.classList.add('detail-modal-header');
+    detailModalBg.classList.add('detail-modal-bg');
+    detailModalClose.classList.add('close');
+    detailModalTitle.innerHTML = 'Breece Hall';
+    detailModalClose.innerHTML = '&#x2715;';
+    detailModalClose.addEventListener('click', () => {
+      this.toggleModal(false);
+    });
+    this._shadow.appendChild(detailModalBg);
+    this._shadow.appendChild(detailModal);
+    detailModal.appendChild(detailModalHeader);
+    detailModalHeader.appendChild(detailModalTitle);
+    detailModalHeader.appendChild(detailModalClose);
+    detailModalBg.style.display = 'none';
+  }
+
+  toggleModal(open) {
+    this._shadow.querySelector('dialog').open = open;
+    if (open === false) {
+      this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
+    } else {
+      this._shadow.querySelector('.detail-modal-bg').style.display = '';
     }
   }
 
@@ -801,16 +827,37 @@ class CollectionComponent extends HTMLElement {
       position: fixed;
       width: 90%;
       max-width: 900px;
-      height: 93vh;
-      margin: 0 auto 3vh;
+      height: 97vh;
+      margin: 1vh auto 1vh;
       padding: 0;
       background: var(--grey);
 
+      &.sm {
+        width: 450px;
+      }
+
       .detail-modal-header {
         border-bottom: 3px solid var(--dark);
-        position: top;
-        height: 3rem;
         background: var(--black);
+        display: flex;
+        justify-content: space-between;
+        color: var(--white);
+        font-size: var(--font-size-large);
+        padding: 0 var(--space-lg);
+        height: 3rem;
+        line-height: 3rem;
+
+        h1, h2, h3, h4, h5, h6 {
+          margin: 0;
+        }
+
+        button.close {
+          font-size: var(--font-size-xxlarge);
+          cursor: pointer;
+          background: none;
+          border: 0;
+          color: var(--white);
+        }
       }
     }
 

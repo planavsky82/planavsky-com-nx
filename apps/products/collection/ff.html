@@ -42,7 +42,7 @@
           <option value="K">Kicker</option>
           <option value="DST">Defense/Special Teams</option>
         </select>
-        <collection-component display="list"></collection-component>
+        <collection-component display="list" sectionHeader="2"></collection-component>
       </section>
     </main>
   </body>
@@ -52,7 +52,6 @@
       loadAPIlData(select.value).then((players) => {
         // load data-driven list
         const list = document.getElementsByTagName('collection-component')[0];
-          list.setAttribute('sectionHeader', 2);
           list.items = players;
 
           list.addEventListener('order-adjusted', (event) => {
