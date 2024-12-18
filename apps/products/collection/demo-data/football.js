@@ -100,15 +100,21 @@ let loadLocalData = (newPosition) => {
         {
           label: 'Change Ranking',
           shortLabel: 'Rank',
+          modal: {
+            size: 'small'
+          },
           event: () => {
-            alert('A');
+            return true;
           }
         },
         {
           label: 'View Player Details',
           shortLabel: 'Details',
+          modal: {
+            size: 'base'
+          },
           event: () => {
-            alert('A');
+            return true;
           }
         }
       ],

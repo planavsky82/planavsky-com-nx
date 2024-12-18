@@ -179,7 +179,6 @@ class CollectionComponent extends HTMLElement {
     let detailModalTitle = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 1}`);
     let detailModalClose = document.createElement('button');
     detailModal.classList.add('detail-modal');
-    //detailModal.classList.add('sm');
     detailModal.open = false;
     detailModalHeader.classList.add('detail-modal-header');
     detailModalBg.classList.add('detail-modal-bg');
@@ -197,12 +196,18 @@ class CollectionComponent extends HTMLElement {
     detailModalBg.style.display = 'none';
   }
 
-  toggleModal(open) {
+  toggleModal(open, callback, size) {
+    this._shadow.querySelector('dialog').classList.remove('small')
+    this._shadow.querySelector('dialog').classList.add(size);
     this._shadow.querySelector('dialog').open = open;
     if (open === false) {
       this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
     } else {
       this._shadow.querySelector('.detail-modal-bg').style.display = '';
+    }
+    if (callback) {
+      let data = callback();
+      console.log(data);
     }
   }
 
@@ -401,8 +406,14 @@ class CollectionComponent extends HTMLElement {
           let actionItem = document.createElement('li');
           let actionItemAnchor = document.createElement('a');
           actionItemAnchor.innerHTML = action.label + ' >>';
-          actionItemAnchor.href = 'javascript:'
-          actionItemAnchor.onclick = action.event;
+          actionItemAnchor.href = 'javascript:';
+          if (action.modal) {
+            actionItemAnchor.addEventListener('click', () => {
+              this.toggleModal(true, action.event, action.modal.size);
+            });
+          } else {
+            actionItemAnchor.onclick = action.event;
+          }
           actionItem.appendChild(actionItemAnchor);
 
           actions.appendChild(actionItem);
@@ -410,7 +421,13 @@ class CollectionComponent extends HTMLElement {
           let topAction = document.createElement('a');
           itemElement.querySelector('.header-section .header-actions').appendChild(topAction);
           topAction.href = 'javascript:';
-          topAction.onclick = action.event;
+          if (action.modal) {
+            topAction.addEventListener('click', () => {
+              this.toggleModal(true, action.event, action.modal.size);
+            });
+          } else {
+            topAction.onclick = action.event;
+          }
           topAction.innerHTML = action.shortLabel;
           if ((item.actions.length - 1) !== index) {
             let separator = document.createElement('span');
@@ -831,7 +848,7 @@ class CollectionComponent extends HTMLElement {
       padding: 0;
       background: var(--grey);
 
-      &.sm {
+      &.small {
         width: 450px;
       }
 
