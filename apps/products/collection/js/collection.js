@@ -178,6 +178,7 @@ class CollectionComponent extends HTMLElement {
     let detailModalHeader = document.createElement('div');
     let detailModalTitle = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 1}`);
     let detailModalClose = document.createElement('button');
+    let detailModalContent = document.createElement('div');
     detailModal.classList.add('detail-modal');
     detailModal.open = false;
     detailModalHeader.classList.add('detail-modal-header');
@@ -188,9 +189,11 @@ class CollectionComponent extends HTMLElement {
     detailModalClose.addEventListener('click', () => {
       this.toggleModal(false);
     });
+    detailModalContent.classList.add('model-content');
     this._shadow.appendChild(detailModalBg);
     this._shadow.appendChild(detailModal);
     detailModal.appendChild(detailModalHeader);
+    detailModal.appendChild(detailModalContent);
     detailModalHeader.appendChild(detailModalTitle);
     detailModalHeader.appendChild(detailModalClose);
     detailModalBg.style.display = 'none';
@@ -212,6 +215,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   loadModalContent(data) {
+    console.log(this._shadow.querySelector('modal-content'));
     console.log(data);
   }
 
