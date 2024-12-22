@@ -104,7 +104,11 @@ let loadLocalData = (newPosition) => {
             size: 'small'
           },
           event: () => {
-            return true;
+            return {
+              modal: {
+                type: 'ranking'
+              }
+            };
           }
         },
         {
@@ -114,7 +118,22 @@ let loadLocalData = (newPosition) => {
             size: 'base'
           },
           event: () => {
-            return true;
+            return {
+              modal: {
+                type: 'tables',
+                data: [
+                  {
+                    title: 'Player Details',
+                    cols: [
+
+                    ],
+                    rows: [
+
+                    ]
+                  }
+                ]
+              }
+            };
           }
         }
       ],
