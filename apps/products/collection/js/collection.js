@@ -207,8 +207,12 @@ class CollectionComponent extends HTMLElement {
     }
     if (callback) {
       let data = callback();
-      console.log(data);
+      this.loadModalContent(data);
     }
+  }
+
+  loadModalContent(data) {
+    console.log(data);
   }
 
   setSiblingClasses(activeId, max) {
