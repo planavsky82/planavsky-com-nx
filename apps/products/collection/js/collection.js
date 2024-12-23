@@ -189,7 +189,7 @@ class CollectionComponent extends HTMLElement {
     detailModalClose.addEventListener('click', () => {
       this.toggleModal(false);
     });
-    detailModalContent.classList.add('model-content');
+    detailModalContent.classList.add('detail-modal-content');
     this._shadow.appendChild(detailModalBg);
     this._shadow.appendChild(detailModal);
     detailModal.appendChild(detailModalHeader);
@@ -215,8 +215,23 @@ class CollectionComponent extends HTMLElement {
   }
 
   loadModalContent(data) {
-    console.log(this._shadow.querySelector('modal-content'));
+    let content = this._shadow.querySelector('dialog > div.detail-modal-content');
     console.log(data);
+    content.innerHTML = '';
+    switch(data.modal.type) {
+      case 'tables':
+        let title = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 2}`);
+        let table = document.createElement('table');
+        title.innerHTML = data.modal.data[0].title;
+        content.appendChild(title);
+        content.appendChild(table);
+        break;
+      case 'ranking':
+        content.innerHTML = 'ranking';
+        break;
+      default:
+        // code block
+    }
   }
 
   setSiblingClasses(activeId, max) {
@@ -547,6 +562,7 @@ class CollectionComponent extends HTMLElement {
       --black: #000;
       --white: #fff;
       --grey: #bbb;
+      --light-grey: #ddd;
       --dark: #555;
       --darker: #333;
       --light: #ccc;
@@ -854,7 +870,7 @@ class CollectionComponent extends HTMLElement {
       height: 97vh;
       margin: 1vh auto 1vh;
       padding: 0;
-      background: var(--grey);
+      background: var(--light-grey);
 
       &.small {
         width: 450px;
@@ -881,6 +897,14 @@ class CollectionComponent extends HTMLElement {
           background: none;
           border: 0;
           color: var(--white);
+        }
+      }
+
+      .detail-modal-content {
+        padding: var(--space-md);
+
+        h1, h2, h3, h4, h5, h6 {
+          margin: var(--space-md) 0 0;
         }
       }
     }
