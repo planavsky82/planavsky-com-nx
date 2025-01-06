@@ -232,6 +232,7 @@ class CollectionComponent extends HTMLElement {
         let input = document.createElement('input');
         let button = document.createElement('button');
         input.id = 'ranking';
+        input.value = data.modal.data.ranking;
         label.innerHTML = 'Current Ranking';
         label.htmlFor = 'ranking';
         button.classList.add('standard-button');

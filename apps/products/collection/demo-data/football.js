@@ -71,7 +71,7 @@ let loadLocalData = (newPosition) => {
     });
   };
 
-  getGroup(newPosition).players.forEach((player) => {
+  getGroup(newPosition).players.forEach((player, index) => {
     let positionDisplayName = 'Defense/Special Teams';
     if (player.position) {
       if (player.position.displayName) {
@@ -106,7 +106,11 @@ let loadLocalData = (newPosition) => {
           event: () => {
             return {
               modal: {
-                type: 'ranking'
+                type: 'ranking',
+                data: {
+                  id: player.id,
+                  ranking: index + 1
+                }
               }
             };
           }
