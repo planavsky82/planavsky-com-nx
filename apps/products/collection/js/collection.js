@@ -237,6 +237,19 @@ class CollectionComponent extends HTMLElement {
         label.htmlFor = 'ranking';
         button.classList.add('standard-button');
         button.textContent = 'Submit New Ranking';
+        button.type = 'button';
+        button.onclick = () => {
+          // determine if new ranking is 'up' or 'down'
+          let currentValue = data.modal.data.ranking;
+          let newValue = input.value;
+          let direction = undefined;
+          if (newValue > currentValue) {
+            this.move('down', input.value - 2, data.modal.data.id);
+          } else if (newValue < currentValue) {
+            direction = 'up';
+            this.move('up', input.value, data.modal.data.id);
+          }
+        };
         content.appendChild(form);
         form.appendChild(label);
         form.appendChild(input);
