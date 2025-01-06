@@ -249,6 +249,7 @@ class CollectionComponent extends HTMLElement {
             direction = 'up';
             this.move('up', input.value, data.modal.data.id);
           }
+          this.toggleModal(false);
         };
         content.appendChild(form);
         form.appendChild(label);
