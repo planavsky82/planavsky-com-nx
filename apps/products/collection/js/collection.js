@@ -227,7 +227,19 @@ class CollectionComponent extends HTMLElement {
         content.appendChild(table);
         break;
       case 'ranking':
-        content.innerHTML = 'ranking';
+        let form = document.createElement('form');
+        let label = document.createElement('label');
+        let input = document.createElement('input');
+        let button = document.createElement('button');
+        input.id = 'ranking';
+        label.innerHTML = 'Current Ranking';
+        label.htmlFor = 'ranking';
+        button.classList.add('standard-button');
+        button.textContent = 'Submit New Ranking';
+        content.appendChild(form);
+        form.appendChild(label);
+        form.appendChild(input);
+        form.appendChild(button);
         break;
       default:
         // code block
@@ -587,6 +599,10 @@ class CollectionComponent extends HTMLElement {
       --font-size-large: 18px;
       --font-size-xlarge: 22px;
       --font-size-xxlarge: 26px;
+      --font-size-3xlarge: 30px;
+      --font-size-4xlarge: 34px;
+      --font-size-5xlarge: 38px;
+      --font-size-6xlarge: 42px;
       --font-size-super: 64px;
       --font-weight-bold: bold;
       --button-size: 40px;
@@ -608,6 +624,16 @@ class CollectionComponent extends HTMLElement {
     ul {
       list-style-type: square;
       padding-left: var(--space-xl);
+    }
+
+    .standard-button {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      font-size: var(--font-size-lg);
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--border-radius-base);
+      cursor: pointer;
     }
 
     .fadeIn {
@@ -905,6 +931,22 @@ class CollectionComponent extends HTMLElement {
 
         h1, h2, h3, h4, h5, h6 {
           margin: var(--space-md) 0 0;
+        }
+
+        form {
+          padding: calc(var(--space-xl) * 2) var(--space-xl) 0;
+          display: flex;
+          flex-direction: column;
+
+          label {
+            margin-bottom: var(--space-base);
+            font-size: var(--font-size-xlarge);
+          }
+
+          input {
+            font-size: var(--font-size-6xlarge);
+            padding: var(--space-md);
+          }
         }
       }
     }
