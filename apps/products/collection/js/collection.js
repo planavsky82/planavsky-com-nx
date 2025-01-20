@@ -510,14 +510,12 @@ class CollectionComponent extends HTMLElement {
       downArrow.classList.add('arrow');
       controlElement.classList.add('control-area');
       rankUpElement.ariaLabel = 'Move Up';
-      rankDownElement.ariaLabel = 'Mode Down';
+      rankDownElement.ariaLabel = 'Move Down';
       rankUpElement.addEventListener('click', () => {
         this.move('up', index, item.id);
-        this.maintainFocus(index - 1, 'up');
       });
       rankDownElement.addEventListener('click', () => {
         this.move('down', index, item.id);
-        this.maintainFocus(index + 1, 'down');
       });
       if (index === 0) {
         rankUpElement.style.visibility = 'hidden';
@@ -551,14 +549,6 @@ class CollectionComponent extends HTMLElement {
     this.dataLoaded();
   }
 
-  maintainFocus(index, direction) {
-    if (direction === 'up') {
-      this.items[index].querySelector('.control-area button:nth-of-type(1)').focus();
-    } else {
-      this.items[index].querySelector('.control-area button:nth-of-type(2)').focus();
-    }
-  }
-
   get items() {
     return this._items;
   }
@@ -589,6 +579,9 @@ class CollectionComponent extends HTMLElement {
       }
     });
     this.dispatchEvent(eventOrderAdjusted);
+
+    let buttonPosition = direction === 'up' ? 1 : 2;
+    this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')').focus();
   }
 
   loadStyles() {
