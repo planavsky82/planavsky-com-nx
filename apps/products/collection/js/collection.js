@@ -589,6 +589,7 @@ class CollectionComponent extends HTMLElement {
     return `
     :host {
       --border-color: #ddd;
+      --border-moved-color: #d4af37;
       --shadow-color: #bbb;
       --black: #000;
       --white: #fff;
@@ -601,6 +602,7 @@ class CollectionComponent extends HTMLElement {
       --link-hover: #4169e1;
       --link: #7DF9FF;
       --border: 1px solid var(--border-color);
+      --border-moved: 3px solid var(--border-moved-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
       --border-radius-small: 3px;
@@ -710,6 +712,10 @@ class CollectionComponent extends HTMLElement {
       margin-bottom: var(--space-base);
       box-shadow: var(--shadow-sm);
       border-radius: var(--border-radius-base);
+
+      &.item-moved {
+        border: var(--border-moved);
+      }
     }
 
     div.wrapper.carousel item {
