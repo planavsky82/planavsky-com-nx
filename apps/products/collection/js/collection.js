@@ -582,6 +582,7 @@ class CollectionComponent extends HTMLElement {
 
     let buttonPosition = direction === 'up' ? 1 : 2;
     this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')').focus();
+    this._shadow.querySelector('#item_' + newIndex).classList.add('item-moved');
   }
 
   loadStyles() {
