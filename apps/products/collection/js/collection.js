@@ -602,7 +602,7 @@ class CollectionComponent extends HTMLElement {
       --link-hover: #4169e1;
       --link: #7DF9FF;
       --border: 1px solid var(--border-color);
-      --border-moved: 3px solid var(--border-moved-color);
+      --border-moved: 10px solid var(--border-moved-color);
       --button-border: 2px solid var(--black);
       --border-radius-base: 5px;
       --border-radius-small: 3px;
