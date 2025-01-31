@@ -199,7 +199,7 @@ class CollectionComponent extends HTMLElement {
     detailModalBg.style.display = 'none';
   }
 
-  toggleModal(open, callback, size) {
+  toggleModal(open, callback, size, index) {
     this._shadow.querySelector('dialog').classList.remove('small')
     this._shadow.querySelector('dialog').classList.add(size);
     this._shadow.querySelector('dialog').open = open;
@@ -210,11 +210,11 @@ class CollectionComponent extends HTMLElement {
     }
     if (callback) {
       let data = callback();
-      this.loadModalContent(data);
+      this.loadModalContent(data, index);
     }
   }
 
-  loadModalContent(data) {
+  loadModalContent(data, index) {
     let content = this._shadow.querySelector('dialog > div.detail-modal-content');
     console.log(data);
     content.innerHTML = '';
@@ -232,7 +232,7 @@ class CollectionComponent extends HTMLElement {
         let input = document.createElement('input');
         let button = document.createElement('button');
         input.id = 'ranking';
-        input.value = data.modal.data.ranking;
+        input.value = index + 1;
         label.innerHTML = 'Current Ranking';
         label.htmlFor = 'ranking';
         button.classList.add('standard-button');
@@ -452,14 +452,14 @@ class CollectionComponent extends HTMLElement {
       // actions area
       let actions = document.createElement('ul');
       if (item.actions) {
-        item.actions.forEach((action, index) => {
+        item.actions.forEach((action, actionIndex) => {
           let actionItem = document.createElement('li');
           let actionItemAnchor = document.createElement('a');
           actionItemAnchor.innerHTML = action.label + ' >>';
           actionItemAnchor.href = 'javascript:';
           if (action.modal) {
             actionItemAnchor.addEventListener('click', () => {
-              this.toggleModal(true, action.event, action.modal.size);
+              this.toggleModal(true, action.event, action.modal.size, index);
             });
           } else {
             actionItemAnchor.onclick = action.event;
@@ -473,13 +473,13 @@ class CollectionComponent extends HTMLElement {
           topAction.href = 'javascript:';
           if (action.modal) {
             topAction.addEventListener('click', () => {
-              this.toggleModal(true, action.event, action.modal.size);
+              this.toggleModal(true, action.event, action.modal.size, index);
             });
           } else {
             topAction.onclick = action.event;
           }
           topAction.innerHTML = action.shortLabel;
-          if ((item.actions.length - 1) !== index) {
+          if ((item.actions.length - 1) !== actionIndex) {
             let separator = document.createElement('span');
             separator.innerHTML = ' | ';
             separator.classList.add('separator');
