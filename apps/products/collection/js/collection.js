@@ -566,6 +566,15 @@ class CollectionComponent extends HTMLElement {
     } else {
       newIndex--;
     }
+
+    if (newIndex < 0) {
+      newIndex = 0;
+    }
+    if (newIndex > this._items.length - 1) {
+      newIndex = this._items.length - 1;
+    }
+
+
     order.splice(newIndex, 0, activeObj);
     this.items = order;
     let eventOrderAdjusted = new CustomEvent('order-adjusted', {
