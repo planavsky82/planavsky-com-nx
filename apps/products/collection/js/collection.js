@@ -207,6 +207,7 @@ class CollectionComponent extends HTMLElement {
       this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
     } else {
       this._shadow.querySelector('.detail-modal-bg').style.display = '';
+      this._shadow.querySelector('dialog').focus();
     }
     if (callback) {
       let data = callback();
