@@ -31,6 +31,7 @@ class CollectionComponent extends HTMLElement {
 
     this._items = [];
     this._activeId = 0;
+    this._triggerElement = null;
 
     this._flexBasis = this.returnFlexBasis();
 
@@ -199,14 +200,18 @@ class CollectionComponent extends HTMLElement {
     detailModalBg.style.display = 'none';
   }
 
-  toggleModal(open, callback, size, index) {
+  toggleModal(open, callback, size, index, triggerElement) {
     this._shadow.querySelector('dialog').classList.remove('small')
     this._shadow.querySelector('dialog').classList.add(size);
     this._shadow.querySelector('dialog').open = open;
     if (open === false) {
+      if (this._triggerElement) {
+        this._triggerElement.focus();
+      }
       this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
     } else {
       this._shadow.querySelector('.detail-modal-bg').style.display = '';
+      this._triggerElement = triggerElement;
       this._shadow.querySelector('dialog').focus();
     }
     if (callback) {
@@ -459,8 +464,8 @@ class CollectionComponent extends HTMLElement {
           actionItemAnchor.innerHTML = action.label + ' >>';
           actionItemAnchor.href = 'javascript:';
           if (action.modal) {
-            actionItemAnchor.addEventListener('click', () => {
-              this.toggleModal(true, action.event, action.modal.size, index);
+            actionItemAnchor.addEventListener('click', (clickEvent) => {
+              this.toggleModal(true, action.event, action.modal.size, index, clickEvent.currentTarget);
             });
           } else {
             actionItemAnchor.onclick = action.event;
