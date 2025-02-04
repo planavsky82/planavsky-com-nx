@@ -2,7 +2,7 @@
 
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['display', 'template', "columns", "sectionHeader"];
+  static observedAttributes = ['display', 'template', 'columns', 'sectionHeader'];
 
   //events
   // 1) order-adjusted - returns updated list of items
@@ -32,6 +32,7 @@ class CollectionComponent extends HTMLElement {
     this._items = [];
     this._activeId = 0;
     this._triggerElement = null;
+    this._printView = false;
 
     this._flexBasis = this.returnFlexBasis();
 
@@ -120,6 +121,15 @@ class CollectionComponent extends HTMLElement {
         callback(...args);
       }, delay);
     };
+  }
+
+  togglePrintView() {
+    this._printView = !this._printView;
+    if (this._printView) {
+      this._div.classList.add('print');
+    } else {
+      this._div.classList.remove('print');
+    }
   }
 
   navigate(direction) {
@@ -1018,6 +1028,10 @@ class CollectionComponent extends HTMLElement {
       height: 100vh;
       background-color: var(--black);
       opacity: var(--opacity-less);
+    }
+
+    div.wrapper.list.print {
+
     }
 
     @media screen and (max-width: 800px) {

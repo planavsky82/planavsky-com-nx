@@ -42,16 +42,17 @@
           <option value="K">Kicker</option>
           <option value="DST">Defense/Special Teams</option>
         </select>
+        <button onclick="showPrintView()">Print View</button>
         <collection-component display="list" sectionHeader="2"></collection-component>
       </section>
     </main>
   </body>
   <script>
-    let select = document.querySelector('select#position');
+    const select = document.querySelector('select#position');
+    const list = document.getElementsByTagName('collection-component')[0];
     let loadPlayers = (select) => {
       loadAPIlData(select.value).then((players) => {
         // load data-driven list
-        const list = document.getElementsByTagName('collection-component')[0];
           list.items = players;
 
           list.addEventListener('order-adjusted', (event) => {
@@ -61,5 +62,9 @@
     };
     select.value = 'RB';
     loadPlayers(document.querySelector('select#position'));
+
+    let showPrintView = () => {
+      list.togglePrintView();
+    };
   </script>
 </html>
