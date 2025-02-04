@@ -75,8 +75,6 @@ class CollectionComponent extends HTMLElement {
       }
     }
 
-    console.log(this.isDarkMode());
-
     this.dataLoaded();
   }
 
