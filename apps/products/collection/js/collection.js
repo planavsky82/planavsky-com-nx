@@ -1031,7 +1031,10 @@ class CollectionComponent extends HTMLElement {
     }
 
     div.wrapper.list.print {
-
+      item {
+        background-color: --var(white);
+        color: --var(black);
+      }
     }
 
     @media screen and (max-width: 800px) {
