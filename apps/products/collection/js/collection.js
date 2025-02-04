@@ -237,6 +237,9 @@ class CollectionComponent extends HTMLElement {
         let label = document.createElement('label');
         let input = document.createElement('input');
         let button = document.createElement('button');
+        form.addEventListener('submit', (formEvent) => {
+          formEvent.preventDefault();
+        });
         input.id = 'ranking';
         input.value = index + 1;
         label.innerHTML = 'Current Ranking';
