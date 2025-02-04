@@ -75,6 +75,8 @@ class CollectionComponent extends HTMLElement {
       }
     }
 
+    console.log(this.isDarkMode());
+
     this.dataLoaded();
   }
 
@@ -106,6 +108,10 @@ class CollectionComponent extends HTMLElement {
         this._shadow.removeChild(this._nextButton);
       }
     }
+  }
+
+  isDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   debounce(callback, delay) {
