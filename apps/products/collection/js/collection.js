@@ -758,7 +758,7 @@ class CollectionComponent extends HTMLElement {
       border-radius: var(--border-radius-base);
 
       &.item-moved {
-        animation: activate-moved 1.5s infinite;
+        animation: activate-moved 1.5s 5;
       }
     }
 
