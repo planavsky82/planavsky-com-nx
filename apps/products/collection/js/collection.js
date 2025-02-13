@@ -754,7 +754,7 @@ class CollectionComponent extends HTMLElement {
     div.wrapper.list item {
       border: var(--border);
       margin-bottom: var(--space-base);
-      box-shadow: var(--shadow-sm);
+      // box-shadow: var(--shadow-sm);
       border-radius: var(--border-radius-base);
 
       &.item-moved {
