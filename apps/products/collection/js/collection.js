@@ -1088,7 +1088,7 @@ class CollectionComponent extends HTMLElement {
       div.item-index {
         div.pic-wrapper {
           img:nth-of-type(2) {
-            margin-right: -30px;
+            margin-right: -35px;
           }
         }
 
