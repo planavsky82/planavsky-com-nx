@@ -894,6 +894,7 @@ class CollectionComponent extends HTMLElement {
         justify-content: center;
         align-items: left;
         padding-left: var(--space-lg);
+        width: 180px;
 
         div:first-of-type {
           font-style: italic;
