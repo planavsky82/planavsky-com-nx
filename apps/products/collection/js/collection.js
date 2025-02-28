@@ -445,6 +445,11 @@ class CollectionComponent extends HTMLElement {
       rankingElement.innerHTML = index + 1;
       rankingElement.classList.add('ranking');
 
+      // print name section
+      let printNameWrapper = document.createElement('div');
+      printNameWrapper.classList.add('print-name');
+      printNameWrapper.innerHTML = item.name;
+
       // summary detail section
       let summaryWrapper = document.createElement('div');
       let summaryElement = document.createElement('div');
@@ -551,6 +556,7 @@ class CollectionComponent extends HTMLElement {
       // attach elements
       itemElement.appendChild(indexElement);
       indexElement.appendChild(rankingElement);
+      indexElement.appendChild(printNameWrapper);
       indexElement.appendChild(picWrapper);
       indexElement.appendChild(summaryWrapper);
       summaryWrapper.appendChild(summaryElement);
@@ -869,6 +875,10 @@ class CollectionComponent extends HTMLElement {
         width: 3rem;
       }
 
+      div.print-name {
+        display: none;
+      }
+
       div.pic-wrapper {
         img:first-of-type {
           height: 80px;
@@ -1036,6 +1046,10 @@ class CollectionComponent extends HTMLElement {
       background-color: var(--white) !important;
       color: var(--black) !important;
 
+      .header-section {
+        display: none;
+      }
+
       .pic-wrapper, .control-area, ul {
         display: none;
       }
@@ -1044,6 +1058,10 @@ class CollectionComponent extends HTMLElement {
         div:nth-of-type(2) {
           color: var(--white) !important;
         }
+      }
+
+      .print-name {
+        display: block;
       }
     }
 
