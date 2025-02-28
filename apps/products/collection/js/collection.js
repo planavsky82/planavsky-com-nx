@@ -470,6 +470,7 @@ class CollectionComponent extends HTMLElement {
 
       // description / additional detail area
       let descElement = document.createElement('div');
+      descElement.classList.add('ranking-number');
       descElement.innerHTML = item.desc;
 
       // actions area
@@ -1031,10 +1032,18 @@ class CollectionComponent extends HTMLElement {
       opacity: var(--opacity-less);
     }
 
-    div.wrapper.list.print {
-      item {
-        background-color: --var(white);
-        color: --var(black);
+    div.wrapper.list.print item {
+      background-color: var(--white) !important;
+      color: var(--black) !important;
+
+      .pic-wrapper, .control-area, ul {
+        display: none;
+      }
+
+      .ranking-number {
+        div:nth-of-type(2) {
+          color: var(--white) !important;
+        }
       }
     }
 
