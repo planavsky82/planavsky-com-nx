@@ -1050,6 +1050,14 @@ class CollectionComponent extends HTMLElement {
         display: none;
       }
 
+      .item-index {
+        border-top: 0 !important;
+      }
+
+      .ranking {
+        font-size: var(--font-size-xlarge) !important;
+      }
+
       .pic-wrapper, .control-area, ul {
         display: none;
       }
