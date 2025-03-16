@@ -1045,6 +1045,7 @@ class CollectionComponent extends HTMLElement {
     div.wrapper.list.print item {
       background-color: var(--white) !important;
       color: var(--black) !important;
+      padding-top: 0;
 
       .header-section {
         display: none;
@@ -1052,24 +1053,35 @@ class CollectionComponent extends HTMLElement {
 
       .item-index {
         border-top: 0 !important;
+        display: flex;
+        flex: 0 1 150px;
+        padding: var(--space-base) 0;
       }
 
       .ranking {
         font-size: var(--font-size-xlarge) !important;
+        flex-grow: 0;
       }
 
       .pic-wrapper, .control-area, ul {
         display: none;
       }
 
+      .summary-wrapper {
+        text-align: right;
+        padding-right: var(--space-xl);
+      }
+
       .ranking-number {
         div:nth-of-type(2) {
-          color: var(--white) !important;
+          display: none;
         }
       }
 
       .print-name {
-        display: block;
+        display: flex;
+        align-items: center;
+        flex-grow: 0;
       }
     }
 
