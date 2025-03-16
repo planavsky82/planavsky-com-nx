@@ -47,7 +47,7 @@
           <option value="K">Kicker</option>
           <option value="DST">Defense/Special Teams</option>
         </select>
-        <button onclick="showPrintView()">Print View</button>
+        <button onclick="showPrintView()" id="print-button">Print View</button>
         <collection-component display="list" sectionHeader="2"></collection-component>
       </section>
     </main>
@@ -70,6 +70,11 @@
 
     let showPrintView = () => {
       list.togglePrintView();
+      if (list.getPrintView()) {
+        document.getElementById('print-button').textContent = 'Normal View';
+      } else {
+        document.getElementById('print-button').textContent = 'Print View';
+      }
     };
   </script>
 </html>

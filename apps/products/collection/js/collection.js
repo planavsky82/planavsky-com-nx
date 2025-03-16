@@ -132,6 +132,10 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
+  getPrintView() {
+    return (this._printView);
+  }
+
   navigate(direction) {
     this._currentStep = this._activeId;
     if (direction === 'next') {
