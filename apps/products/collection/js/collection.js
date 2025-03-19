@@ -1,641 +1,585 @@
 "use strict";
-
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
-  static observedAttributes = ['display', 'template', 'columns', 'sectionHeader'];
-
-  //events
-  // 1) order-adjusted - returns updated list of items
-
-  constructor() {
-    // Always call super first in constructor
-    super();
-
-    const style = document.createElement('style');
-    this._shadow = this.attachShadow({ mode: 'open' });
-    this._cssVars = {
-      breakpoints: {
-        sm: '700',
-        md: '900'
-      },
-      flexBasis: {
-        sm: '90%',
-        md: '45%'
-      }
-    }
-    this._shadow.appendChild(style);
-
-    this._div = document.createElement('div');
-    this._div.className = 'wrapper';
-    this._shadow.appendChild(this._div);
-
-    this._items = [];
-    this._activeId = 0;
-    this._triggerElement = null;
-    this._printView = false;
-
-    this._flexBasis = this.returnFlexBasis();
-
-    this._sheet = new CSSStyleSheet();
-    this._sheet.replaceSync(this.loadStyles());
-
-    // Adopt the sheet into the shadow DOM
-    this._shadow.adoptedStyleSheets = [this._sheet];
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      const wrapper = entries[0].contentRect;
-      if (wrapper.width <= this._cssVars.breakpoints.sm) {
-        this._flexBasis = this._cssVars.flexBasis.sm;
-      } else if (wrapper.width <= this._cssVars.breakpoints.md && wrapper.width > this._cssVars.breakpoints.sm) {
-        this._flexBasis = this._cssVars.flexBasis.md;
-      } else {
-        this._flexBasis = this.returnFlexBasis();
-      }
-      this._sheet.replaceSync(this.loadStyles());
-    });
-    resizeObserver.observe(this._div);
-
-    this._div.addEventListener('scroll', () => {
-      this.debounce(this.setActiveItemByScroll(), 100);
-    });
-  }
-
-  connectedCallback() {
-    //console.log('Custom element added to page.');
-    //console.log(this.getAttribute('display'));
-    //console.log('items', this.items);
-    this._div.classList.add(this.getAttribute('display'));
-
-    this.loadModal();
-
-    if (this.getAttribute('template')) {
-      let template = document.getElementById(this.getAttribute('template'));
-      if (template) {
-        let templateContent = template.content;
-        this._div.appendChild(templateContent.cloneNode(true));
-      }
-    }
-
-    this.dataLoaded();
-  }
-
-  disconnectedCallback() {
-    resizeObserver.disconnect();
-    this._previousButton.removeEventListener('click');
-    this._nextButton.removeEventListener('click');
-    this._div.removeEventListener('scroll');
-  }
-
-  adoptedCallback() {
-    //console.log('Custom element moved to new page.');
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    //console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
-
-    if (name === 'columns') {
-      this._flexBasis = this.returnFlexBasis();
-      this._sheet.replaceSync(this.loadStyles());
-    }
-
-    if (this.getAttribute('display') === 'carousel' || this.getAttribute('display') === 'carousel-3d') {
-      this.loadNavigation();
-      this.displayNavigation(true, false);
-    } else {
-      if (this._previousButton) {
-        this._shadow.removeChild(this._previousButton);
-        this._shadow.removeChild(this._nextButton);
-      }
-    }
-  }
-
-  isDarkMode() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-
-  debounce(callback, delay) {
-    let timeout = null;
-    return (...args) => {
-      window.clearTimeout(timeout);
-      timeout = window.setTimeout(() => {
-        callback(...args);
-      }, delay);
-    };
-  }
-
-  togglePrintView() {
-    this._printView = !this._printView;
-    if (this._printView) {
-      this._div.classList.add('print');
-    } else {
-      this._div.classList.remove('print');
-    }
-  }
-
-  getPrintView() {
-    return (this._printView);
-  }
-
-  navigate(direction) {
-    this._currentStep = this._activeId;
-    if (direction === 'next') {
-      this._currentStep++;
-    }
-    if (direction === 'previous') {
-      this._currentStep--;
-    }
-    if (this._currentStep < 0) {
-      this._currentStep = 0;
-    }
-    if (this._currentStep >= this._div.children.length) {
-      this._currentStep = this._div.children.length - 1;
-    }
-    const first = this._currentStep === 0;
-    const last = (this._currentStep + 1) === this._div.children.length;
-    // TODO: clean, document, and test this logic
-    if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
-      if (this.getAttribute('display') === 'carousel') {
-        const middle = this._div.children[this._currentStep];
-        middle.scrollIntoView(false);
-      }
-      if (this.getAttribute('display') === 'carousel-3d') {
-        if (direction === 'next') {
-          if (this._activeId < this._div.children.length - 1) {
-            this._activeId++;
-          }
-        } else {
-          if (this._activeId > 0) {
-            this._activeId--;
-          }
-        }
-        const items = this._div.getElementsByTagName('item');
-        const arr = [].slice.call(items);
-        arr.map(item => {
-          return item.classList.remove('active');
-        });
-        items[this._activeId].classList.add('active');
-        this._div.classList.remove('active-next');
-        this._div.classList.remove('active-previous');
-        if (direction === 'next') {
-          this._div.classList.add('active-next');
-        } else {
-          this._div.classList.add('active-previous');
-        }
-        this.setSiblingClasses(this._activeId, items.length);
-      }
-      this.displayNavigation(first, last);
-    }
-    if (!direction) {
-      this.displayNavigation(first, last);
-    }
-  }
-
-  loadModal() {
-    // detailModal for the collection
-    let detailModal = document.createElement('dialog');
-    let detailModalBg = document.createElement('div');
-    let detailModalHeader = document.createElement('div');
-    let detailModalTitle = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 1}`);
-    let detailModalClose = document.createElement('button');
-    let detailModalContent = document.createElement('div');
-    detailModal.classList.add('detail-modal');
-    detailModal.open = false;
-    detailModalHeader.classList.add('detail-modal-header');
-    detailModalBg.classList.add('detail-modal-bg');
-    detailModalClose.classList.add('close');
-    detailModalTitle.innerHTML = 'Breece Hall';
-    detailModalClose.innerHTML = '&#x2715;';
-    detailModalClose.addEventListener('click', () => {
-      this.toggleModal(false);
-    });
-    detailModalContent.classList.add('detail-modal-content');
-    this._shadow.appendChild(detailModalBg);
-    this._shadow.appendChild(detailModal);
-    detailModal.appendChild(detailModalHeader);
-    detailModal.appendChild(detailModalContent);
-    detailModalHeader.appendChild(detailModalTitle);
-    detailModalHeader.appendChild(detailModalClose);
-    detailModalBg.style.display = 'none';
-  }
-
-  toggleModal(open, callback, size, index, triggerElement) {
-    this._shadow.querySelector('dialog').classList.remove('small')
-    this._shadow.querySelector('dialog').classList.add(size);
-    this._shadow.querySelector('dialog').open = open;
-    if (open === false) {
-      if (this._triggerElement) {
-        this._triggerElement.focus();
-      }
-      this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
-    } else {
-      this._shadow.querySelector('.detail-modal-bg').style.display = '';
-      this._triggerElement = triggerElement;
-      this._shadow.querySelector('dialog').focus();
-    }
-    if (callback) {
-      let data = callback();
-      this.loadModalContent(data, index);
-    }
-  }
-
-  loadModalContent(data, index) {
-    let content = this._shadow.querySelector('dialog > div.detail-modal-content');
-    console.log(data);
-    content.innerHTML = '';
-    switch(data.modal.type) {
-      case 'tables':
-        let title = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 2}`);
-        let table = document.createElement('table');
-        title.innerHTML = data.modal.data[0].title;
-        content.appendChild(title);
-        content.appendChild(table);
-        break;
-      case 'ranking':
-        let form = document.createElement('form');
-        let label = document.createElement('label');
-        let input = document.createElement('input');
-        let button = document.createElement('button');
-        form.addEventListener('submit', (formEvent) => {
-          formEvent.preventDefault();
-        });
-        input.id = 'ranking';
-        input.value = index + 1;
-        label.innerHTML = 'Current Ranking';
-        label.htmlFor = 'ranking';
-        button.classList.add('standard-button');
-        button.textContent = 'Submit New Ranking';
-        button.type = 'button';
-        button.onclick = () => {
-          // determine if new ranking is 'up' or 'down'
-          let currentValue = data.modal.data.ranking;
-          let newValue = input.value;
-          let direction = undefined;
-          if (newValue > currentValue) {
-            this.move('down', input.value - 2, data.modal.data.id);
-          } else if (newValue < currentValue) {
-            direction = 'up';
-            this.move('up', input.value, data.modal.data.id);
-          }
-          this.toggleModal(false);
+    //events
+    // 1) order-adjusted - returns updated list of items
+    constructor() {
+        // Always call super first in constructor
+        super();
+        const style = document.createElement('style');
+        this._shadow = this.attachShadow({ mode: 'open' });
+        this._cssVars = {
+            breakpoints: {
+                sm: '700',
+                md: '900'
+            },
+            flexBasis: {
+                sm: '90%',
+                md: '45%'
+            }
         };
-        content.appendChild(form);
-        form.appendChild(label);
-        form.appendChild(input);
-        form.appendChild(button);
-        break;
-      default:
-        // code block
+        this._shadow.appendChild(style);
+        this._div = document.createElement('div');
+        this._div.className = 'wrapper';
+        this._shadow.appendChild(this._div);
+        this._items = [];
+        this._activeId = 0;
+        this._triggerElement = null;
+        this._printView = false;
+        this._flexBasis = this.returnFlexBasis();
+        this._sheet = new CSSStyleSheet();
+        this._sheet.replaceSync(this.loadStyles());
+        // Adopt the sheet into the shadow DOM
+        this._shadow.adoptedStyleSheets = [this._sheet];
+        const resizeObserver = new ResizeObserver((entries) => {
+            const wrapper = entries[0].contentRect;
+            if (wrapper.width <= this._cssVars.breakpoints.sm) {
+                this._flexBasis = this._cssVars.flexBasis.sm;
+            }
+            else if (wrapper.width <= this._cssVars.breakpoints.md && wrapper.width > this._cssVars.breakpoints.sm) {
+                this._flexBasis = this._cssVars.flexBasis.md;
+            }
+            else {
+                this._flexBasis = this.returnFlexBasis();
+            }
+            this._sheet.replaceSync(this.loadStyles());
+        });
+        resizeObserver.observe(this._div);
+        this._div.addEventListener('scroll', () => {
+            this.debounce(this.setActiveItemByScroll(), 100);
+        });
     }
-  }
-
-  setSiblingClasses(activeId, max) {
-    this._items.forEach((item, index) => {
-      this._div.getElementsByTagName('item')[index].classList.remove('next-in-collection');
-      this._div.getElementsByTagName('item')[index].classList.remove('previous-in-collection');
-    });
-    //console.log(activeId);
-    let forward = (activeId < (max - 3)) ? activeId + 3 : max;
-    let backward = (activeId >= 3) ? activeId - 3 : 0;
-    //console.log('max', max);
-    //console.log('forward', forward);
-    //console.log('activeId', activeId);
-    //console.log('backward', backward);
-    //console.log('forward items:');
-    // forward
-    for (let i=activeId+1; i<forward+1; i++) {
-      //console.log(i);
-      const items = this._div.getElementsByTagName('item')[i].classList.add('next-in-collection');
-    }
-    //console.log('backward items:');
-    // backward
-    for (let i=activeId-1; i>=backward; i--) {
-      //console.log(i);
-      const items = this._div.getElementsByTagName('item')[i].classList.add('previous-in-collection');
-    }
-  }
-
-  setActiveItemByScroll() {
-    if (this._div) {
-      const items = this._div.getElementsByTagName('item');
-      const arr = [].slice.call(items);
-      arr.map(item => {
-        return item.classList.remove('active');
-      });
-      const active = arr.reduce(
-        (prev, current) => {
-          return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
+    connectedCallback() {
+        //console.log('Custom element added to page.');
+        //console.log(this.getAttribute('display'));
+        //console.log('items', this.items);
+        this._div.classList.add(this.getAttribute('display'));
+        this.loadModal();
+        if (this.getAttribute('template')) {
+            let template = document.getElementById(this.getAttribute('template'));
+            if (template) {
+                let templateContent = template.content;
+                this._div.appendChild(templateContent.cloneNode(true));
+            }
         }
-      );
-      active.classList.add('active');
-      this._activeId = parseInt(active.id.split('_')[1]);
-      // this.navigate(); removing - don't know why this was here
+        this.dataLoaded();
     }
-  }
-
-  loadNavigation() {
-    this._previousButton = document.createElement('div');
-    this._previousButton.className = 'previous-button fadeOut';
-    this._previousButton.role = 'button';
-    this._previousButton.tabIndex = '0';
-    this._previousButton.innerHTML = '&#9664;';
-    this._previousButton.addEventListener('click', () => {
-      this.navigate('previous');
-    });
-    this._previousButton.addEventListener('keydown', () => {
-      this.navigate('previous');
-    });
-    this._shadow.appendChild(this._previousButton);
-
-    this._nextButton = document.createElement('div');
-    this._nextButton.className = 'next-button fadeOut';
-    this._nextButton.role = 'button';
-    this._nextButton.tabIndex = '0';
-    this._nextButton.innerHTML = '&#9664;';
-    this._nextButton.addEventListener('click', () => {
-      this.navigate('next');
-    });
-    this._nextButton.addEventListener('keydown', () => {
-      this.navigate('next');
-    });
-    this._shadow.appendChild(this._nextButton);
-  }
-
-  displayNavigation(first, last) {
-    this._previousButton.classList.remove('fadeOut');
-    this._previousButton.classList.add('fadeIn');
-    this._nextButton.classList.remove('fadeOut');
-    this._nextButton.classList.add('fadeIn');
-    this._previousButton.ariaHidden = 'false';
-    this._nextButton.ariaHidden = 'false';
-    if (first) {
-      this._previousButton.classList.remove('fadeIn');
-      this._previousButton.classList.add('fadeOut');
-      this._previousButton.ariaHidden = 'true';
+    disconnectedCallback() {
+        resizeObserver.disconnect();
+        this._previousButton.removeEventListener('click');
+        this._nextButton.removeEventListener('click');
+        this._div.removeEventListener('scroll');
     }
-    if (last) {
-      this._nextButton.classList.remove('fadeIn');
-      this._nextButton.classList.add('fadeOut');
-      this._nextButton.ariaHidden = 'true';
+    adoptedCallback() {
+        //console.log('Custom element moved to new page.');
     }
-  }
-
-  returnFlexBasis() {
-    const cols = parseInt(this.getAttribute('columns'));
-    let gap = 0;
-    switch(cols) {
-      case 2:
-        gap = 0.5;
-        break;
-      case 6:
-        gap = 3;
-        break;
-      case 7:
-        gap = 5;
-        break;
-      case 8:
-        gap = 6;
-        break;
-      case 9:
-        gap = 7;
-        break;
-      case 10:
-        gap = 8.5;
-        break;
-      default:
-        gap = 1;
+    attributeChangedCallback(name, oldValue, newValue) {
+        //console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}.`);
+        if (name === 'columns') {
+            this._flexBasis = this.returnFlexBasis();
+            this._sheet.replaceSync(this.loadStyles());
+        }
+        if (this.getAttribute('display') === 'carousel' || this.getAttribute('display') === 'carousel-3d') {
+            this.loadNavigation();
+            this.displayNavigation(true, false);
+        }
+        else {
+            if (this._previousButton) {
+                this._shadow.removeChild(this._previousButton);
+                this._shadow.removeChild(this._nextButton);
+            }
+        }
     }
-
-    const width = 100/this.getAttribute('columns') - (this.getAttribute('columns') - gap);
-    return width + '%';
-  }
-
-  dataLoaded() {
-    if (this._div.getElementsByTagName('item')[this._activeId]) {
-      this._div.getElementsByTagName('item')[this._activeId].classList.add('active');
+    isDarkMode() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-  };
-
-  set items(value) {
-    // clear
-    this._items.forEach((item, index) => {
-      this._div.removeChild(this._div.querySelector('#item_' + index));
-    });
-
-    this._items = value;
-    //console.log('data', this._items);
-
-    this._items.forEach((item, index) => {
-      let itemElement = document.createElement('item');
-
-      // style
-      itemElement.style.backgroundColor = item.colors[0];
-      itemElement.style.color = item.colors[1];
-
-      itemElement.id = 'item_' + index;
-      itemElement.innerHTML = `<div class="header-section" style="border-bottom: 6px solid #${item.colors[2]}">
+    debounce(callback, delay) {
+        let timeout = null;
+        return (...args) => {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(() => {
+                callback(...args);
+            }, delay);
+        };
+    }
+    togglePrintView() {
+        this._printView = !this._printView;
+        if (this._printView) {
+            this._div.classList.add('print');
+        }
+        else {
+            this._div.classList.remove('print');
+        }
+    }
+    getPrintView() {
+        return (this._printView);
+    }
+    navigate(direction) {
+        this._currentStep = this._activeId;
+        if (direction === 'next') {
+            this._currentStep++;
+        }
+        if (direction === 'previous') {
+            this._currentStep--;
+        }
+        if (this._currentStep < 0) {
+            this._currentStep = 0;
+        }
+        if (this._currentStep >= this._div.children.length) {
+            this._currentStep = this._div.children.length - 1;
+        }
+        const first = this._currentStep === 0;
+        const last = (this._currentStep + 1) === this._div.children.length;
+        // TODO: clean, document, and test this logic
+        if (this._currentStep >= 0 && (this._currentStep + 1) <= this._div.children.length && direction) {
+            if (this.getAttribute('display') === 'carousel') {
+                const middle = this._div.children[this._currentStep];
+                middle.scrollIntoView(false);
+            }
+            if (this.getAttribute('display') === 'carousel-3d') {
+                if (direction === 'next') {
+                    if (this._activeId < this._div.children.length - 1) {
+                        this._activeId++;
+                    }
+                }
+                else {
+                    if (this._activeId > 0) {
+                        this._activeId--;
+                    }
+                }
+                const items = this._div.getElementsByTagName('item');
+                const arr = [].slice.call(items);
+                arr.map(item => {
+                    return item.classList.remove('active');
+                });
+                items[this._activeId].classList.add('active');
+                this._div.classList.remove('active-next');
+                this._div.classList.remove('active-previous');
+                if (direction === 'next') {
+                    this._div.classList.add('active-next');
+                }
+                else {
+                    this._div.classList.add('active-previous');
+                }
+                this.setSiblingClasses(this._activeId, items.length);
+            }
+            this.displayNavigation(first, last);
+        }
+        if (!direction) {
+            this.displayNavigation(first, last);
+        }
+    }
+    loadModal() {
+        // detailModal for the collection
+        let detailModal = document.createElement('dialog');
+        let detailModalBg = document.createElement('div');
+        let detailModalHeader = document.createElement('div');
+        let detailModalTitle = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 1}`);
+        let detailModalClose = document.createElement('button');
+        let detailModalContent = document.createElement('div');
+        detailModal.classList.add('detail-modal');
+        detailModal.open = false;
+        detailModalHeader.classList.add('detail-modal-header');
+        detailModalBg.classList.add('detail-modal-bg');
+        detailModalClose.classList.add('close');
+        detailModalTitle.innerHTML = 'Breece Hall';
+        detailModalClose.innerHTML = '&#x2715;';
+        detailModalClose.addEventListener('click', () => {
+            this.toggleModal(false);
+        });
+        detailModalContent.classList.add('detail-modal-content');
+        this._shadow.appendChild(detailModalBg);
+        this._shadow.appendChild(detailModal);
+        detailModal.appendChild(detailModalHeader);
+        detailModal.appendChild(detailModalContent);
+        detailModalHeader.appendChild(detailModalTitle);
+        detailModalHeader.appendChild(detailModalClose);
+        detailModalBg.style.display = 'none';
+    }
+    toggleModal(open, callback, size, index, triggerElement) {
+        this._shadow.querySelector('dialog').classList.remove('small');
+        this._shadow.querySelector('dialog').classList.add(size);
+        this._shadow.querySelector('dialog').open = open;
+        if (open === false) {
+            if (this._triggerElement) {
+                this._triggerElement.focus();
+            }
+            this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
+        }
+        else {
+            this._shadow.querySelector('.detail-modal-bg').style.display = '';
+            this._triggerElement = triggerElement;
+            this._shadow.querySelector('dialog').focus();
+        }
+        if (callback) {
+            let data = callback();
+            this.loadModalContent(data, index);
+        }
+    }
+    loadModalContent(data, index) {
+        let content = this._shadow.querySelector('dialog > div.detail-modal-content');
+        console.log(data);
+        content.innerHTML = '';
+        switch (data.modal.type) {
+            case 'tables':
+                let title = document.createElement(`h${Number(this.getAttribute('sectionHeader')) + 2}`);
+                let table = document.createElement('table');
+                title.innerHTML = data.modal.data[0].title;
+                content.appendChild(title);
+                content.appendChild(table);
+                break;
+            case 'ranking':
+                let form = document.createElement('form');
+                let label = document.createElement('label');
+                let input = document.createElement('input');
+                let button = document.createElement('button');
+                form.addEventListener('submit', (formEvent) => {
+                    formEvent.preventDefault();
+                });
+                input.id = 'ranking';
+                input.value = index + 1;
+                label.innerHTML = 'Current Ranking';
+                label.htmlFor = 'ranking';
+                button.classList.add('standard-button');
+                button.textContent = 'Submit New Ranking';
+                button.type = 'button';
+                button.onclick = () => {
+                    // determine if new ranking is 'up' or 'down'
+                    let currentValue = data.modal.data.ranking;
+                    let newValue = input.value;
+                    let direction = undefined;
+                    if (newValue > currentValue) {
+                        this.move('down', input.value - 2, data.modal.data.id);
+                    }
+                    else if (newValue < currentValue) {
+                        direction = 'up';
+                        this.move('up', input.value, data.modal.data.id);
+                    }
+                    this.toggleModal(false);
+                };
+                content.appendChild(form);
+                form.appendChild(label);
+                form.appendChild(input);
+                form.appendChild(button);
+                break;
+            default:
+            // code block
+        }
+    }
+    setSiblingClasses(activeId, max) {
+        this._items.forEach((item, index) => {
+            this._div.getElementsByTagName('item')[index].classList.remove('next-in-collection');
+            this._div.getElementsByTagName('item')[index].classList.remove('previous-in-collection');
+        });
+        //console.log(activeId);
+        let forward = (activeId < (max - 3)) ? activeId + 3 : max;
+        let backward = (activeId >= 3) ? activeId - 3 : 0;
+        //console.log('max', max);
+        //console.log('forward', forward);
+        //console.log('activeId', activeId);
+        //console.log('backward', backward);
+        //console.log('forward items:');
+        // forward
+        for (let i = activeId + 1; i < forward + 1; i++) {
+            //console.log(i);
+            const items = this._div.getElementsByTagName('item')[i].classList.add('next-in-collection');
+        }
+        //console.log('backward items:');
+        // backward
+        for (let i = activeId - 1; i >= backward; i--) {
+            //console.log(i);
+            const items = this._div.getElementsByTagName('item')[i].classList.add('previous-in-collection');
+        }
+    }
+    setActiveItemByScroll() {
+        if (this._div) {
+            const items = this._div.getElementsByTagName('item');
+            const arr = [].slice.call(items);
+            arr.map(item => {
+                return item.classList.remove('active');
+            });
+            const active = arr.reduce((prev, current) => {
+                return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >= 0 ? prev : current;
+            });
+            active.classList.add('active');
+            this._activeId = parseInt(active.id.split('_')[1]);
+            // this.navigate(); removing - don't know why this was here
+        }
+    }
+    loadNavigation() {
+        this._previousButton = document.createElement('div');
+        this._previousButton.className = 'previous-button fadeOut';
+        this._previousButton.role = 'button';
+        this._previousButton.tabIndex = '0';
+        this._previousButton.innerHTML = '&#9664;';
+        this._previousButton.addEventListener('click', () => {
+            this.navigate('previous');
+        });
+        this._previousButton.addEventListener('keydown', () => {
+            this.navigate('previous');
+        });
+        this._shadow.appendChild(this._previousButton);
+        this._nextButton = document.createElement('div');
+        this._nextButton.className = 'next-button fadeOut';
+        this._nextButton.role = 'button';
+        this._nextButton.tabIndex = '0';
+        this._nextButton.innerHTML = '&#9664;';
+        this._nextButton.addEventListener('click', () => {
+            this.navigate('next');
+        });
+        this._nextButton.addEventListener('keydown', () => {
+            this.navigate('next');
+        });
+        this._shadow.appendChild(this._nextButton);
+    }
+    displayNavigation(first, last) {
+        this._previousButton.classList.remove('fadeOut');
+        this._previousButton.classList.add('fadeIn');
+        this._nextButton.classList.remove('fadeOut');
+        this._nextButton.classList.add('fadeIn');
+        this._previousButton.ariaHidden = 'false';
+        this._nextButton.ariaHidden = 'false';
+        if (first) {
+            this._previousButton.classList.remove('fadeIn');
+            this._previousButton.classList.add('fadeOut');
+            this._previousButton.ariaHidden = 'true';
+        }
+        if (last) {
+            this._nextButton.classList.remove('fadeIn');
+            this._nextButton.classList.add('fadeOut');
+            this._nextButton.ariaHidden = 'true';
+        }
+    }
+    returnFlexBasis() {
+        const cols = parseInt(this.getAttribute('columns'));
+        let gap = 0;
+        switch (cols) {
+            case 2:
+                gap = 0.5;
+                break;
+            case 6:
+                gap = 3;
+                break;
+            case 7:
+                gap = 5;
+                break;
+            case 8:
+                gap = 6;
+                break;
+            case 9:
+                gap = 7;
+                break;
+            case 10:
+                gap = 8.5;
+                break;
+            default:
+                gap = 1;
+        }
+        const width = 100 / this.getAttribute('columns') - (this.getAttribute('columns') - gap);
+        return width + '%';
+    }
+    dataLoaded() {
+        if (this._div.getElementsByTagName('item')[this._activeId]) {
+            this._div.getElementsByTagName('item')[this._activeId].classList.add('active');
+        }
+    }
+    ;
+    set items(value) {
+        // clear
+        this._items.forEach((item, index) => {
+            this._div.removeChild(this._div.querySelector('#item_' + index));
+        });
+        this._items = value;
+        //console.log('data', this._items);
+        this._items.forEach((item, index) => {
+            let itemElement = document.createElement('item');
+            // style
+            itemElement.style.backgroundColor = item.colors[0];
+            itemElement.style.color = item.colors[1];
+            itemElement.id = 'item_' + index;
+            itemElement.innerHTML = `<div class="header-section" style="border-bottom: 6px solid #${item.colors[2]}">
         <h${this.getAttribute('sectionHeader')}>
         <span class="ranking-header">${index + 1}</span>
         ${item.name}</h${this.getAttribute('sectionHeader')}>
         <div class="header-actions"></div></div>`;
-      this._div.appendChild(itemElement);
-
-      // item
-      let indexElement = document.createElement('div');
-      indexElement.classList.add('item-index');
-      indexElement.style.borderTop = '2px solid #' + item.colors[3];
-
-      // ranking number area
-      let rankingElement = document.createElement('div');
-      rankingElement.innerHTML = index + 1;
-      rankingElement.classList.add('ranking');
-
-      // print name section
-      let printNameWrapper = document.createElement('div');
-      printNameWrapper.classList.add('print-name');
-      printNameWrapper.innerHTML = item.name;
-
-      // summary detail section
-      let summaryWrapper = document.createElement('div');
-      let summaryElement = document.createElement('div');
-      summaryElement.innerHTML = item.summary;
-
-      // imagery area
-      let picWrapper = document.createElement('div');
-      let picElement = document.createElement('img');
-      let picElement2 = document.createElement('img');
-
-      picWrapper.classList.add('pic-wrapper');
-      summaryWrapper.classList.add('summary-wrapper');
-
-      let alt = item.alt ? item.alt : item.name;
-      picElement.src = item.pic;
-      picElement.alt = 'Picture for ' + alt;
-
-      if (item.pic2) {
-        let alt2 = item.alt2 ? item.alt2 : item.name;
-        picElement2.src = item.pic2;
-        picElement2.alt = 'Picture for ' + alt2;
-      }
-
-      // description / additional detail area
-      let descElement = document.createElement('div');
-      descElement.classList.add('ranking-number');
-      descElement.innerHTML = item.desc;
-
-      // actions area
-      let actions = document.createElement('ul');
-      if (item.actions) {
-        item.actions.forEach((action, actionIndex) => {
-          let actionItem = document.createElement('li');
-          let actionItemAnchor = document.createElement('a');
-          actionItemAnchor.innerHTML = action.label + ' >>';
-          actionItemAnchor.href = 'javascript:';
-          if (action.modal) {
-            actionItemAnchor.addEventListener('click', (clickEvent) => {
-              this.toggleModal(true, action.event, action.modal.size, index, clickEvent.currentTarget);
+            this._div.appendChild(itemElement);
+            // item
+            let indexElement = document.createElement('div');
+            indexElement.classList.add('item-index');
+            indexElement.style.borderTop = '2px solid #' + item.colors[3];
+            // ranking number area
+            let rankingElement = document.createElement('div');
+            rankingElement.innerHTML = index + 1;
+            rankingElement.classList.add('ranking');
+            // print name section
+            let printNameWrapper = document.createElement('div');
+            printNameWrapper.classList.add('print-name');
+            printNameWrapper.innerHTML = item.name;
+            // summary detail section
+            let summaryWrapper = document.createElement('div');
+            let summaryElement = document.createElement('div');
+            summaryElement.innerHTML = item.summary;
+            // imagery area
+            let picWrapper = document.createElement('div');
+            let picElement = document.createElement('img');
+            let picElement2 = document.createElement('img');
+            picWrapper.classList.add('pic-wrapper');
+            summaryWrapper.classList.add('summary-wrapper');
+            let alt = item.alt ? item.alt : item.name;
+            picElement.src = item.pic;
+            picElement.alt = 'Picture for ' + alt;
+            if (item.pic2) {
+                let alt2 = item.alt2 ? item.alt2 : item.name;
+                picElement2.src = item.pic2;
+                picElement2.alt = 'Picture for ' + alt2;
+            }
+            // description / additional detail area
+            let descElement = document.createElement('div');
+            descElement.classList.add('ranking-number');
+            descElement.innerHTML = item.desc;
+            // actions area
+            let actions = document.createElement('ul');
+            if (item.actions) {
+                item.actions.forEach((action, actionIndex) => {
+                    let actionItem = document.createElement('li');
+                    let actionItemAnchor = document.createElement('a');
+                    actionItemAnchor.innerHTML = action.label + ' >>';
+                    actionItemAnchor.href = 'javascript:';
+                    if (action.modal) {
+                        actionItemAnchor.addEventListener('click', (clickEvent) => {
+                            this.toggleModal(true, action.event, action.modal.size, index, clickEvent.currentTarget);
+                        });
+                    }
+                    else {
+                        actionItemAnchor.onclick = action.event;
+                    }
+                    actionItem.appendChild(actionItemAnchor);
+                    actions.appendChild(actionItem);
+                    let topAction = document.createElement('a');
+                    itemElement.querySelector('.header-section .header-actions').appendChild(topAction);
+                    topAction.href = 'javascript:';
+                    if (action.modal) {
+                        topAction.addEventListener('click', () => {
+                            this.toggleModal(true, action.event, action.modal.size, index);
+                        });
+                    }
+                    else {
+                        topAction.onclick = action.event;
+                    }
+                    topAction.innerHTML = action.shortLabel;
+                    if ((item.actions.length - 1) !== actionIndex) {
+                        let separator = document.createElement('span');
+                        separator.innerHTML = ' | ';
+                        separator.classList.add('separator');
+                        itemElement.querySelector('.header-section .header-actions').appendChild(separator);
+                    }
+                });
+            }
+            // canvas area
+            let canvasElement = document.createElement('canvas');
+            canvasElement.width = '200';
+            canvasElement.height = '100';
+            canvasElement.ariaLabel = 'Additonal image for ' + item.name;
+            canvasElement.role = 'img';
+            let ctx = canvasElement.getContext('2d');
+            ctx.moveTo(0, 0);
+            ctx.lineTo(200, 100);
+            ctx.stroke();
+            // control area
+            let controlElement = document.createElement('div');
+            let rankUpElement = document.createElement('button');
+            let rankDownElement = document.createElement('button');
+            let upArrow = document.createElement('div');
+            let downArrow = document.createElement('div');
+            upArrow.classList.add('arrow');
+            downArrow.classList.add('arrow');
+            controlElement.classList.add('control-area');
+            rankUpElement.ariaLabel = 'Move Up';
+            rankDownElement.ariaLabel = 'Move Down';
+            rankUpElement.addEventListener('click', () => {
+                this.move('up', index, item.id);
             });
-          } else {
-            actionItemAnchor.onclick = action.event;
-          }
-          actionItem.appendChild(actionItemAnchor);
-
-          actions.appendChild(actionItem);
-
-          let topAction = document.createElement('a');
-          itemElement.querySelector('.header-section .header-actions').appendChild(topAction);
-          topAction.href = 'javascript:';
-          if (action.modal) {
-            topAction.addEventListener('click', () => {
-              this.toggleModal(true, action.event, action.modal.size, index);
+            rankDownElement.addEventListener('click', () => {
+                this.move('down', index, item.id);
             });
-          } else {
-            topAction.onclick = action.event;
-          }
-          topAction.innerHTML = action.shortLabel;
-          if ((item.actions.length - 1) !== actionIndex) {
-            let separator = document.createElement('span');
-            separator.innerHTML = ' | ';
-            separator.classList.add('separator');
-            itemElement.querySelector('.header-section .header-actions').appendChild(separator);
-          }
+            if (index === 0) {
+                rankUpElement.style.visibility = 'hidden';
+            }
+            if (index === (this._items.length - 1)) {
+                rankDownElement.style.visibility = 'hidden';
+            }
+            // attach elements
+            itemElement.appendChild(indexElement);
+            indexElement.appendChild(rankingElement);
+            indexElement.appendChild(printNameWrapper);
+            indexElement.appendChild(picWrapper);
+            indexElement.appendChild(summaryWrapper);
+            summaryWrapper.appendChild(summaryElement);
+            summaryWrapper.appendChild(descElement);
+            picWrapper.appendChild(picElement);
+            if (item.pic2) {
+                picWrapper.appendChild(picElement2);
+            }
+            if (item.canvas) {
+                picWrapper.appendChild(canvasElement);
+            }
+            indexElement.appendChild(actions);
+            indexElement.appendChild(controlElement);
+            controlElement.appendChild(rankUpElement);
+            controlElement.appendChild(rankDownElement);
+            rankUpElement.appendChild(upArrow);
+            rankDownElement.appendChild(downArrow);
         });
-      }
-
-      // canvas area
-      let canvasElement = document.createElement('canvas');
-      canvasElement.width = '200';
-      canvasElement.height = '100';
-      canvasElement.ariaLabel = 'Additonal image for ' + item.name;
-      canvasElement.role = 'img';
-
-      let ctx = canvasElement.getContext('2d');
-      ctx.moveTo(0, 0);
-      ctx.lineTo(200, 100);
-      ctx.stroke();
-
-      // control area
-      let controlElement = document.createElement('div');
-      let rankUpElement = document.createElement('button');
-      let rankDownElement = document.createElement('button');
-      let upArrow = document.createElement('div');
-      let downArrow = document.createElement('div');
-      upArrow.classList.add('arrow');
-      downArrow.classList.add('arrow');
-      controlElement.classList.add('control-area');
-      rankUpElement.ariaLabel = 'Move Up';
-      rankDownElement.ariaLabel = 'Move Down';
-      rankUpElement.addEventListener('click', () => {
-        this.move('up', index, item.id);
-      });
-      rankDownElement.addEventListener('click', () => {
-        this.move('down', index, item.id);
-      });
-      if (index === 0) {
-        rankUpElement.style.visibility = 'hidden';
-      }
-      if (index === (this._items.length - 1)) {
-        rankDownElement.style.visibility = 'hidden';
-      }
-
-      // attach elements
-      itemElement.appendChild(indexElement);
-      indexElement.appendChild(rankingElement);
-      indexElement.appendChild(printNameWrapper);
-      indexElement.appendChild(picWrapper);
-      indexElement.appendChild(summaryWrapper);
-      summaryWrapper.appendChild(summaryElement);
-      summaryWrapper.appendChild(descElement);
-      picWrapper.appendChild(picElement);
-      if (item.pic2) {
-        picWrapper.appendChild(picElement2);
-      }
-      if (item.canvas) {
-        picWrapper.appendChild(canvasElement);
-      }
-      indexElement.appendChild(actions);
-      indexElement.appendChild(controlElement);
-      controlElement.appendChild(rankUpElement);
-      controlElement.appendChild(rankDownElement);
-      rankUpElement.appendChild(upArrow);
-      rankDownElement.appendChild(downArrow);
-    });
-
-    this.dataLoaded();
-  }
-
-  get items() {
-    return this._items;
-  }
-
-  move(direction, activeIndex, activeId) {
-    let order = this._items.filter((item) => {
-      return item.id !== activeId;
-    });
-    let newIndex = activeIndex;
-    let activeObj = this._items.find((item) => {
-      return item.id === activeId;
-    });
-    if (direction === 'down') {
-      newIndex++;
-    } else {
-      newIndex--;
+        this.dataLoaded();
     }
-
-    if (newIndex < 0) {
-      newIndex = 0;
+    get items() {
+        return this._items;
     }
-    if (newIndex > this._items.length - 1) {
-      newIndex = this._items.length - 1;
+    move(direction, activeIndex, activeId) {
+        let order = this._items.filter((item) => {
+            return item.id !== activeId;
+        });
+        let newIndex = activeIndex;
+        let activeObj = this._items.find((item) => {
+            return item.id === activeId;
+        });
+        if (direction === 'down') {
+            newIndex++;
+        }
+        else {
+            newIndex--;
+        }
+        if (newIndex < 0) {
+            newIndex = 0;
+        }
+        if (newIndex > this._items.length - 1) {
+            newIndex = this._items.length - 1;
+        }
+        order.splice(newIndex, 0, activeObj);
+        this.items = order;
+        let eventOrderAdjusted = new CustomEvent('order-adjusted', {
+            detail: {
+                message: 'Order has been adjusted.',
+                order: order,
+                itemIds: order.map((item) => {
+                    return item.id;
+                }),
+                direction
+            }
+        });
+        this.dispatchEvent(eventOrderAdjusted);
+        let buttonPosition = direction === 'up' ? 1 : 2;
+        if (newIndex === 0) {
+            buttonPosition = 2;
+        }
+        if (newIndex === this._items.length - 1) {
+            buttonPosition = 1;
+        }
+        this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')').focus();
+        this._shadow.querySelector('#item_' + newIndex).classList.add('item-moved');
     }
-
-
-    order.splice(newIndex, 0, activeObj);
-    this.items = order;
-    let eventOrderAdjusted = new CustomEvent('order-adjusted', {
-      detail: {
-        message: 'Order has been adjusted.',
-        order: order,
-        itemIds: order.map((item) => {
-          return item.id;
-        }),
-        direction
-      }
-    });
-    this.dispatchEvent(eventOrderAdjusted);
-
-    let buttonPosition = direction === 'up' ? 1 : 2;
-    if (newIndex === 0) {
-      buttonPosition = 2;
-    }
-    if (newIndex === this._items.length - 1) {
-      buttonPosition = 1;
-    }
-    this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')').focus();
-    this._shadow.querySelector('#item_' + newIndex).classList.add('item-moved');
-  }
-
-  loadStyles() {
-    return `
+    loadStyles() {
+        return `
     :host {
       --border-color: #ddd;
       --border-moved-color: #39ff14;
@@ -1208,7 +1152,7 @@ class CollectionComponent extends HTMLElement {
       transform: rotate(90deg);
     }
     `;
-  }
+    }
 }
-
+CollectionComponent.observedAttributes = ['display', 'template', 'columns', 'sectionHeader'];
 customElements.define('collection-component', CollectionComponent);
