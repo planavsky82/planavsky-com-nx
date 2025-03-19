@@ -14,7 +14,7 @@ class CollectionComponent extends HTMLElement {
   private _div: HTMLDivElement;
   private _items: any[];
   private _activeId: number;
-  private _triggerElement: HTMLElement | null;
+  private _triggerElement: HTMLElement | undefined;
   private _printView: boolean;
   private _flexBasis: string;
   private _sheet: CSSStyleSheet;
@@ -51,7 +51,7 @@ class CollectionComponent extends HTMLElement {
 
     this._items = [];
     this._activeId = 0;
-    this._triggerElement = null;
+    this._triggerElement = undefined;
     this._printView = false;
 
     this._flexBasis = this.returnFlexBasis();
@@ -244,6 +244,7 @@ class CollectionComponent extends HTMLElement {
 
   toggleModal(open: boolean, callback?: any, size?: string, index?: number, triggerElement?: HTMLElement) {
     const dialog = this._shadow.querySelector('dialog');
+    const dialogBg = this._shadow.querySelector('.detail-modal-bg') as HTMLElement;
     if (dialog) {
       dialog.classList.remove('small');
       if (size) {
@@ -255,13 +256,17 @@ class CollectionComponent extends HTMLElement {
       if (this._triggerElement) {
         this._triggerElement.focus();
       }
-      this._shadow.querySelector('.detail-modal-bg').style.display = 'none';
+      if (dialogBg) {
+        dialogBg.style.display = 'none';
+      }
     } else {
-      this._shadow.querySelector('.detail-modal-bg').style.display = '';
-      this._triggerElement = triggerElement;
-      this._shadow.querySelector('dialog').focus();
+      if (dialogBg) {
+        dialogBg.style.display = '';
+        this._triggerElement = triggerElement;
+        dialogBg.focus();
+      }
     }
-    if (callback) {
+    if (callback && index) {
       let data = callback();
       this.loadModalContent(data, index);
     }
@@ -269,6 +274,9 @@ class CollectionComponent extends HTMLElement {
 
   loadModalContent(data: any, index: number) {
     let content = this._shadow.querySelector('dialog > div.detail-modal-content');
+    if (!content) {
+      return;
+    }
     console.log(data);
     content.innerHTML = '';
     switch(data.modal.type) {
@@ -288,7 +296,7 @@ class CollectionComponent extends HTMLElement {
           formEvent.preventDefault();
         });
         input.id = 'ranking';
-        input.value = index + 1;
+        input.value = (index + 1).toString();
         label.innerHTML = 'Current Ranking';
         label.htmlFor = 'ranking';
         button.classList.add('standard-button');
@@ -300,7 +308,7 @@ class CollectionComponent extends HTMLElement {
           let newValue = input.value;
           let direction = undefined;
           if (newValue > currentValue) {
-            this.move('down', input.value - 2, data.modal.data.id);
+            this.move('down', parseInt(input.value) - 2, data.modal.data.id);
           } else if (newValue < currentValue) {
             direction = 'up';
             this.move('up', input.value, data.modal.data.id);
@@ -317,7 +325,7 @@ class CollectionComponent extends HTMLElement {
     }
   }
 
-  setSiblingClasses(activeId, max) {
+  setSiblingClasses(activeId: number, max: number) {
     this._items.forEach((item, index) => {
       this._div.getElementsByTagName('item')[index].classList.remove('next-in-collection');
       this._div.getElementsByTagName('item')[index].classList.remove('previous-in-collection');
@@ -347,7 +355,7 @@ class CollectionComponent extends HTMLElement {
     if (this._div) {
       const items = this._div.getElementsByTagName('item');
       const arr = [].slice.call(items);
-      arr.map(item => {
+      arr.map((item: HTMLElement) => {
         return item.classList.remove('active');
       });
       const active = arr.reduce(
