@@ -373,7 +373,7 @@ class CollectionComponent extends HTMLElement {
     this._previousButton = document.createElement('div');
     this._previousButton.className = 'previous-button fadeOut';
     this._previousButton.role = 'button';
-    this._previousButton.tabIndex = '0';
+    this._previousButton.tabIndex = 0;
     this._previousButton.innerHTML = '&#9664;';
     this._previousButton.addEventListener('click', () => {
       this.navigate('previous');
