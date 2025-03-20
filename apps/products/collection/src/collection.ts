@@ -33,7 +33,7 @@ class CollectionComponent extends HTMLElement {
   private _shadow: ShadowRoot;
   private _cssVars: CollectionItem;
   private _div: HTMLDivElement;
-  private _items: any[];
+  private _items: Item[];
   private _activeId: number;
   private _triggerElement: HTMLElement | undefined;
   private _printView: boolean;
@@ -673,7 +673,9 @@ class CollectionComponent extends HTMLElement {
       newIndex = this._items.length - 1;
     }
 
-
+    if (!activeObj) {
+      return;
+    }
     order.splice(newIndex, 0, activeObj);
     this.items = order;
     let eventOrderAdjusted = new CustomEvent('order-adjusted', {
