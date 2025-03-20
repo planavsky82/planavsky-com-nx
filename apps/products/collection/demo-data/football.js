@@ -4,11 +4,13 @@ let setUserRankings = (position, rankings) => {
   if (rankings) {
     userRankings = rankings;
   } else {
-    // get API call
+    // API call to get userRankings
 
   }
   // set local storage var
   localStorage.setItem('mffrUserRankings', JSON.stringify(userRankings));
+
+  // send userRankings to API
 }
 
 let loadLocalData = (newPosition) => {
