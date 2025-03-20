@@ -5,7 +5,7 @@
   "main": "collection.js",
   "scripts": {
     "test": "npm-run-all --parallel http-server playwright",
-    "http-server": "http-server",
+    "http-server": "npm run build && http-server",
     "playwright": "npx playwright test",
     "report": "npx playwright show-report",
     "build": "tsc"
