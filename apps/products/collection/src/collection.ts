@@ -3,14 +3,14 @@
 interface CollectionItem {
   breakpoints: { sm: string; md: string; };
   flexBasis: { sm: string; md: string; };
-};
+}
 
 interface Action {
   label: string;
   shortLabel: string;
   event: any;
   modal?: { type: string; size: string; data: any; };
-};
+}
 
 interface Item {
   id: number;
