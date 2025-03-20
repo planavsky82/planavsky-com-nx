@@ -5,6 +5,27 @@ interface CollectionItem {
   flexBasis: { sm: string; md: string; };
 };
 
+interface Action {
+  label: string;
+  shortLabel: string;
+  event: any;
+  modal?: { type: string; size: string; data: any; };
+};
+
+interface Item {
+  id: number;
+  name: string;
+  summary: string;
+  desc: string;
+  pic: string;
+  pic2?: string;
+  canvas?: boolean;
+  alt?: string;
+  alt2?: string;
+  colors: string[];
+  actions?: Action[];
+}
+
 // Create a class for the element
 class CollectionComponent extends HTMLElement {
   static observedAttributes = ['display', 'template', 'columns', 'sectionHeader'];
@@ -311,7 +332,7 @@ class CollectionComponent extends HTMLElement {
             this.move('down', parseInt(input.value) - 2, data.modal.data.id);
           } else if (newValue < currentValue) {
             direction = 'up';
-            this.move('up', input.value, data.modal.data.id);
+            this.move('up', parseInt(input.value), data.modal.data.id);
           }
           this.toggleModal(false);
         };
@@ -360,11 +381,11 @@ class CollectionComponent extends HTMLElement {
       });
       const active = arr.reduce(
         (prev, current) => {
-          return prev.getBoundingClientRect().x < current.getBoundingClientRect().x && prev.getBoundingClientRect().x >=0 ? prev : current
+          return (prev as HTMLElement).getBoundingClientRect().x < (current as HTMLElement).getBoundingClientRect().x && (prev as HTMLElement).getBoundingClientRect().x >= 0 ? prev : current
         }
       );
-      active.classList.add('active');
-      this._activeId = parseInt(active.id.split('_')[1]);
+      (active as HTMLElement).classList.add('active');
+      this._activeId = parseInt((active as HTMLElement).id.split('_')[1]);
       // this.navigate(); removing - don't know why this was here
     }
   }
@@ -386,7 +407,7 @@ class CollectionComponent extends HTMLElement {
     this._nextButton = document.createElement('div');
     this._nextButton.className = 'next-button fadeOut';
     this._nextButton.role = 'button';
-    this._nextButton.tabIndex = '0';
+    this._nextButton.tabIndex = 0;
     this._nextButton.innerHTML = '&#9664;';
     this._nextButton.addEventListener('click', () => {
       this.navigate('next');
@@ -397,7 +418,10 @@ class CollectionComponent extends HTMLElement {
     this._shadow.appendChild(this._nextButton);
   }
 
-  displayNavigation(first, last) {
+  displayNavigation(first: boolean, last: boolean) {
+    if (!this._previousButton || !this._nextButton) {
+      return;
+    }
     this._previousButton.classList.remove('fadeOut');
     this._previousButton.classList.add('fadeIn');
     this._nextButton.classList.remove('fadeOut');
@@ -417,7 +441,7 @@ class CollectionComponent extends HTMLElement {
   }
 
   returnFlexBasis() {
-    const cols = parseInt(this.getAttribute('columns'));
+    const cols = parseInt(this.getAttribute('columns') || '1');
     let gap = 0;
     switch(cols) {
       case 2:
@@ -442,7 +466,8 @@ class CollectionComponent extends HTMLElement {
         gap = 1;
     }
 
-    const width = 100/this.getAttribute('columns') - (this.getAttribute('columns') - gap);
+    const columns = parseInt(this.getAttribute('columns') || '1', 10);
+    const width = 100 / columns - (columns - gap);
     return width + '%';
   }
 
@@ -454,14 +479,14 @@ class CollectionComponent extends HTMLElement {
 
   set items(value) {
     // clear
-    this._items.forEach((item, index) => {
-      this._div.removeChild(this._div.querySelector('#item_' + index));
+    this._items.forEach((item: Item, index: number) => {
+      this._div.removeChild(this._div.querySelector('#item_' + index) as HTMLElement);
     });
 
     this._items = value;
     //console.log('data', this._items);
 
-    this._items.forEach((item, index) => {
+    this._items.forEach((item: Item, index: number) => {
       let itemElement = document.createElement('item');
 
       // style
@@ -483,7 +508,7 @@ class CollectionComponent extends HTMLElement {
 
       // ranking number area
       let rankingElement = document.createElement('div');
-      rankingElement.innerHTML = index + 1;
+      rankingElement.innerHTML = (index + 1).toString();
       rankingElement.classList.add('ranking');
 
       // print name section
@@ -522,14 +547,14 @@ class CollectionComponent extends HTMLElement {
       // actions area
       let actions = document.createElement('ul');
       if (item.actions) {
-        item.actions.forEach((action, actionIndex) => {
+        item.actions.forEach((action: Action, actionIndex: number) => {
           let actionItem = document.createElement('li');
           let actionItemAnchor = document.createElement('a');
           actionItemAnchor.innerHTML = action.label + ' >>';
           actionItemAnchor.href = 'javascript:';
           if (action.modal) {
             actionItemAnchor.addEventListener('click', (clickEvent) => {
-              this.toggleModal(true, action.event, action.modal.size, index, clickEvent.currentTarget);
+              this.toggleModal(true, action.event, action.modal?.size, index, clickEvent.currentTarget as HTMLElement);
             });
           } else {
             actionItemAnchor.onclick = action.event;
@@ -539,36 +564,39 @@ class CollectionComponent extends HTMLElement {
           actions.appendChild(actionItem);
 
           let topAction = document.createElement('a');
-          itemElement.querySelector('.header-section .header-actions').appendChild(topAction);
+          itemElement.querySelector('.header-section .header-actions')?.appendChild(topAction);
           topAction.href = 'javascript:';
           if (action.modal) {
             topAction.addEventListener('click', () => {
-              this.toggleModal(true, action.event, action.modal.size, index);
+              this.toggleModal(true, action.event, action.modal?.size, index);
             });
           } else {
             topAction.onclick = action.event;
           }
           topAction.innerHTML = action.shortLabel;
-          if ((item.actions.length - 1) !== actionIndex) {
+          if (item.actions && (item.actions.length - 1) !== actionIndex) {
             let separator = document.createElement('span');
             separator.innerHTML = ' | ';
             separator.classList.add('separator');
-            itemElement.querySelector('.header-section .header-actions').appendChild(separator);
+            const headerActions = itemElement.querySelector('.header-section .header-actions');
+            if (headerActions) {
+              headerActions.appendChild(separator);
+            }
           }
         });
       }
 
       // canvas area
       let canvasElement = document.createElement('canvas');
-      canvasElement.width = '200';
-      canvasElement.height = '100';
+      canvasElement.width = 200;
+      canvasElement.height = 100;
       canvasElement.ariaLabel = 'Additonal image for ' + item.name;
       canvasElement.role = 'img';
 
       let ctx = canvasElement.getContext('2d');
-      ctx.moveTo(0, 0);
-      ctx.lineTo(200, 100);
-      ctx.stroke();
+      ctx?.moveTo(0, 0);
+      ctx?.lineTo(200, 100);
+      ctx?.stroke();
 
       // control area
       let controlElement = document.createElement('div');
@@ -624,7 +652,7 @@ class CollectionComponent extends HTMLElement {
     return this._items;
   }
 
-  move(direction, activeIndex, activeId) {
+  move(direction: 'up' | 'down', activeIndex: number, activeId: number) {
     let order = this._items.filter((item) => {
       return item.id !== activeId;
     });
@@ -667,8 +695,14 @@ class CollectionComponent extends HTMLElement {
     if (newIndex === this._items.length - 1) {
       buttonPosition = 1;
     }
-    this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')').focus();
-    this._shadow.querySelector('#item_' + newIndex).classList.add('item-moved');
+    const button = this._shadow.querySelector('#item_' + newIndex + ' .control-area button:nth-of-type(' + buttonPosition + ')') as HTMLElement;
+    if (button) {
+      button.focus();
+    }
+    const newItem = this._shadow.querySelector('#item_' + newIndex);
+    if (newItem) {
+      newItem.classList.add('item-moved');
+    }
   }
 
   loadStyles() {
