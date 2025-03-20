@@ -1,4 +1,4 @@
-// set user rankings local storage from API call or from the "move" function event in the collection component
+// set user rankings local storage from API call or from the "order-adjusted" function event in the collection component
 let setUserRankings = (position, rankings) => {
   let userRankings;
   if (rankings) {
