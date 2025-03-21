@@ -155,7 +155,6 @@ let loadLocalData = (newPosition) => {
       }));
     });
     players = reorderedPlayers;
-    console.log(players);
   }
   return players;
 }
