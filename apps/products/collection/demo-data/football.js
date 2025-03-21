@@ -4,9 +4,9 @@ let setUserRankings = (position, rankings) => {
   if (rankings) {
     userRankings = rankings;
   }
+  console.log(userRankings);
   // set local storage var
   localStorage.setItem('mffrUserRankings', JSON.stringify(userRankings));
-
   // send userRankings to API
 }
 
@@ -145,6 +145,18 @@ let loadLocalData = (newPosition) => {
     })
   });
 
+  // get user rankings from local storage if it exists
+  if (localStorage.getItem('mffrUserRankings')) {
+    let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
+    let reorderedPlayers = [];
+    userRankings.forEach((id) => {
+      reorderedPlayers.push(players.find((player) => {
+        return player.id === id;
+      }));
+    });
+    players = reorderedPlayers;
+    console.log(players);
+  }
   return players;
 }
 
