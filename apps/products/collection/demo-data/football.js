@@ -4,9 +4,27 @@ let setUserRankings = (position, rankings) => {
   if (rankings) {
     userRankings = rankings;
   }
+
+  // set user rankings config
+  let userRankingsConfig = position + ':' + JSON.stringify(userRankings) + ';';
+
   // set local storage var
-  localStorage.setItem('mffrUserRankings', JSON.stringify(userRankings));
-  // send userRankings to API
+  localStorage.setItem('mffrUserRankings', userRankingsConfig);
+  // mock sending userRankingsConfig to API
+  fetch('http://127.0.0.1:8080/', {
+    method: 'POST',
+    cache: 'force-cache',
+    headers: {
+      'Cache-Control': 'max-age=86400',
+      'Content-Type': 'application/json',
+      'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
+      'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+    },
+    body: JSON.stringify(userRankingsConfig)
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(() => console.warn('Mock API POST Request ...'));
 }
 
 let loadLocalData = (newPosition) => {
@@ -146,7 +164,7 @@ let loadLocalData = (newPosition) => {
 
   // get user rankings from local storage if it exists
   if (localStorage.getItem('mffrUserRankings')) {
-    let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
+    let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings').split(':')[1].split(';')[0]);
     let reorderedPlayers = [];
     userRankings.forEach((id) => {
       reorderedPlayers.push(players.find((player) => {
