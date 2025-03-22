@@ -6,10 +6,12 @@ let setUserRankings = (position, rankings) => {
   }
 
   // set user rankings config
-  let userRankingsConfig = position + ':' + JSON.stringify(userRankings) + ';';
+  let positionUserRankings = position + ':' + JSON.stringify(userRankings) + ';'
+  let userRankingsConfig = userRankings;
 
   // set local storage var
-  localStorage.setItem('mffrUserRankings', userRankingsConfig);
+  localStorage.setItem('mffrUserRankings', JSON.stringify(userRankingsConfig));
+
   // mock sending userRankingsConfig to API
   fetch('http://127.0.0.1:8080/', {
     method: 'POST',
@@ -164,7 +166,7 @@ let loadLocalData = (newPosition) => {
 
   // get user rankings from local storage if it exists
   if (localStorage.getItem('mffrUserRankings')) {
-    let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings').split(':')[1].split(';')[0]);
+    let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
     let reorderedPlayers = [];
     userRankings.forEach((id) => {
       reorderedPlayers.push(players.find((player) => {
