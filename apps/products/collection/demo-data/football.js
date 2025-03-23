@@ -186,7 +186,6 @@ let loadLocalData = (newPosition) => {
   });
 
   let originalPlayers = players;
-  console.log('originalPlayers', originalPlayers);
 
   // apply admin ranking order to the data first (this will implement the same interface as the user rankings)
   let adminRankings = [
@@ -238,7 +237,6 @@ let loadLocalData = (newPosition) => {
   // add remaining players to the end of the list
   originalPlayers.forEach((player) => {
     if (!players.find((p) => {
-      console.log('p.id', p.id);
       return p.id === player.id;
     })) {
       players.push(player);
