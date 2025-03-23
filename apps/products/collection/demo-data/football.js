@@ -185,6 +185,8 @@ let loadLocalData = (newPosition) => {
     })
   });
 
+  let originalPlayers = players;
+
   // apply admin ranking order to the data first (this will implement the same interface as the user rankings)
   let adminRankings = [
     { "position" : "RB",
@@ -229,6 +231,15 @@ let loadLocalData = (newPosition) => {
       players = reorderedPlayers;
     }
   }
+
+  // add remaining players to the end of the list
+  let remainingPlayers = originalPlayers.filter((player) => {
+    return !players.find((p) => {
+      return p.id === player.id;
+    });
+  });
+  players = players.concat(remainingPlayers);
+
   return players;
 }
 
