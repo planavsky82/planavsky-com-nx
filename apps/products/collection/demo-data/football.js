@@ -195,9 +195,13 @@ let loadLocalData = (newPosition) => {
     },
     { "position" : "WR",
       "rankings": []
+    },
+    { "position" : "TE",
+      "rankings": ["15847"]
     }
   ];
   console.log('Apply admin rankings ...');
+  let reorderedAdminPlayers = [];
 
   // get user rankings from local storage if it exists
   if (localStorage.getItem('mffrUserRankings')) {
