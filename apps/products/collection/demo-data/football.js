@@ -206,6 +206,13 @@ let loadLocalData = (newPosition) => {
 
 // load player data
 async function loadAPIlData(newPosition) {
+  if (!localStorage.hasOwnProperty('mffrExpiration') || localStorage.getItem('mffrExpiration') < Date.now()) {
+    localStorage.removeItem('mffrPlayerData');
+    localStorage.removeItem('mffrTeamData');
+    localStorage.removeItem('mffrExpiration');
+    localStorage.removeItem('mffrUserRankings');
+  }
+
   if (!localStorage.hasOwnProperty('mffrPlayerData')) {
     return fetch('https://nfl-api-data.p.rapidapi.com/nfl-team-listing/v1/data', {
       cache: 'force-cache',
@@ -305,6 +312,7 @@ async function loadAPIlData(newPosition) {
           .then(data => {
             localStorage.setItem('mffrPlayerData', JSON.stringify(data[0]));
             localStorage.setItem('mffrTeamData', JSON.stringify(teamList));
+            localStorage.setItem('mffrExpiration', Date.now() + 86400000);
             return loadLocalData(newPosition);
           })
           .catch((error) => {
