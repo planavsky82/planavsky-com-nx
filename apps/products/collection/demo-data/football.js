@@ -185,6 +185,8 @@ let loadLocalData = (newPosition) => {
     })
   });
 
+  // apply admin ranking order to the data first
+
   // get user rankings from local storage if it exists
   if (localStorage.getItem('mffrUserRankings')) {
     let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
