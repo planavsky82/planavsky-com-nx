@@ -6,8 +6,29 @@ let setUserRankings = (position, rankings) => {
   }
 
   // set user rankings config
-  let positionUserRankings = position + ':' + JSON.stringify(userRankings) + ';'
-  let userRankingsConfig = userRankings;
+  let positionUserRankings = {
+    position: position,
+    rankings: userRankings
+  }
+
+  let userRankingsConfig = [];
+
+  if (localStorage.getItem('mffrUserRankings')) {
+    let tempUserRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
+    tempUserRankings.forEach((positionCollection, index) => {
+       if (positionCollection.position === position) {
+        tempUserRankings[index] = positionUserRankings;
+       }
+       if (!tempUserRankings.find((userRanking) => {
+          return userRanking.position === position;
+        })) {
+        tempUserRankings.push(positionUserRankings);
+       }
+    });
+    userRankingsConfig = tempUserRankings;
+  } else {
+    userRankingsConfig.push(positionUserRankings);
+  }
 
   // set local storage var
   localStorage.setItem('mffrUserRankings', JSON.stringify(userRankingsConfig));
@@ -168,12 +189,17 @@ let loadLocalData = (newPosition) => {
   if (localStorage.getItem('mffrUserRankings')) {
     let userRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
     let reorderedPlayers = [];
-    userRankings.forEach((id) => {
-      reorderedPlayers.push(players.find((player) => {
-        return player.id === id;
-      }));
+    let positionRankings = userRankings.filter(config => {
+      return config.position === newPosition;
     });
-    players = reorderedPlayers;
+    if (positionRankings.length > 0) {
+      positionRankings[0].rankings.forEach((id) => {
+        reorderedPlayers.push(players.find((player) => {
+          return player.id === id;
+        }));
+      });
+      players = reorderedPlayers;
+    }
   }
   return players;
 }
