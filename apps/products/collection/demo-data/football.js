@@ -186,6 +186,7 @@ let loadLocalData = (newPosition) => {
   });
 
   let originalPlayers = players;
+  console.log('originalPlayers', originalPlayers);
 
   // apply admin ranking order to the data first (this will implement the same interface as the user rankings)
   let adminRankings = [
@@ -202,17 +203,19 @@ let loadLocalData = (newPosition) => {
       "rankings": ["4361307","3116164","15847"]
     }
   ];
-  let reorderedAdminPlayers = [];
-  let positionAdminRankings = adminRankings.filter(config => {
-    return config.position === newPosition;
-  });
-  if (positionAdminRankings.length > 0) {
-    positionAdminRankings[0].rankings.forEach((id) => {
-      reorderedAdminPlayers.push(players.find((player) => {
-        return player.id === id;
-      }));
+  if (!localStorage.getItem('mffrUserRankings')) {
+    let reorderedAdminPlayers = [];
+    let positionAdminRankings = adminRankings.filter(config => {
+      return config.position === newPosition;
     });
-    players = reorderedAdminPlayers;
+    if (positionAdminRankings.length > 0) {
+      positionAdminRankings[0].rankings.forEach((id) => {
+        reorderedAdminPlayers.push(players.find((player) => {
+          return player.id === id;
+        }));
+      });
+      players = reorderedAdminPlayers;
+    }
   }
 
   // get user rankings from local storage if it exists
@@ -233,12 +236,14 @@ let loadLocalData = (newPosition) => {
   }
 
   // add remaining players to the end of the list
-  let remainingPlayers = originalPlayers.filter((player) => {
-    return !players.find((p) => {
+  originalPlayers.forEach((player) => {
+    if (!players.find((p) => {
+      console.log('p.id', p.id);
       return p.id === player.id;
-    });
+    })) {
+      players.push(player);
+    }
   });
-  players = players.concat(remainingPlayers);
 
   return players;
 }
