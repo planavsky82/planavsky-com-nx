@@ -200,8 +200,18 @@ let loadLocalData = (newPosition) => {
       "rankings": ["4361307","3116164","15847"]
     }
   ];
-  console.log('Apply admin rankings ...');
   let reorderedAdminPlayers = [];
+  let positionAdminRankings = adminRankings.filter(config => {
+    return config.position === newPosition;
+  });
+  if (positionAdminRankings.length > 0) {
+    positionAdminRankings[0].rankings.forEach((id) => {
+      reorderedAdminPlayers.push(players.find((player) => {
+        return player.id === id;
+      }));
+    });
+    players = reorderedAdminPlayers;
+  }
 
   // get user rankings from local storage if it exists
   if (localStorage.getItem('mffrUserRankings')) {
