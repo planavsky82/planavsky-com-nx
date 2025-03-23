@@ -185,7 +185,7 @@ let loadLocalData = (newPosition) => {
     })
   });
 
-  // apply admin ranking order to the data first
+  // apply admin ranking order to the data first (this will implement the same interface as the user rankings)
   let adminRankings = [
     { "position" : "RB",
       "rankings": []
