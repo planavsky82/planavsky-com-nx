@@ -202,7 +202,8 @@ let loadLocalData = (newPosition) => {
       "rankings": ["4361307","3116164","15847"]
     }
   ];
-  if (!localStorage.getItem('mffrUserRankings')) {
+  let localStorageRankings = JSON.parse(localStorage.getItem('mffrUserRankings'));
+  if (!localStorageRankings || (localStorageRankings && !localStorageRankings.find((ranking) => { return ranking.position === newPosition }))) {
     let reorderedAdminPlayers = [];
     let positionAdminRankings = adminRankings.filter(config => {
       return config.position === newPosition;
