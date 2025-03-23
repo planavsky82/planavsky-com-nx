@@ -258,24 +258,30 @@ async function loadAPIlData(newPosition) {
               }).items
               let players = [...oPlayers, ...kPlayers];
               players.forEach((player) => {
-                playerList.push({
-                  headshot: player.headshot,
-                  id: player.id,
-                  uid: player.uid,
-                  guid: player.guid,
-                  shortName: player.shortName,
-                  slug: player.slug,
-                  status: player.status,
-                  number: player.jersey,
-                  position: player.position,
-                  firstName: player.firstName,
-                  lastName: player.lastName,
-                  experience: player.experience,
-                  college: player.college,
-                  displayName: player.displayName,
-                  injuries: player.injuries,
-                  team: teamObj.team
-                });
+                if (player.position.abbreviation !== 'G'
+                  && player.position.abbreviation !== 'OT'
+                  && player.position.abbreviation !== 'C'
+                  && player.position.abbreviation !== 'P'
+                  && player.position.abbreviation !== 'LS') {
+                    playerList.push({
+                      headshot: player.headshot,
+                      id: player.id,
+                      uid: player.uid,
+                      guid: player.guid,
+                      shortName: player.shortName,
+                      slug: player.slug,
+                      status: player.status,
+                      number: player.jersey,
+                      position: player.position,
+                      firstName: player.firstName,
+                      lastName: player.lastName,
+                      experience: player.experience,
+                      college: player.college,
+                      displayName: player.displayName,
+                      injuries: player.injuries,
+                      team: teamObj.team
+                    });
+                }
               });
               return playerList;
             })
