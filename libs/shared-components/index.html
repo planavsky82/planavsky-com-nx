@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Collection</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script src="js/collection.js"></script>
+    <script src="demo-data/cities.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      section#carousel, section#carousel-3d {
+        width: 500px;
+      }
+
+      section.list {
+        width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Collection Component</h1>
+
+      <section class="list">
+        <h2>List (Data-Driven)</h2>
+        <collection-component display="list"></collection-component>
+      </section>
+
+      <section class="list">
+        <h2>List (Slotted)</h2>
+        <style>
+
+        </style>
+        <template id="collection-component-items">
+          <item class="city-new-york">
+            New York
+          </item>
+          <item class="city-pittsburgh">
+            Pittsburgh
+          </item>
+          <item class="city-buffalo">
+            Buffalo
+          </item>
+        </template>
+        <collection-component display="list" template="collection-component-items"></collection-component>
+      </section>
+
+      <section id="carousel">
+        <h2>Carousel</h2>
+        <collection-component display="carousel" carousel-item-width="25%"></collection-component>
+      </section>
+
+      <section id="carousel-3d">
+        <h2>Carousel (3D)</h2>
+        <collection-component display="carousel-3d" carousel-item-width="25%"></collection-component>
+      </section>
+
+      <section id="cards">
+        <h2>Cards</h2>
+        <label for="numberOfCols">Number of Columns:</label>
+        <input id="numberOfCols" value="3" onkeyup="updateCols(this)" />
+        <collection-component display="cards" columns="3"></collection-component>
+      </section>
+    </main>
+  </body>
+  <script>
+    // load data-driven list
+    let list = document.getElementsByTagName('collection-component')[0];
+      list.setAttribute('sectionHeader', 3);
+      list.items = cities;
+
+    // load carousel
+    let carousel = document.getElementsByTagName('collection-component')[2];
+    carousel.items = cities;
+
+    let carousel3D = document.getElementsByTagName('collection-component')[3];
+    carousel3D.items = cities;
+
+    // load cards
+    let cards = document.getElementsByTagName('collection-component')[4];
+    cards.items = cities;
+
+    function updateCols(input) {
+      cards.setAttribute('columns', input.value ? input.value : 2);
+    }
+  </script>
+</html>

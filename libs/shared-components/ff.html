@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Collection</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script src="js/collection/collection.js"></script>
+    <script src="demo-data/football.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #222;
+      }
+
+      h1 {
+        color: #fff;
+      }
+
+      section.list {
+        width: 800px;
+        @media screen and (max-width: 800px) {
+          width: 100%;
+        }
+
+        select {
+          margin-bottom: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Fantasy Football Rankings Demo</h1>
+
+      <section class="list">
+        <select id="position" onchange="loadPlayers(this)" aria-label="Select Position">
+          <option value="QB">Quarterback</option>
+          <option value="RB">Running Back</option>
+          <option value="WR">Wide Reciever</option>
+          <option value="TE">Tight End</option>
+          <option value="FLEX">Flex</option>
+          <option value="K">Kicker</option>
+          <option value="DST">Defense/Special Teams</option>
+        </select>
+        <button onclick="showPrintView()" id="print-button">Print View</button>
+        <collection-component display="list" sectionHeader="2"></collection-component>
+      </section>
+    </main>
+  </body>
+  <script>
+    const select = document.querySelector('select#position');
+    const list = document.getElementsByTagName('collection-component')[0];
+    let loadPlayers = (select) => {
+      loadAPIlData(select.value).then((players) => {
+        // load data-driven list
+          list.items = players;
+
+          list.addEventListener('order-adjusted', (event) => {
+            setUserRankings(select.value, event.detail.itemIds);
+          });
+      });
+    };
+    select.value = 'WR';
+    loadPlayers(document.querySelector('select#position'));
+
+    let showPrintView = () => {
+      list.togglePrintView();
+      if (list.getPrintView()) {
+        document.getElementById('print-button').textContent = 'Normal View';
+      } else {
+        document.getElementById('print-button').textContent = 'Print View';
+      }
+    };
+  </script>
+</html>

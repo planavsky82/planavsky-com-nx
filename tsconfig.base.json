@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@planavsky-com-nx/shared-components": [
+        "libs/shared-components/src/index.ts"
+      ],
       "@undefined/planit": ["dist/libs/planit"],
       "@undefined/planit/*": ["dist/libs/planit/dist/components/*"],
       "@undefined/planit/loader": ["dist/libs/planit/loader"]
