@@ -190,7 +190,7 @@ let loadLocalData = (newPosition) => {
   // apply admin ranking order to the data first (this will implement the same interface as the user rankings)
   let adminRankings = [
     { "position" : "RB",
-      "rankings": ["3128720","3045147","4047365"]
+      "rankings": ["3045147","4047365"]
     },
     { "position" : "QB",
       "rankings": ["4426338","4432577","4426348"]
