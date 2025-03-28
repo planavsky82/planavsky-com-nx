@@ -10,8 +10,8 @@ import state from '../../global/store';
 export class AppHome {
 
   async componentWillLoad() {
-    let response = await fetch('https://us-central1-planavsky-com.cloudfunctions.net/app/test');
-    let json = await response.json();
+    const response = await fetch('https://us-central1-planavsky-com.cloudfunctions.net/app/test');
+    const json = await response.json();
     console.log(json);
 
     setInterval(() => state.seconds++, 1000);
