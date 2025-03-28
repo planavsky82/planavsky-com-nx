@@ -1,13 +1,15 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Element } from '@stencil/core';
 
 // https://stenciljs.com/docs/stencil-store
 import state from '../../global/store';
 
 @Component({
   tag: 'app-home',
-  styleUrl: 'app-home.scss',
+  styleUrl: 'app-home.scss'
 })
 export class AppHome {
+
+  @Element() element;
 
   async componentWillLoad() {
     const response = await fetch('https://us-central1-planavsky-com.cloudfunctions.net/app/test');
@@ -15,6 +17,55 @@ export class AppHome {
     console.log(json);
 
     setInterval(() => state.seconds++, 1000);
+  }
+
+  componentDidLoad() {
+    const list = this.element.querySelector('collection-component');
+    list.setAttribute('sectionHeader', '3');
+    list.items = [
+      {
+        "name": "New York City",
+        "pic": "/demo-images/city.jpeg",
+        "summary": "This is summary text.",
+        "summaryData": [
+          {
+            "label": "A",
+            "value": "B"
+          },
+          {
+            "label": "A",
+            "value": "B"
+          },
+          {
+            "label": "A",
+            "value": "B"
+          }
+        ],
+        "desc": "Description",
+        "colors": [ "#32a852", "#a83238", "#a83238" ]
+      },
+      {
+        "name": "Pittsburgh",
+        "pic": "/demo-images/city.jpeg",
+        "summary": "This is summary text.",
+        "summaryData": [
+          {
+            "label": "A",
+            "value": "B"
+          },
+          {
+            "label": "A",
+            "value": "B"
+          },
+          {
+            "label": "A",
+            "value": "B"
+          }
+        ],
+        "desc": "Description",
+        "colors": [ "#32a852", "#a83238", "#a83238" ]
+      }
+    ];
   }
 
   render() {
@@ -40,6 +91,8 @@ export class AppHome {
 
         <div class="bg-black p-6 rounded-md flex justify-center text-white">Hello, World!</div>
         <planit-button first="ABCD"></planit-button>
+
+        <collection-component display="list" sectionHeader="2"></collection-component>
 
         <MyGlobalCounter />
         <p>

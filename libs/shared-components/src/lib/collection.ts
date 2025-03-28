@@ -12,7 +12,7 @@ interface Action {
   modal?: { type: string; size: string; data: any; };
 }
 
-export interface Item {
+interface Item {
   id: number;
   name: string;
   summary: string;
@@ -27,7 +27,7 @@ export interface Item {
 }
 
 // Create a class for the element
-export class CollectionComponent extends HTMLElement {
+class CollectionComponent extends HTMLElement {
   static observedAttributes = ['display', 'template', 'columns', 'sectionHeader'];
 
   private _shadow: ShadowRoot;
