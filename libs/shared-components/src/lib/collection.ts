@@ -16,6 +16,7 @@ interface Item {
   id: number;
   name: string;
   summary: string;
+  summaryData: { label: string; value: string; }[];
   desc: string;
   pic: string;
   pic2?: string;
