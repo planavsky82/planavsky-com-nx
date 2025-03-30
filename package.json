@@ -12,6 +12,7 @@
     "build:shared-components": "cd libs/shared-components && tsc",
     "copy:base-app:deps": "npm run build:shared-components && rm -rf ./apps/base-app/src/assets/shared-components && cp -r ./libs/shared-components/js ./apps/base-app/src/assets/shared-components",
     "deploy:apps": "./scripts/deploy.sh",
+    "deploy:firebase": "./scripts/deploy.sh",
     "deploy:planit": "./scripts/deploy-planit.sh",
     "firebase:login": "firebase login",
     "firebase:login:reauth": "firebase login --reauth",
