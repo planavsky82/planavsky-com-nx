@@ -9,6 +9,8 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <script src="js/collection.js"></script>
+    <script src="demo-data/players.js"></script>
+    <script src="demo-data/teams.js"></script>
     <script src="demo-data/football.js"></script>
 
     <style>
@@ -53,6 +55,11 @@
     </main>
   </body>
   <script>
+    // mock cached API data
+    localStorage.setItem('mffrPlayerData', JSON.stringify(players));
+    localStorage.setItem('mffrTeamData', JSON.stringify(teams));
+    localStorage.setItem('mffrExpiration', Date.now() + 86400000);
+
     const select = document.querySelector('select#position');
     const list = document.getElementsByTagName('collection-component')[0];
     let loadPlayers = (select) => {
