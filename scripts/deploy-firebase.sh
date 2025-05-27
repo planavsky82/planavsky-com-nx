@@ -4,6 +4,8 @@ cd functions && npm ci && cd ..
 firebase deploy --only functions
 firebase deploy --only hosting:blog-planavsky-com
 firebase deploy --only hosting:myfantasyfootballrankings
+cd apps/products/collection && npm ci && npm run build && cd ../../..
+firebase deploy --only hosting:rankings-demo
 
 echo 'THE config.js FILE MUST EXIST IN THE FUNCTIONS FOLDER!!!!'
 

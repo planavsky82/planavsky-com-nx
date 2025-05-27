@@ -49,6 +49,21 @@
       ]
     },
     {
+      "site": "rankings-demo",
+      "public": "apps/products/collection",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
       "site": "planit-web-components",
       "public": "dist/storybook/planit",
       "ignore": [

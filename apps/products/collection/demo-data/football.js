@@ -41,7 +41,7 @@ let setUserRankings = (position, rankings) => {
       'Cache-Control': 'max-age=86400',
       'Content-Type': 'application/json',
       'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
-      'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+      'X-Rapidapi-Key': 'fa9d48ae05mshd50df15146c55c1p1a9766jsn0c5272f7ca99'
     },
     body: JSON.stringify(userRankingsConfig)
   })
@@ -264,7 +264,7 @@ async function loadAPIlData(newPosition) {
         'Cache-Control': 'max-age=86400',
         'Content-Type': 'application/json',
         'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
-        'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+        'X-Rapidapi-Key': 'fa9d48ae05mshd50df15146c55c1p1a9766jsn0c5272f7ca99'
       }
     })
       .then(response => {
@@ -288,7 +288,7 @@ async function loadAPIlData(newPosition) {
                 'Cache-Control': 'max-age=86400',
                 'Content-Type': 'application/json',
                 'X-Rapidapi-Host': 'nfl-api-data.p.rapidapi.com',
-                'X-Rapidapi-Key': 'cf3cb436dcmsh713196812fbd533p195348jsnf6ac112ec393'
+                'X-Rapidapi-Key': 'fa9d48ae05mshd50df15146c55c1p1a9766jsn0c5272f7ca99'
               }
             })
             .then(response => {
